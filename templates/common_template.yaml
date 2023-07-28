@@ -1,0 +1,56 @@
+.make_pr_template:
+  after_script: |
+    if [[ -z "$ACCESS_TOKEN" ]]; then
+        echo "The job has no access token found." >>/dev/stderr
+        echo "To enable automatic to commit changes, please create a project access token with repository write scope and set the ACCESS_TOKEN variable" >/dev/stderr
+        exit 1
+    fi
+
+    # Prepare config for git
+    git remote set-url origin "https://gitlab-ci-token:${ACCESS_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    git config --global user.name "GitLab Bot"
+    git config --global user.email "gitlab-bot@no-reply.com"
+    temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
+    git checkout -b "$temp_branch"
+    git add .
+    git commit -m "Automated commit with reformatted changes by GitLab CI"
+    git push origin "$temp_branch"
+    curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" \
+        --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
+        --form "source_branch=$temp_branch" \
+        --form "target_branch=$CI_COMMIT_REF_NAME" \
+        --form "title=PR from $temp_branch"
+
+.make_push_template:
+  after_script: |
+    if [[ -z "$ACCESS_TOKEN" ]]; then
+        echo "The job has no access token found." >>/dev/stderr
+        echo "To enable automatic to commit changes, please create a project access token with repository write scope and set the ACCESS_TOKEN variable" >/dev/stderr
+        exit 1
+    fi
+
+    # Prepare config for git
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+        git fetch origin
+        git checkout $CI_COMMIT_BRANCH
+    fi
+    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+        git fetch origin
+    fi
+
+    git config --global user.name "GitLab Bot"
+    git config --global user.email "gitlab-bot@no-reply.com"
+
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+        git add -u .
+        git commit -m "style: auto changes from lint CI job" -m "job url:$CI_JOB_URL"
+        git push
+        exit 1
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+        git add -u .
+        git commit -m "style: auto changes from lint CI job" -m "job url:$CI_JOB_URL"
+        git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+        exit 1
+    fi
