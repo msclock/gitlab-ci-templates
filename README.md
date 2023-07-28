@@ -19,6 +19,15 @@ Simply include the template in your `.gitlab-ci.yaml` configuration.
 ```
 include:
   remote: 'https://gitlab.com/yesolutions/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml'
+
+pre-commit:
+  extends: .pre-commit
+  variables:
+    # since we're not using merge request pipelines in this example,
+    # we will configure the pre-commit job to run on branch pipelines only.
+    # If you ARE using merge request pipelines, you can omit this section
+    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: false
+    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: true
 ```
 To enable auto-fixes, you'll need to set the CI/CD variable `PRE_COMMIT_ACCESS_TOKEN` with an GitLab access token with `repository write` scope. A convenient way to do this is using [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) but any GitLab API token will work.
 

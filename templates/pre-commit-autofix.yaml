@@ -1,4 +1,4 @@
-pre-commit:
+.pre-commit:
   stage: .pre
   rules:
     - if: '$PRE_COMMIT_SKIP_BRANCH_PIPELINE && $CI_COMMIT_BRANCH'
