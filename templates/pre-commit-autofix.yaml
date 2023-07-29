@@ -50,34 +50,13 @@
     status=0
 
     pre-commit run --all-files || status=$?
-    if [[ $status -ne 0 ]]; then
-        if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-            git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-        fi
-        if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-            git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-        fi
-        git add -u .
-        # check the status passes now with autofix, otherwise it'll bail here
-        if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-            pre-commit run --from-ref "$CI_COMMIT_BEFORE_SHA" --to-ref HEAD
-        elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-            pre-commit run --from-ref "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --to-ref HEAD
-        fi
-    else
+    if [[ $status -eq 0 ]]; then
         exit 0  # we're all good, pipeline can proceed
     fi
 
     if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-        exit 1 # fail the job
+        exit $status # fail the job
     fi
-
-    git status
-
-    git config --global user.name "GitLab Bot"
-    git config --global user.email "gitlab-bot@no-reply.com"
-
-    # proceed with auto-fix
 
     if [[ -z "$PRE_COMMIT_ACCESS_TOKEN" ]]; then
         echo "Auto-fix is enabled, but no pre-commit access token found." >> /dev/stderr
@@ -85,7 +64,26 @@
         exit 1
     fi
 
-    git commit -m "auto fixes from pre-commit CI job" -m "job url: $CI_JOB_URL"
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+    fi
+
+    git add -u .
+    # check the status passes now with autofix, otherwise it'll bail here
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+        pre-commit run --from-ref "$CI_COMMIT_BEFORE_SHA" --to-ref HEAD
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+        pre-commit run --from-ref "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --to-ref HEAD
+    fi
+
+    git status
+
+    git config --global user.name "GitLab CI"
+    git config --global user.email "gitlab-ci@no-reply.com"
+
+    git commit -m "ci: auto fixes from pre-commit CI job" -m "job url: $CI_JOB_URL"
     if [[ -n "$CI_COMMIT_BRANCH" ]]; then
         git push origin HEAD:"$CI_COMMIT_BRANCH"
     elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
@@ -94,4 +92,5 @@
       echo "Auto fix is not supported in this context" > /dev/stderr
       echo "Auto fix is only available in branch and merge request pipelines" > /dev/stderr
     fi
+
     exit 1
