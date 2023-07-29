@@ -18,7 +18,7 @@ Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes
 Simply include the template in your `.gitlab-ci.yaml` configuration.
 ```
 include:
-  remote: 'https://gitlab.com/yesolutions/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml'
+  remote: 'https://gitlab.com/gitlab-aux/gitlab-ci-templates/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml'
 
 pre-commit:
   extends: .pre-commit
