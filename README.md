@@ -6,7 +6,7 @@ You can include these in your project using the `include:` key, or simply by cop
 
 # Available templates
 
-## pre-commit-auto-fix.yaml
+## pre-commit-proxy.yaml
 
 **This template is in alpha development**. Please report any issues to this repository.
 
@@ -16,19 +16,20 @@ Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes
 **Basic usage:**
 
 Simply include the template in your `.gitlab-ci.yaml` configuration.
-```
+```yaml
 include:
-  remote: 'https://gitlab.com/gitlab-aux/gitlab-ci-templates/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml'
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/pre-commit.yaml"
+
+# Or need a proxy on pre-commit
+include:
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/pre-commit-proxy.yaml"
 
 pre-commit:
-  extends: .pre-commit
   variables:
-    # since we're not using merge request pipelines in this example,
-    # we will configure the pre-commit job to run on branch pipelines only.
-    # If you ARE using merge request pipelines, you can omit this section
-    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: false
-    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: true
+    # Set your proxy subscribe based on clash
+    CLASH_PROXY_SUB: "https://ghproxy.com/https://raw.githubusercontent.com/ripaojiedian/freenode/main/clash"
 ```
+
 To enable auto-fixes, you'll need to set the CI/CD variable `PRE_COMMIT_ACCESS_TOKEN` with an GitLab access token with `repository write` scope. A convenient way to do this is using [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) but any GitLab API token will work.
 
 

@@ -1,0 +1,20 @@
+include:
+  - remote: 'https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yaml'
+    ref: 'master'
+
+# @Description check codebase with pre-commit
+pre-commit:
+  extends:
+    - .pre-commit
+    - .after_proxy_service
+  variables:
+    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
+    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
+  before_script:
+    - |
+      export HTTP_PROXY="http://proxy_backend:7890"
+      export HTTPS_PROXY="http://proxy_backend:7890"
+      export NO_PROXY="localhost,127.0.0.1,192.168.0.0/16,$CI_SERVER_HOST"
+      sleep 3
+      rm .git/hooks/post-commit .git/hooks/pre-push || true
+      pip install pre-commit
