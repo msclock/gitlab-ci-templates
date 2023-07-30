@@ -9,3 +9,7 @@ pre-commit:
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
+  before_script:
+    - |
+      rm .git/hooks/post-commit .git/hooks/pre-push || true
+      pip install pre-commit
