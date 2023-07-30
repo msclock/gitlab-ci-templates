@@ -39,58 +39,62 @@
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "true"
 
   image: registry.gitlab.com/yesolutions/docker-pre-commit
-  script: |
-    set -x
+  after_script:
+    - |
+      set -x
 
-    if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
-        echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
-        exit 1
-    fi
+      if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
+          echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+          exit 1
+      fi
 
-    status=0
+      status=0
 
-    pre-commit run --all-files || status=$?
-    if [[ $status -eq 0 ]]; then
-        exit 0  # we're all good, pipeline can proceed
-    fi
+      pre-commit run --all-files || status=$?
+      if [[ $status -eq 0 ]]; then
+          exit 0  # we're all good, pipeline can proceed
+      fi
 
-    if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-        exit $status # fail the job
-    fi
+      if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
+          exit $status # fail the job
+      fi
 
-    if [[ -z "$PRE_COMMIT_ACCESS_TOKEN" ]]; then
-        echo "Auto-fix is enabled, but no pre-commit access token found." >> /dev/stderr
-        echo "To enable automatic fixes, please create a project access token with repository write scope and set the PRE_COMMIT_ACCESS_TOKEN variable" > /dev/stderr
-        exit 1
-    fi
+      if [[ -z "$PRE_COMMIT_ACCESS_TOKEN" ]]; then
+          echo "Auto-fix is enabled, but no pre-commit access token found." >> /dev/stderr
+          echo "To enable automatic fixes, please create a project access token with repository write scope and set the PRE_COMMIT_ACCESS_TOKEN variable" > /dev/stderr
+          exit 1
+      fi
 
-    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-    fi
+      if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+          git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+      elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+          git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+      fi
 
-    git add -u .
-    # check the status passes now with autofix, otherwise it'll bail here
-    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        pre-commit run --from-ref "$CI_COMMIT_BEFORE_SHA" --to-ref HEAD
-    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        pre-commit run --from-ref "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --to-ref HEAD
-    fi
+      git add -u .
+      # check the status passes now with autofix, otherwise it'll bail here
+      if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+          pre-commit run --from-ref "$CI_COMMIT_BEFORE_SHA" --to-ref HEAD
+      elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+          pre-commit run --from-ref "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --to-ref HEAD
+      fi
 
-    git status
+      git status
 
-    git config --global user.name "GitLab CI"
-    git config --global user.email "gitlab-ci@no-reply.com"
+      git config --global user.name "GitLab CI"
+      git config --global user.email "gitlab-ci@no-reply.com"
 
-    git commit -m "ci: auto fixes from pre-commit CI job" -m "job url: $CI_JOB_URL"
-    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        git push origin HEAD:"$CI_COMMIT_BRANCH"
-    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
-    else
-      echo "Auto fix is not supported in this context" > /dev/stderr
-      echo "Auto fix is only available in branch and merge request pipelines" > /dev/stderr
-    fi
+      git commit -m "ci: auto fixes from pre-commit CI job" -m "job url: $CI_JOB_URL"
+      if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+          git push origin HEAD:"$CI_COMMIT_BRANCH"
+      elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+          git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+      else
+        echo "Auto fix is not supported in this context" > /dev/stderr
+        echo "Auto fix is only available in branch and merge request pipelines" > /dev/stderr
+      fi
 
-    exit 1
+      exit 1
+
+    - exit $?
+
