@@ -10,11 +10,12 @@ pre-commit:
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
+    PROXY_WHITE_LIST: "$CI_SERVER_HOST"
   before_script:
     - |
       export HTTP_PROXY="http://proxy_backend:7890"
       export HTTPS_PROXY="http://proxy_backend:7890"
-      export NO_PROXY="localhost,127.0.0.1,192.168.0.0/16,$CI_SERVER_HOST"
+      export NO_PROXY="localhost,127.0.0.1,192.168.0.0/16,$PROXY_WHITE_LIST"
       sleep 3
       rm .git/hooks/post-commit .git/hooks/pre-push || true
       pip install pre-commit
