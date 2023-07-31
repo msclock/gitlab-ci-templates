@@ -1,66 +1,82 @@
 # @Description make changes on codebase
-.make_changes_template:
-  after_script: |
-    if [[ -z "$ACCESS_TOKEN" ]]; then
-        echo "The job has no access token found." >>/dev/stderr
-        echo "To enable automatic to commit changes, please create a project access token with repository write scope and set the ACCESS_TOKEN variable" >/dev/stderr
-        exit 1
-    fi
+.make_changes:
+  variables:
+    MAKE_CHANGES_DEBUG: "${CI_DEBUG_TRACE}"
+    MAKE_CHANGES_MSG: ""
+    MAKE_CHANGES_ON_PR: ""
+    MAKE_CHANGES_EXIT: ""
+  script:
+    - &template_make_changes_script |
+      if [[ -n "$MAKE_CHANGES_DEBUG" ]]; then
+          echo "Enable make changes debug, and some sensible info will be printed.Please be careful!!!"
+          set -x
+      fi
 
-    # Prepare config for git
-    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-        git checkout $CI_COMMIT_BRANCH
-    fi
-    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-    fi
+      if [[ -z "$MAKE_CHANGES_ACCESS_TOKEN" ]]; then
+          echo "The job has no access token found." >>/dev/stderr
+          echo "To enable automatic to commit changes, please create a project access token with repository write scope and set the MAKE_CHANGES_ACCESS_TOKEN variable" >/dev/stderr
+          exit 1
+      fi
 
-    git config --global user.name "GitLab Ci"
-    git config --global user.email "gitlab-ci@no-reply.com"
+      if [[ -n "$(git status -s)" ]]; then
 
-    if [[ -n "$MAKE_PR" ]]; then
-        temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
-        git checkout -b "$temp_branch"
-    fi
+        # Prepare config for git
+        if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+            git remote set-url origin "https://gitlab-ci-token:${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+        fi
+        if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+            git remote set-url origin "https://gitlab-ci-token:${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+        fi
 
-    git add -u .
-    git commit -m ${MAKE_AUTOMATED_MSG:-"ci: automated commit changes from CI job"} -m "job url:$CI_JOB_URL"
-    if [[ -n "$MAKE_PR"]]; then
-        git push origin "$temp_branch"
-        curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" \
-            --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
-            --form "source_branch=$temp_branch" \
-            --form "target_branch=$CI_COMMIT_REF_NAME" \
-            --form "title=PR from $temp_branch"
-    elif [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        git push origin HEAD:"$CI_COMMIT_BRANCH"
-    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
-    fi
+        git config --global user.name "GitLab Ci"
+        git config --global user.email "gitlab-ci@no-reply.com"
 
-    if [[ -n "$MAKE_PR"]]; then
-        exit 0
-    else
-        exit 1
-    fi
+        if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
+            temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
+            git checkout -B "$temp_branch" --
+        fi
+
+        git add -u .
+        git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" -m "job url:$CI_JOB_URL"
+        if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
+            git push origin "$temp_branch"
+            curl --header "PRIVATE-TOKEN: $MAKE_CHANGES_ACCESS_TOKEN" \
+                --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
+                --form "source_branch=$temp_branch" \
+                --form "target_branch=$CI_COMMIT_REF_NAME" \
+                --form "title=PR from $temp_branch"
+        elif [[ -n "$CI_COMMIT_BRANCH" ]]; then
+            git push origin HEAD:"$CI_COMMIT_BRANCH"
+        elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+            git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+        fi
+      else
+        echo "Working tree clean. Nothing to make changes.";
+      fi
+
+      if [[ -z "$MAKE_CHANGES_EXIT" ]]; then
+          exit 0
+      else
+          exit 1
+      fi
 
 # @Description simple check codebase
 .correct_code_state:
-  script: |
-    set -x
+  script:
+    - &template_correct_code_state_script |
+      set -x
 
-    status=0
-    $check_command || status=$?
-    if [[ $status -ne 0 ]]; then
-        $correct_command
-    fi
+      status=0
+      $check_command || status=$?
+      if [[ $status -ne 0 ]]; then
+          $correct_command
+      fi
 
-    # Exit using status without CI envs
-    if [[ -z "$CI" ]]; then
-        echo 'finish formatting locally'
-        exit $status
-    fi
+      # Exit using status without CI envs
+      if [[ -z "$CI" ]]; then
+          echo 'finish formatting locally'
+          exit $status
+      fi
 
 # @Description proxy backend based on clash
 .after_proxy_service:
@@ -77,7 +93,7 @@
     CLASH_PROXY_SUB: ""
     PROXY_WHITE_LIST: "localhost,127.0.0.1,192.168.0.0/16,$CI_SERVER_HOST"
   before_script:
-    - |
+    - &template_after_proxy_service_before_script |
       if [[ -z "$CLASH_PROXY_SUB" ]]; then
         echo "No proxy subscribe found." >> /dev/stderr
         exit 1
@@ -87,11 +103,33 @@
       export NO_PROXY="$PROXY_WHITE_LIST"
       sleep 3
 
+.pre-commit_script: &pre-commit_script |
+  if [[ -n "$PRE_COMMIT_DEBUG" ]]; then
+      echo "Enable pre-commit debug, and some sensible info will be printed.Please be careful!!!"
+      set -x
+  fi
+
+  if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
+      echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+      exit 1
+  fi
+
+  status=0
+
+  pre-commit run --all-files || status=$?
+  if [[ $status -eq 0 ]]; then
+      exit 0  # we're all good, pipeline can proceed
+  fi
+
+  if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
+      exit $status # fail the job with status holding exit code
+  fi
+
 # @Description template based on pre-commit
 .pre-commit:
   stage: .pre
   rules:
-    - if: '$PRE_COMMIT_SKIP_BRANCH_PIPELINE && $CI_COMMIT_BRANCH'
+    - if: "$PRE_COMMIT_SKIP_BRANCH_PIPELINE && $CI_COMMIT_BRANCH"
       when: never
     - if: '$PRE_COMMIT_SKIP_MR_PIPELINE && $CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
@@ -110,7 +148,7 @@
         - .pre-commit-config.yaml
       when: on_success
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_EVENT_TYPE != "detached"'
-      variables:  # we don't support autofix for merged_result or merge_train pipelines, configure branch fixing instead
+      variables: # we don't support autofix for merged_result or merge_train pipelines, configure branch fixing instead
         PRE_COMMIT_AUTO_FIX: ""
       exists:
         - .pre-commit-config.yaml
@@ -118,7 +156,7 @@
       exists:
         - .pre-commit-config.yaml
       when: on_success
-    - if: '$CI_COMMIT_BRANCH'
+    - if: "$CI_COMMIT_BRANCH"
       exists:
         - .pre-commit-config.yaml
       when: on_success
@@ -127,56 +165,32 @@
   variables:
     PRE_COMMIT_AUTO_FIX: "1"
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "true"
-
+    PRE_COMMIT_DEBUG: "${CI_DEBUG_TRACE}"
+    MAKE_CHANGES_MSG: "ci: auto fixes from pre-commit"
+    MAKE_CHANGES_EXIT: "1"
   image: registry.gitlab.com/yesolutions/docker-pre-commit
-  script: |
-      set -x
 
-      if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
-          echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
-          exit 1
-      fi
+  extends:
+    - .make_changes
 
-      status=0
+  before_script:
+    - &template_pre-commit_before_script |
+      rm .git/hooks/post-commit .git/hooks/pre-push || true
+      pip install pre-commit
 
-      pre-commit run --all-files || status=$?
-      if [[ $status -eq 0 ]]; then
-          exit 0  # we're all good, pipeline can proceed
-      fi
+  script:
+    - &template_pre-commit_script [
+        *pre-commit_script,
+        *template_make_changes_script,
+      ]
 
-      if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-          exit $status # fail the job
-      fi
-
-      if [[ -z "$PRE_COMMIT_ACCESS_TOKEN" ]]; then
-          echo "Auto-fix is enabled, but no pre-commit access token found." >> /dev/stderr
-          echo "To enable automatic fixes, please create a project access token with repository write scope and set the PRE_COMMIT_ACCESS_TOKEN variable" > /dev/stderr
-          exit 1
-      fi
-
-      if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-          git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-      elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-          git remote set-url origin "https://gitlab-ci-token:${PRE_COMMIT_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-      fi
-
-      git add -u .
-      # check the status passes now with autofix, otherwise it'll bail here
-      pre-commit run --all-files
-
-      git status
-
-      git config --global user.name "GitLab CI"
-      git config --global user.email "gitlab-ci@no-reply.com"
-
-      git commit -m "ci: auto fixes from pre-commit CI job" -m "job url: $CI_JOB_URL"
-      if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-          git push origin HEAD:"$CI_COMMIT_BRANCH"
-      elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-          git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
-      else
-        echo "Auto fix is not supported in this context" > /dev/stderr
-        echo "Auto fix is only available in branch and merge request pipelines" > /dev/stderr
-      fi
-
-      exit 1
+# @Description check codebase with pre-commit
+.pre-commit-proxy:
+  extends:
+    - .pre-commit
+    - .after_proxy_service
+  before_script:
+    - &pre-commit-proxy_before_script [
+        *template_after_proxy_service_before_script,
+        *template_pre-commit_before_script,
+      ]

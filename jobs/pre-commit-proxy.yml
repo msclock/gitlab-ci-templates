@@ -5,20 +5,7 @@ include:
 # @Description check codebase with pre-commit
 pre-commit:
   extends:
-    - .pre-commit
-    - .after_proxy_service
+    - .pre-commit-proxy
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
-  before_script:
-    - |
-      if [[ -z "$CLASH_PROXY_SUB" ]]; then
-        echo "No proxy subscribe found." >> /dev/stderr
-        exit 1
-      fi
-      export HTTP_PROXY="http://proxy_backend:7890"
-      export HTTPS_PROXY="http://proxy_backend:7890"
-      export NO_PROXY="$PROXY_WHITE_LIST"
-      sleep 3
-      rm .git/hooks/post-commit .git/hooks/pre-push || true
-      pip install pre-commit
