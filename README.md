@@ -15,13 +15,13 @@ Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes
 Simply include the template in your `.gitlab-ci.yaml` configuration.
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/pre-commit.yaml"
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 ```
 Use a proxy on pre-commit
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/pre-commit-proxy.yaml"
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit-proxy.yml"
 
 pre-commit:
   variables:
