@@ -18,7 +18,7 @@ include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 ```
-Use a proxy on pre-commit
+Use pre-commit on a proxy
 ```yaml
 include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit-proxy.yml"
@@ -51,6 +51,34 @@ There are several configurations available, which you can apply by setting CI/CD
 
 By default, the tempalte assumes you are using pipelines for merge requests. If you are not using pipelines for merge requests (branch pipelines only), consider unsetting `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and setting `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
 
-## devcontainer.yaml
+## devcontainer
 
-TODO
+Using devcontainer/cli makes it easy to integrate devcontainer into a CI environment.
+
+**Basic usage:**
+
+Simply include the template in your `.gitlab-ci.yaml` configuration as below.
+```yaml
+include:
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+
+# @Description devcontainer build
+devcontainer_build:
+  extends:
+    - .devcontainer_build
+  variables:
+    IMAGE_NAME: "" # the quilified image name
+    PUSH: "" # if push to registry
+    PLATFORM: "" # build for some platform
+    SUB_FOLDER: "." # .devcontainer folder or .devconntainer.json path
+
+# @Description devcontainer run
+devcontainer_run:
+  extends:
+    - .devcontainer_run
+  variables:
+    SUB_FOLDER: "." # .devcontainer folder or .devconntainer.json path
+  script:
+    - |
+      devcontainer exec --workspace-folder . --config $SUB_FOLDER ls -la
+```
