@@ -81,7 +81,7 @@
 # @Description proxy backend based on clash
 .proxy_backend:
   services:
-    - name: ghcr.io/dreamacro/clash
+    - name: msclock/clash
       alias: proxy_backend
       entrypoint:
         - ""
@@ -103,9 +103,21 @@
       fi
 
       if [[ -n "$ENABLE_PROXY" ]]; then
+
         export HTTP_PROXY="http://proxy_backend:7890"
-        export HTTPS_PROXY="http://proxy_backend:7890"
+        export http_proxy="$HTTP_PROXY"
+
+        export HTTPS_PROXY="$HTTP_PROXY"
+        export https_proxy="$HTTP_PROXY"
+
+        export FTP_PROXY=$HTTP_PROXY
+        export ftp_proxy=$HTTP_PROXY
+        
+        export ALL_PROXY=$HTTP_PROXY
+        export all_proxy=$HTTP_PROXY
+
         export NO_PROXY="$PROXY_WHITE_LIST"
+        export no_proxy="$NO_PROXY"
         sleep 3
       fi
 
@@ -174,15 +186,10 @@
     PRE_COMMIT_DEBUG: "${CI_DEBUG_TRACE}"
     MAKE_CHANGES_MSG: "ci: auto fixes from pre-commit"
     MAKE_CHANGES_EXIT: "1"
-  image: registry.gitlab.com/yesolutions/docker-pre-commit
+  image: msclock/pre-commit
 
   extends:
     - .make_changes
-
-  before_script:
-    - &template_pre-commit_before_script |
-      rm .git/hooks/post-commit .git/hooks/pre-push || true
-      pip install pre-commit
 
   script:
     - &template_pre-commit_script [
@@ -195,11 +202,6 @@
   extends:
     - .pre-commit
     - .proxy_backend
-  before_script:
-    - &template_pre-commit-proxy_before_script [
-        *template_proxy_backend_before_script,
-        *template_pre-commit_before_script,
-      ]
 
 # @Description devcontainer build
 .devcontainer_build:
@@ -208,12 +210,7 @@
     PUSH: ""
     PLATFORM: ""
     SUB_FOLDER: ""
-  image: docker:latest
-  before_script:
-    - &template_devcontainer_before_script |
-      set -x
-      apk update && apk add npm nodejs git
-      npm install -g @devcontainers/cli
+  image: msclock/devcontainer
   script:
     - &template_devcontainer_script |
       set -x
@@ -242,13 +239,10 @@
 .devcontainer_run:
   variables:
     SUB_FOLDER: ""
-  image: docker:latest
+  image: msclock/devcontainer
   before_script:
     - &template_devcontainer_run_before_script |
       set -x
-
-      apk update && apk add npm nodejs git
-      npm install -g @devcontainers/cli
 
       base_extra="--workspace-folder ."
       if [ -n "$SUB_FOLDER" ]; then
@@ -264,11 +258,6 @@
   extends:
     - .devcontainer_build
     - .proxy_backend
-  before_script:
-    - &template_devcontainer_build_proxy_before_script [
-        *template_proxy_backend_before_script,
-        *template_devcontainer_before_script,
-      ]
 
 # @Description devcontainer run with proxy
 .devcontainer_run_proxy:
@@ -280,3 +269,13 @@
         *template_proxy_backend_before_script,
         *template_devcontainer_run_before_script,
       ]
+
+# @Description act
+.act:
+  image: msclock/act
+
+# @Description act with proxy
+.act_proxy:
+  extends:
+    - .act
+    - .proxy_backend

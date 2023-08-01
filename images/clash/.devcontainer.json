@@ -1,0 +1,6 @@
+{
+    "name": "clash",
+    "build": {
+        "dockerfile": "Dockerfile"
+    }
+}

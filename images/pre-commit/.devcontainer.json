@@ -1,0 +1,6 @@
+{
+    "name": "pre-commit",
+    "build": {
+        "dockerfile": "Dockerfile"
+    }
+}
