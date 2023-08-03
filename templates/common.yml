@@ -203,14 +203,19 @@
     - .pre-commit
     - .proxy_backend
 
+# @Description devcontainer
+.devcontainer:
+  image: msclock/devcontainer
+
 # @Description devcontainer build
 .devcontainer_build:
+  extends:
+    - .devcontainer
   variables:
     IMAGE_NAME: ""
     PUSH: ""
     PLATFORM: ""
     SUB_FOLDER: ""
-  image: msclock/devcontainer
   script:
     - &template_devcontainer_script |
       set -x
@@ -237,9 +242,10 @@
 
 # @Description devcontainer run
 .devcontainer_run:
+  extends:
+    - .devcontainer
   variables:
     SUB_FOLDER: ""
-  image: msclock/devcontainer
   before_script:
     - &template_devcontainer_run_before_script |
       set -x
