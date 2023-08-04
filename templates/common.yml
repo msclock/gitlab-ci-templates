@@ -11,12 +11,6 @@
           set -x
       fi
 
-      if [[ -z "$MAKE_CHANGES_ACCESS_TOKEN" ]]; then
-          echo "The job has no access token found." >>/dev/stderr
-          echo "To enable automatic to commit changes, please create a project access token with repository write scope and set the MAKE_CHANGES_ACCESS_TOKEN variable" >/dev/stderr
-          exit 1
-      fi
-
       if [[ -n "$(git status -s)" ]]; then
 
         # Prepare config for git
@@ -39,7 +33,7 @@
         git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" -m "job url:$CI_JOB_URL"
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
             git push origin "$temp_branch"
-            curl --header "PRIVATE-TOKEN: $MAKE_CHANGES_ACCESS_TOKEN" \
+            curl --header "PRIVATE-TOKEN: ${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}" \
                 --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
                 --form "source_branch=$temp_branch" \
                 --form "target_branch=$CI_COMMIT_REF_NAME" \
@@ -51,6 +45,7 @@
         fi
       else
         echo "Working tree clean. Nothing to make changes.";
+        exit 0
       fi
 
       if [[ -z "$MAKE_CHANGES_EXIT" ]]; then
