@@ -259,23 +259,6 @@
   after_script:
     - docker ps -q --filter "label=dev_run_job_id=$CI_JOB_ID" | xargs docker fm -f
 
-# @Description devcontainer build with proxy
-.devcontainer_build_proxy:
-  extends:
-    - .devcontainer_build
-    - .proxy_backend
-
-# @Description devcontainer run with proxy
-.devcontainer_run_proxy:
-  extends:
-    - .devcontainer_run
-    - .proxy_backend
-  before_script:
-    - &template_devcontainer_run_proxy_before_script [
-        *template_proxy_backend_before_script,
-        *template_devcontainer_run_before_script,
-      ]
-
 # @Description act
 .act:
   image: msclock/act
