@@ -133,6 +133,11 @@
       exit 0  # we're all good, pipeline can proceed
   fi
 
+  if [[ $status -eq 3 ]]; then
+      echo "Network is weak, please retry it again!!!"
+      exit 1
+  fi
+
   if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
       exit $status # fail the job with status holding exit code
   fi
