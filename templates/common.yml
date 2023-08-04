@@ -1,14 +1,13 @@
 # @Description make changes on codebase
 .make_changes:
   variables:
-    MAKE_CHANGES_DEBUG: "${CI_DEBUG_TRACE}"
     MAKE_CHANGES_MSG: ""
     MAKE_CHANGES_ON_PR: ""
     MAKE_CHANGES_EXIT: ""
   script:
     - &template_make_changes_script |
-      if [[ -n "$MAKE_CHANGES_DEBUG" ]]; then
-          echo "Enable make changes debug, and some sensible info will be printed.Please be careful!!!"
+      if [[ $CI_DEBUG_TRACE -ne 0 ]]; then
+          echo "Enable make changes debug by CI_DEBUG_TRACE, and some sensible info will be printed.Please be careful!!!"
           set -x
       fi
 
@@ -122,8 +121,8 @@
       fi
 
 .pre-commit_script: &pre-commit_script |
-  if [[ -n "$PRE_COMMIT_DEBUG" ]]; then
-      echo "Enable pre-commit debug, and some sensible info will be printed.Please be careful!!!"
+  if [[ $CI_DEBUG_TRACE -ne 0 ]]; then
+      echo "Enable pre-commit debug by CI_DEBUG_TRACE, and some sensible info will be printed.Please be careful!!!"
       set -x
   fi
 
@@ -183,7 +182,6 @@
   variables:
     PRE_COMMIT_AUTO_FIX: "1"
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "true"
-    PRE_COMMIT_DEBUG: "${CI_DEBUG_TRACE}"
     MAKE_CHANGES_MSG: "ci: auto fixes from pre-commit"
     MAKE_CHANGES_EXIT: "1"
   image: msclock/pre-commit
