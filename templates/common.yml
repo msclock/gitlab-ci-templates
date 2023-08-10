@@ -75,7 +75,7 @@
 # @Description proxy backend based on clash
 .proxy_backend:
   services:
-    - name: msclock/clash
+    - name: msclock/clash:2023-08-10T04-27-58Z
       alias: proxy_backend
       entrypoint:
         - ""
@@ -184,7 +184,7 @@
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "true"
     MAKE_CHANGES_MSG: "ci: auto fixes from pre-commit"
     MAKE_CHANGES_EXIT: "1"
-  image: msclock/pre-commit
+  image: msclock/pre-commit:2023-08-10T04-27-58Z
 
   extends:
     - .make_changes
@@ -203,7 +203,7 @@
 
 # @Description devcontainer
 .devcontainer:
-  image: msclock/devcontainer
+  image: msclock/devcontainer:2023-08-10T04-27-58Z
 
 # @Description devcontainer build
 .devcontainer_build:
@@ -259,7 +259,7 @@
 
 # @Description act
 .act:
-  image: msclock/act
+  image: msclock/act:2023-08-10T04-27-58Z
 
 # @Description act with proxy
 .act_proxy:
