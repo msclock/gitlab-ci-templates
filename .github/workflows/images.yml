@@ -25,14 +25,14 @@ jobs:
 
   pre-commit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Require write permissions to repository on the authentication GITHUB_TOKEN
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          # Avoid checking out the repository in a detached state.
           ref: ${{ github.head_ref }}
 
       - name: Set up python
@@ -43,7 +43,7 @@ jobs:
 
       - name: Auto commit action
         uses: stefanzweifel/git-auto-commit-action@v4
-        if: failure()
+        if: failure() # Allow the step to run when pre-commit fails
         with:
           commit_message: "ci: auto fixes from pre-commit"
 
