@@ -65,7 +65,7 @@ jobs:
           echo ${{ inputs.enabled  }}
           echo ${{ github.event_name  }}
 
-      - name: list changed images
+      - name: List changed images
         id: list-images
         uses: ./.github/actions/list_changed
         with:
