@@ -60,7 +60,7 @@ jobs:
       - name: Checkout (GitHub)
         uses: actions/checkout@v3
 
-      - name: Disply info
+      - name: Display info
         run: |
           echo ${{ inputs.enabled  }}
           echo ${{ github.event_name  }}
@@ -84,13 +84,13 @@ jobs:
         run: |
           image_tag=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
           echo "images_to_tag=$image_tag" >> $GITHUB_OUTPUT
-          if [ ${{ github.event_name	}} == 'pull_request' ]; then
+          if [ ${{ github.event_name    }} == 'pull_request' ]; then
             echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
 
-          elif [ ${{ github.event_name	}} == 'push' ]; then
+          elif [ ${{ github.event_name  }} == 'push' ]; then
             echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
-          
-          elif [ ${{ github.event_name	}} == 'workflow_dispatch' ]; then
+
+          elif [ ${{ github.event_name  }} == 'workflow_dispatch' ]; then
 
             if [ ${{ inputs.on_changes_only }} == 'true' ]; then
               echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT

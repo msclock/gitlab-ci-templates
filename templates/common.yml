@@ -106,7 +106,7 @@
 
         export FTP_PROXY=$HTTP_PROXY
         export ftp_proxy=$HTTP_PROXY
-        
+
         export ALL_PROXY=$HTTP_PROXY
         export all_proxy=$HTTP_PROXY
 

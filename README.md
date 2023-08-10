@@ -45,7 +45,7 @@ pre-commit:
 To enable auto-fixes, you'll need to set the CI/CD variable `PRE_COMMIT_ACCESS_TOKEN` with an GitLab access token with `repository write` scope. A convenient way to do this is using [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) but any GitLab API token will work.
 
 
-This template will include a job `pre-commit` which runs in the `.pre` stage. 
+This template will include a job `pre-commit` which runs in the `.pre` stage.
 
 **Configuration:**
 
@@ -61,7 +61,7 @@ There are several configurations available, which you can apply by setting CI/CD
 | PRE_COMMIT_AUTO_FIX_BRANCH_ONLY      | If set to a non-empty value, PRE_COMMIT_AUTOFIX will be disabled for non-branch pipelines.                                                                                                                                                                                                                                  |         |
 | PRE_COMMIT_AUTO_FIX_MR_ONLY          | If set to a non-empty value, PRE_COMMIT_AUTOFIX will be disabled for non-MR pipelines.                                                                                                                                                                                                                                      |         |
 
-By default, the tempalte assumes you are using pipelines for merge requests. If you are not using pipelines for merge requests (branch pipelines only), consider unsetting `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and setting `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
+By default, the template assumes you are using pipelines for merge requests. If you are not using pipelines for merge requests (branch pipelines only), consider unsetting `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and setting `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
 
 ## devcontainer
 

@@ -29,9 +29,9 @@ runs:
         list-files: json
         base: ${{ github.ref }}
         # filter local changes manually
-        # base: HEAD 
+        # base: HEAD
         filters: |
-          images: 
+          images:
             - images/**/*.json
             - images/**/Dockerfile
 
@@ -40,7 +40,7 @@ runs:
       shell: bash
       run: |
         echo '${{ steps.paths-filter.outputs.changes }}'
-        
+
         # prepare all images
         all_images=$(sudo tree -J -d  ./images | sudo jq -c '.[0].contents | map(.name)')
 
@@ -51,7 +51,6 @@ runs:
         jq -sc '.[0] + .[1] | unique' changed_images_images.json > changed_images.json
         changed_images=$(cat changed_images.json)
 
-        # outputs 
+        # outputs
         echo "all_images=$all_images" >> $GITHUB_OUTPUT
         echo "changed_images=$changed_images" >> $GITHUB_OUTPUT
-
