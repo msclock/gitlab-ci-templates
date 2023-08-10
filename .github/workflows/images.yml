@@ -25,7 +25,8 @@ jobs:
 
   pre-commit:
     runs-on: ubuntu-latest
-    name: pre-commit on codebase
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -34,8 +35,17 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
 
-      - name: Do pre-commit
-        uses: ./.github/actions/pre_commit
+      - name: Set up python
+        uses: actions/setup-python@v3
+
+      - name: Run pre-commit on codebase
+        uses: pre-commit/action@v3.0.0
+
+      - name: Auto commit action
+        uses: stefanzweifel/git-auto-commit-action@v4
+        if: failure()
+        with:
+          commit_message: "ci: auto fixes from pre-commit"
 
   find-images:
     needs:
