@@ -3,7 +3,6 @@
 FROM docker:latest
 
 RUN <<-EOF
-    set -x
     apk update && apk add --no-cache bash git git-lfs
     wget -O - https://raw.githubusercontent.com/nektos/act/master/install.sh | sh -s - -b /usr/local/bin
 EOF

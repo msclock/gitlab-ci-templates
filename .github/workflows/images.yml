@@ -1,0 +1,145 @@
+name: build images
+
+on:
+  workflow_dispatch:
+    inputs:
+      on_changes_only:
+        type: boolean
+        description: 'on_changes_only'
+        default: false
+
+      enabled:
+        type: boolean
+        description: 'enabled'
+        default: true
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+
+  find-images:
+    if: ${{ ( ( github.event_name != 'workflow_dispatch' ) ) || inputs.enabled  }}
+    runs-on: ubuntu-latest
+    name: find images
+    outputs:
+      changed-images: ${{ steps.list-images.outputs.changed_images }}
+      all-images: ${{ steps.list-images.outputs.all_images }}
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+
+      - name: Disply info
+        run: |
+          echo ${{ inputs.enabled  }}
+          echo ${{ github.event_name  }}
+
+      - name: list changed images
+        id: list-images
+        uses: ./.github/actions/list_changed
+        with:
+          path: .
+
+  prepare-matrix:
+    needs:
+      - find-images
+    runs-on: ubuntu-latest
+    outputs:
+      images_to_build: ${{ steps.resolve_images.outputs.images_to_build }}
+      images_to_tag: ${{ steps.resolve_images.outputs.images_to_tag }}
+    steps:
+      - name: "resolving images to build"
+        id: resolve_images
+        run: |
+          image_tag=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
+          echo "images_to_tag=$image_tag" >> $GITHUB_OUTPUT
+          if [ ${{ github.event_name	}} == 'pull_request' ]; then
+            echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
+
+          elif [ ${{ github.event_name	}} == 'push' ]; then
+            echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
+          
+          elif [ ${{ github.event_name	}} == 'workflow_dispatch' ]; then
+
+            if [ ${{ inputs.on_changes_only }} == 'true' ]; then
+              echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
+            else
+              echo 'images_to_build=${{ needs.find-images.outputs.all-images }}' >> $GITHUB_OUTPUT
+            fi
+          fi
+
+  build-image:
+    if: ${{ fromJson(needs.prepare-matrix.outputs.images_to_build)[0] != null }}
+    needs:
+      - find-images
+      - prepare-matrix
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: ${{ fromJson(needs.prepare-matrix.outputs.images_to_build) }}
+    permissions:
+      contents: write # Commit requires the write permission
+
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_REGISTRY_ID }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
+
+      - name: Install latest devcontainer CLI
+        run: npm install -g @devcontainers/cli
+
+      - name: Build image on '${{ matrix.image }}'
+        run: |
+          workspace=images/${{ matrix.image }}
+          image_name=msclock/${{ matrix.image }}:${{ needs.prepare-matrix.outputs.images_to_tag }}
+          echo "build image $image_name in the workspace $workspace"
+
+          devcontainer build \
+            --workspace-folder $workspace \
+            --image-name $image_name \
+            --image-name msclock/${{ matrix.image }}:latest \
+            --push=true
+
+  pin_image_version:
+    if: ${{ fromJson(needs.prepare-matrix.outputs.images_to_build)[0] != null }}
+    needs:
+      - find-images
+      - prepare-matrix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+
+      - name: Pin image version
+        run: |
+          set -e
+
+          square_comma_images=${{ needs.prepare-matrix.outputs.images_to_build }}
+          tag=${{ needs.prepare-matrix.outputs.images_to_tag }}
+          readarray -t image_array <<< "$(echo $square_comma_images | tr -d '[]' | tr ',' '\n')"
+          for i in "${image_array[@]}"; do
+            _prefix=msclock/$i
+            _image_name=$_prefix:$tag
+            echo "pin tag $tag on the image $i"
+            sed -i "s@$_prefix.*@$_image_name@g" ./templates/common.yml
+          done
+
+      - name: Auto commit to pin image
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: pin image tag"

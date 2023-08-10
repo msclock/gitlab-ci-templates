@@ -1,0 +1,54 @@
+name: "List changed images"
+description: "Get a json list the changed images"
+inputs:
+  path:
+    description: "Base image folder (containing images folders)"
+    type: string
+    required: true
+
+outputs:
+  changed_images: # id of output
+    description: "A JSON formatted list of all changed images"
+    value: ${{ steps.image-finder.outputs.changed_images }}
+
+  all_images: # id of output
+    description: "A JSON formatted list of all images"
+    value: ${{ steps.image-finder.outputs.all_images }}
+
+runs:
+  using: "composite"
+  steps:
+    - run: sudo apt update && sudo apt install tree jq -y
+      shell: bash
+
+    - uses: dorny/paths-filter@v2
+      id: paths-filter
+      with:
+        list-files: json
+        base: ${{ github.ref }}
+        # filter local changes manually
+        # base: HEAD 
+        filters: |
+          images: 
+            - images/**/*.json
+            - images/**/Dockerfile
+
+    - id: image-finder
+      shell: bash
+      run: |
+        echo '${{ steps.paths-filter.outputs.changes }}'
+        
+        # prepare all images
+        all_images=$(sudo tree -J -d  ./images | sudo jq -c '.[0].contents | map(.name)')
+
+        # prepare changed images
+        cd ${{ inputs.path }}
+        echo '${{ steps.paths-filter.outputs.images_files }}' > images_files.json
+        cat images_files.json |  jq --raw-output | awk -F'/' '{print $2}' | jq -R -s -c 'split("\n")' | jq -c 'map(select(length > 0))' > changed_images_images.json
+        jq -sc '.[0] + .[1] | unique' changed_images_images.json > changed_images.json
+        changed_images=$(cat changed_images.json)
+
+        # outputs 
+        echo "all_images=$all_images" >> $GITHUB_OUTPUT
+        echo "changed_images=$changed_images" >> $GITHUB_OUTPUT
+
