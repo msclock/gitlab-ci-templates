@@ -16,7 +16,10 @@
 			"configureZshAsDefaultShell": false
 		},
 		"ghcr.io/msclock/features/gitlab-ci-local:0": {},
-		"ghcr.io/devcontainers-contrib/features/act:1": {}
+		"ghcr.io/devcontainers-contrib/features/act:1": {},
+		"ghcr.io/devcontainers/features/node:1": {
+            "version": "v18"
+        }
 	}
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
