@@ -18,10 +18,28 @@ on:
       - main
 
   pull_request:
+    branches:
+      - main
 
 jobs:
 
+  pre-commit:
+    runs-on: ubuntu-latest
+    name: pre-commit on codebase
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+
+      - name: Do pre-commit
+        uses: ./.github/actions/pre_commit
+
   find-images:
+    needs:
+      - pre-commit
     if: ${{ ( ( github.event_name != 'workflow_dispatch' ) ) || inputs.enabled  }}
     runs-on: ubuntu-latest
     name: find images

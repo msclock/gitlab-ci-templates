@@ -1,0 +1,18 @@
+name: "Do pre-commit"
+description: "Do a simple pre-commit on codebase"
+
+runs:
+  using: composite
+  steps:
+
+    - name: Set up python
+      uses: actions/setup-python@v3
+
+    - name: Run pre-commit on codebase
+      uses: pre-commit/action@v3.0.0
+
+    - name: Auto commit action with fixes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      if: failure() # Allow the step to run when pre-commit fails
+      with:
+        commit_message: "ci: auto fixes from pre-commit"

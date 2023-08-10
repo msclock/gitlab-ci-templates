@@ -16,12 +16,14 @@ outputs:
     value: ${{ steps.image-finder.outputs.all_images }}
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - run: sudo apt update && sudo apt install tree jq -y
+    - name: Install tree and jq tools
+      run: sudo apt update && sudo apt install tree jq -y
       shell: bash
 
-    - uses: dorny/paths-filter@v2
+    - name: Detect path changes
+      uses: dorny/paths-filter@v2
       id: paths-filter
       with:
         list-files: json
@@ -33,7 +35,8 @@ runs:
             - images/**/*.json
             - images/**/Dockerfile
 
-    - id: image-finder
+    - name: Format changes
+      id: image-finder
       shell: bash
       run: |
         echo '${{ steps.paths-filter.outputs.changes }}'
