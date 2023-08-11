@@ -13,6 +13,18 @@ on:
         description: 'enabled'
         default: true
 
+  workflow_call:
+    inputs:
+      on_changes_only:
+        type: boolean
+        description: 'on_changes_only'
+        default: false
+
+      enabled:
+        type: boolean
+        description: 'enabled'
+        default: true
+
   push:
     branches:
       - main
@@ -82,15 +94,15 @@ jobs:
       - name: "resolving images to build"
         id: resolve_images
         run: |
-          image_tag=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
-          echo "images_to_tag=$image_tag" >> $GITHUB_OUTPUT
-          if [ ${{ github.event_name    }} == 'pull_request' ]; then
+          echo "images_to_tag=$(date -u +"%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
+          _gh_ev_name=${{ github.event_name }}
+          if [ "$_gh_ev_name" == 'pull_request' ]; then
             echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
 
-          elif [ ${{ github.event_name  }} == 'push' ]; then
+          elif [ "$_gh_ev_name" == 'push' ]; then
             echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
 
-          elif [ ${{ github.event_name  }} == 'workflow_dispatch' ]; then
+          elif [ "$_gh_ev_name" == 'workflow_dispatch' ] || [ "$_gh_ev_name" == 'workflow_call' ]; then
 
             if [ ${{ inputs.on_changes_only }} == 'true' ]; then
               echo 'images_to_build=${{ needs.find-images.outputs.changed-images }}' >> $GITHUB_OUTPUT
