@@ -1,18 +1,18 @@
-name: "List changed images"
-description: "Get a json list the changed images"
+name: List changed images
+description: Get a json list the changed images
 inputs:
   path:
-    description: "Base image folder (containing images folders)"
+    description: Base image folder (containing images folders)
     type: string
     required: true
 
 outputs:
   changed_images: # id of output
-    description: "A JSON formatted list of all changed images"
+    description: A JSON formatted list of all changed images
     value: ${{ steps.image-finder.outputs.changed_images }}
 
   all_images: # id of output
-    description: "A JSON formatted list of all images"
+    description: A JSON formatted list of all images
     value: ${{ steps.image-finder.outputs.all_images }}
 
 runs:

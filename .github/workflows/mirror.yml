@@ -3,7 +3,7 @@ name: mirror to gitlab
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
 
@@ -12,14 +12,14 @@ jobs:
     name: mirror to gitlab
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: mirror-to-gitlab
-      uses: yesolutions/mirror-action@master
-      with:
-        REMOTE: https://gitlab.com/gitlab-aux/gitlab-ci-templates.git
-        GIT_USERNAME: ${{ github.repository_owner }}
-        GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
-        DEBUG: "true"
+      - name: mirror-to-gitlab
+        uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: https://gitlab.com/gitlab-aux/gitlab-ci-templates.git
+          GIT_USERNAME: ${{ github.repository_owner }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          DEBUG: 'true'

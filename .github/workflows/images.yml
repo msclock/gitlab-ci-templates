@@ -5,24 +5,24 @@ on:
     inputs:
       on_changes_only:
         type: boolean
-        description: 'on_changes_only'
+        description: on_changes_only
         default: false
 
       enabled:
         type: boolean
-        description: 'enabled'
+        description: enabled
         default: true
 
   workflow_call:
     inputs:
       on_changes_only:
         type: boolean
-        description: 'on_changes_only'
+        description: on_changes_only
         default: false
 
       enabled:
         type: boolean
-        description: 'enabled'
+        description: enabled
         default: true
 
   push:
@@ -57,7 +57,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         if: failure() # Allow the step to run when pre-commit fails
         with:
-          commit_message: "ci: auto fixes from pre-commit"
+          commit_message: 'ci: auto fixes from pre-commit'
 
   find-images:
     needs:
@@ -91,7 +91,7 @@ jobs:
       images_to_build: ${{ steps.resolve_images.outputs.images_to_build }}
       images_to_tag: ${{ steps.resolve_images.outputs.images_to_tag }}
     steps:
-      - name: "resolving images to build"
+      - name: resolving images to build
         id: resolve_images
         run: |
           echo "images_to_tag=$(date -u +"%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
@@ -182,4 +182,4 @@ jobs:
       - name: Auto commit to pin image
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "chore: pin image tag"
+          commit_message: 'chore: pin image tag'

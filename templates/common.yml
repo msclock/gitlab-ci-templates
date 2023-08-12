@@ -8,9 +8,9 @@
 # @Description make changes on codebase
 .make_changes:
   variables:
-    MAKE_CHANGES_MSG: ""
-    MAKE_CHANGES_ON_PR: ""
-    MAKE_CHANGES_EXIT: ""
+    MAKE_CHANGES_MSG: ''
+    MAKE_CHANGES_ON_PR: ''
+    MAKE_CHANGES_EXIT: ''
   script:
     - !reference [.security_check_sensible, script]
     - |
@@ -63,15 +63,15 @@
     - name: msclock/clash:2023-08-10T04-27-58Z
       alias: proxy_backend
       entrypoint:
-        - ""
+        - ''
       command:
         - sh
         - -c
-        - "set -xe && wget $CLASH_PROXY_SUB -O /root/.config/clash/config.yaml && ./clash"
+        - set -xe && wget $CLASH_PROXY_SUB -O /root/.config/clash/config.yaml && ./clash
   variables:
-    CLASH_PROXY_SUB: ""
-    PROXY_WHITE_LIST: "localhost,127.0.0.1,192.168.0.0/16,$CI_SERVER_HOST"
-    ENABLE_PROXY: "1"
+    CLASH_PROXY_SUB: ''
+    PROXY_WHITE_LIST: localhost,127.0.0.1,192.168.0.0/16,$CI_SERVER_HOST
+    ENABLE_PROXY: '1'
   before_script:
     - !reference [.security_check_sensible, script]
     - |
@@ -108,10 +108,10 @@
   extends:
     - .devcontainer
   variables:
-    IMAGE_NAME: ""
-    PUSH: ""
-    PLATFORM: ""
-    SUB_FOLDER: ""
+    IMAGE_NAME: ''
+    PUSH: ''
+    PLATFORM: ''
+    SUB_FOLDER: ''
   script:
     - |
       set -x
@@ -141,7 +141,7 @@
   extends:
     - .devcontainer
   variables:
-    SUB_FOLDER: ""
+    SUB_FOLDER: ''
   before_script:
     - |
       set -x
