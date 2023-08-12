@@ -99,12 +99,87 @@
         sleep 3 # wait for proxy_backend is ready
       fi
 
-# @Description devcontainer
+# @Description pre-commit template
+.pre_commit:
+  extends:
+    - .make_changes
+  stage: .pre
+  rules:
+    - if: $PRE_COMMIT_SKIP_BRANCH_PIPELINE && $CI_COMMIT_BRANCH
+      when: never
+    - if: $PRE_COMMIT_SKIP_MR_PIPELINE && $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $PRE_COMMIT_AUTO_FIX_BRANCH_ONLY && $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        PRE_COMMIT_AUTO_FIX: ''
+      when: on_success
+      exists:
+        - .pre-commit-config.yaml
+    - if: $PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH == "true" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $PRE_COMMIT_AUTO_FIX_MR_ONLY && $CI_PIPELINE_SOURCE != "merge_request_event"
+      variables:
+        PRE_COMMIT_AUTO_FIX: ''
+      exists:
+        - .pre-commit-config.yaml
+      when: on_success
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_EVENT_TYPE != "detached"
+      variables: # don't support autofix for merged_result or merge_train pipelines, configure branch fixing instead
+        PRE_COMMIT_AUTO_FIX: ''
+      exists:
+        - .pre-commit-config.yaml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      exists:
+        - .pre-commit-config.yaml
+      when: on_success
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - .pre-commit-config.yaml
+      when: on_success
+    - when: never
+  variables:
+    PRE_COMMIT_AUTO_FIX: '1'
+    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
+    MAKE_CHANGES_MSG: 'ci: auto fixes from pre-commit'
+    MAKE_CHANGES_EXIT: '1'
+    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.pre-commit
+  image: msclock/pre-commit:2023-08-10T09-27-52Z
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - $PRE_COMMIT_HOME
+  script:
+    - !reference [.security_check_sensible, script]
+    - |
+      if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
+          echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+          exit 1
+      fi
+
+      status=0
+
+      pre-commit run --all-files || status=$?
+      if [[ $status -eq 0 ]]; then
+          exit 0  # we're all good, pipeline can proceed
+      fi
+
+      _init_fail_code=3
+      if [[ $status -eq $_init_fail_code ]]; then
+          echo "pre-commit init plugins failed!!, please retry it again!!!"
+          exit 1
+      fi
+
+      if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
+          exit $status # fail the job with status holding exit code
+      fi
+    - !reference [.make_changes, script]
+
+# @Description template of the base image of devcontainer
 .devcontainer:
   image: msclock/devcontainer:2023-08-10T04-27-58Z
 
 # @Description devcontainer build
-.devcontainer_build:
+.devcontainer::build:
   extends:
     - .devcontainer
   variables:
@@ -116,45 +191,26 @@
     - |
       set -x
 
-      build_extra="--workspace-folder ."
+      build_extra=(--workspace-folder .)
       if [ -n "$SUB_FOLDER" ]; then
-          build_extra="$build_extra --config $SUB_FOLDER"
+          build_extra+=(--config $SUB_FOLDER)
       fi
 
       if [ -n "$IMAGE_NAME" ]; then
-          build_extra="$build_extra --image-name $IMAGE_NAME"
+          build_extra+=(--image-name $IMAGE_NAME)
       fi
 
       if [ -n "$PUSH" ]; then
-          build_extra="$build_extra --push"
+          build_extra+=($build_extra --push)
       fi
 
       if [ -n "$PLATFORM" ]; then
-          build_extra="$build_extra --platform $PLATFORM"
+          build_extra+=(--platform $PLATFORM)
       fi
 
       # build image by devcontainer
       devcontainer build $build_extra
 
-# @Description devcontainer run
-.devcontainer_run:
-  extends:
-    - .devcontainer
-  variables:
-    SUB_FOLDER: ''
-  before_script:
-    - |
-      set -x
-
-      base_extra="--workspace-folder ."
-      if [ -n "$SUB_FOLDER" ]; then
-          base_extra="$base_extra --config $SUB_FOLDER"
-      fi
-
-      devcontainer up ${base_extra} --id-label dev_run_job_id=$CI_JOB_ID
-  after_script:
-    - docker ps -q --filter "label=dev_run_job_id=$CI_JOB_ID" | xargs docker fm -f
-
-# @Description act
+# @Description template of the base image of act
 .act:
   image: msclock/act:2023-08-12T17-40-49Z

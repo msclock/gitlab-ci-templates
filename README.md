@@ -19,6 +19,8 @@ include:
 
 # @Description check codebase with pre-commit
 pre-commit:
+  extends:
+    - .pre-commit
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
@@ -32,11 +34,12 @@ include:
 # @Description check codebase with pre-commit
 pre-commit:
   extends:
+    - .pre-commit
     - .proxy_backend
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
-    # Set your proxy subscribe based on clash
+    # Set your proxy subscribe here
     CLASH_PROXY_SUB: "your clash subscribe"
 ```
 
@@ -81,18 +84,7 @@ devcontainer_build:
     PUSH: "" # if push to registry
     PLATFORM: "" # build for some platform
     SUB_FOLDER: "." # .devcontainer folder or .devconntainer.json path
-
-# @Description devcontainer run
-devcontainer_run:
-  extends:
-    - .devcontainer_run
-  variables:
-    SUB_FOLDER: "." # .devcontainer folder or .devconntainer.json path
-  script:
-    - |
-      devcontainer exec --workspace-folder . --config $SUB_FOLDER ls -la
 ```
-
 
 ## act
 
