@@ -28,7 +28,6 @@ repos:
       - id: check-docstring-first
       - id: check-merge-conflict
       - id: check-symlinks
-      - id: check-yaml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
@@ -38,7 +37,16 @@ repos:
   - repo: https://gitlab.com/bmares/check-json5
     rev: v1.0.0
     hooks:
-    - id: check-json5
+      - id: check-json5
+
+  # Check yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.10.0
+    hooks:
+    - id: pretty-format-yaml
+      args:
+        - --autofix
+        - --offset=2
 
   # Changes tabs to spaces
   - repo: https://github.com/Lucas-C/pre-commit-hooks

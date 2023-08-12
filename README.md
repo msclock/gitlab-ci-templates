@@ -15,12 +15,10 @@ Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes
 Simply include the template in your `.gitlab-ci.yaml` configuration.
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 # @Description check codebase with pre-commit
 pre-commit:
-  extends:
-    - .pre-commit
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
@@ -29,12 +27,12 @@ pre-commit:
 Use pre-commit on a proxy
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 # @Description check codebase with pre-commit
 pre-commit:
   extends:
-    - .pre-commit-proxy
+    - .proxy_backend
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
