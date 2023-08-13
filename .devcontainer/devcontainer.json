@@ -6,14 +6,14 @@
     "image": "mcr.microsoft.com/devcontainers/base:jammy",
     // Features to add to the dev container. More info: https://containers.dev/features.
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-        "ghcr.io/devcontainers/features/python:1": {
-            "installTools": false
-        },
         "ghcr.io/devcontainers/features/common-utils:2": {
             "upgradePackages": false,
             "username": "vscode",
-            "configureZshAsDefaultShell": false
+            "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/python:1": {
+            "installTools": false
         },
         "ghcr.io/msclock/features/gitlab-ci-local:0": {},
         "ghcr.io/devcontainers-contrib/features/act:1": {},
