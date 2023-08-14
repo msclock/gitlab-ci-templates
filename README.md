@@ -13,6 +13,7 @@ Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes
 **Basic usage:**
 
 Simply include the template in your `.gitlab-ci.yaml` configuration.
+
 ```yaml
 include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
@@ -26,7 +27,9 @@ pre-commit:
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
 
 ```
+
 Use pre-commit on a proxy
+
 ```yaml
 include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
@@ -71,6 +74,7 @@ Using devcontainer/cli makes it easy to integrate devcontainer into a CI environ
 **Basic usage:**
 
 Simply include the template in your `.gitlab-ci.yaml` configuration as below.
+
 ```yaml
 include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
@@ -93,6 +97,7 @@ Use act to bridge github actions into gitlab runner CI environment.
 **Basic usage:**
 
 Simply include the template in your `.gitlab-ci.yaml` configuration as below.
+
 ```yaml
 include:
   - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
