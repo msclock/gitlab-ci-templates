@@ -1,12 +1,12 @@
-# gitlab-ci-templates
+## gitlab-ci-templates
 
 Templates for GitLab CI
 
 You can include these in your project using the `include:` key, or simply by copying the files into your own projects.
 
-# Available templates
+## Available templates
 
-## pre-commit
+### pre-commit
 
 Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes back to the source branch.
 
@@ -64,7 +64,7 @@ There are several configurations available, which you can apply by setting CI/CD
 
 By default, the template assumes you are using pipelines for merge requests. If you are not using pipelines for merge requests (branch pipelines only), consider unsetting `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and setting `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
 
-## devcontainer
+### devcontainer
 
 Using devcontainer/cli makes it easy to integrate devcontainer into a CI environment.
 
@@ -86,7 +86,7 @@ devcontainer_build:
     SUB_FOLDER: "." # .devcontainer folder or .devconntainer.json path
 ```
 
-## act
+### act
 
 Use act to bridge github actions into gitlab runner CI environment.
 
