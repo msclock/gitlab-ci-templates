@@ -1,5 +1,6 @@
 stages:
   - lint
+  - release
 
 include:
   - local: /templates/common.yml
@@ -14,3 +15,11 @@ pre-commit:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'false'
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
     CLASH_PROXY_SUB: $PROXY_SUB
+
+# @Description release with semantic-release
+release:
+  stage: release
+  extends:
+    - .release
+  variables:
+    NPM_SOURCE: https://registry.npm.taobao.org

@@ -340,5 +340,5 @@ ASALocalRun/
 .nox
 .mypy_cache
 
-# Pre-commit
-.pre-commit
+# gitlab
+.gitlab-ci-local

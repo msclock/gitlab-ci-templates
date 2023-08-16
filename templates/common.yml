@@ -214,3 +214,44 @@
 # @Description template of the base image of act
 .act:
   image: msclock/act:2023-08-12T17-40-49Z
+
+# @Description template for release publish
+.release:
+  image: msclock/semantic-release:dummy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      # for prerelease on beta or alpha
+    - if: $CI_COMMIT_REF_NAME == "beta"
+    - if: $CI_COMMIT_REF_NAME == "alpha"
+      # for after prerelease see https://github.com/semantic-release/semantic-release/discussions/2336
+    - if: $CI_COMMIT_REF_NAME == "next"
+    - if: $CI_COMMIT_REF_NAME == "next-major"
+  variables:
+    RELEASE_EXTRA_PLUGINS: ''
+    NPM_SOURCE: ''
+  script:
+    - |
+      set -x
+
+      if [[ -n "$NPM_SOURCE" ]]; then
+        npm config set registry "$NPM_SOURCE"
+        npm get registry
+      fi
+
+      npm install -g semantic-release \
+        @semantic-release/release-notes-generator \
+        @semantic-release/git \
+        @semantic-release/gitlab \
+        $RELEASE_EXTRA_PLUGINS
+
+      git remote set-url origin ${CI_PROJECT_URL}.git
+
+      # Set the displayed user with the commits that are about to be made
+      git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+      git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
+
+      # delete history tags locally
+      git log --oneline  -6
+      git tag -d $(git tag -l)
+
+      semantic-release
