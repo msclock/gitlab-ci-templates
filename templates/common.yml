@@ -142,7 +142,7 @@
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
     MAKE_CHANGES_MSG: 'ci: auto fixes from pre-commit'
     MAKE_CHANGES_EXIT: '1'
-    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.pre-commit
+    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   cache:
     key: $CI_COMMIT_REF_SLUG
