@@ -119,7 +119,7 @@ The following demonstrates how to bridge github actions into gitlab CI environme
 # Clone example repoository
 git clone https://github.com/microsoft/vscode-remote-try-rust && cd vscode-remote-try-rust
 # Add gitlab action job for pre-build rust image
-cat >>.github/workflows/pre-build.yml<<EOF
+cat >>.github/workflows/pre-build.yml<<'EOF'
 name: pre-rust-image-build
 on:
   pull_request:
