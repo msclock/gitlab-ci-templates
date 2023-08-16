@@ -118,6 +118,7 @@ The following demonstrates how to bridge github actions into gitlab CI environme
 ```bash
 # Clone example repoository
 git clone https://github.com/microsoft/vscode-remote-try-rust && cd vscode-remote-try-rust
+
 # Add gitlab action job for pre-build rust image
 cat >>.github/workflows/pre-build.yml<<'EOF'
 name: pre-rust-image-build
@@ -188,4 +189,65 @@ release:
   stage: release
   extends:
     - .release
+```
+
+#### Example
+
+The following demonstrates how to configure a release workflow with changelog file generated.
+
+```bash
+# Add release rc
+cat >>.releaserc<<'EOF'
+{
+    "branches":[
+        "main",
+        {
+            "name": "alpha",
+            "prerelease": true
+        },
+        {
+            "name": "beta",
+            "prerelease": true
+        }
+    ],
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/changelog",
+            {
+                "changelogFile": "CHANGELOG.md"
+            }
+        ],
+        "@semantic-release/gitlab",
+        [
+            "@semantic-release/git",
+            {
+                "assets": [
+                    "CHANGELOG.md"
+                ],
+                "message": "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}
+EOF
+
+# Add gitlab ci for release
+cat >>.gitlab-ci.yml<<'EOF'
+stages:
+  - release
+
+include:
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+
+# @Description release with semantic-release
+release:
+  stage: release
+  extends:
+    - .release
+  variables:
+    NPM_SOURCE: https://registry.npm.taobao.org
+    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git'
+EOF
 ```

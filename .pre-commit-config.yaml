@@ -48,7 +48,7 @@ repos:
 
   # Changes tabs to spaces
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.2
+    rev: v1.5.4
     hooks:
       - id: remove-tabs
 
@@ -57,10 +57,6 @@ repos:
     rev: v2.2.5
     hooks:
       - id: codespell
-        exclude: |
-          (?x)(
-          ^(package-lock.json)
-          )
         args:
           - -L Transer,transer,axises,pres,seh,SEH,indexs,indexS,reworkd
           - --check-filenames

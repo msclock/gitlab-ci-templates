@@ -217,18 +217,16 @@
 
 # @Description template for release publish
 .release:
-  image: msclock/semantic-release:2023-08-16T09-14-30Z
+  image: msclock/semantic-release:2023-08-16T10-22-08Z
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       # for prerelease on beta or alpha
     - if: $CI_COMMIT_REF_NAME == "beta"
     - if: $CI_COMMIT_REF_NAME == "alpha"
-      # for after prerelease see https://github.com/semantic-release/semantic-release/discussions/2336
-    - if: $CI_COMMIT_REF_NAME == "next"
-    - if: $CI_COMMIT_REF_NAME == "next-major"
   variables:
     RELEASE_EXTRA_PLUGINS: ''
     NPM_SOURCE: ''
+    # Env for plugin gitlab
     GITLAB_PREFIX: /api/v4
     GITLAB_URL: $CI_SERVER_URL
   script:
@@ -242,7 +240,6 @@
 
       npm install -g semantic-release \
         @semantic-release/release-notes-generator \
-        @semantic-release/git \
         @semantic-release/gitlab $RELEASE_EXTRA_PLUGINS
 
       git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
