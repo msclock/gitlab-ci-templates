@@ -10,7 +10,7 @@ You can include these in your project using the `include:` key, or simply by cop
 
 Verifies your `pre-commit`, applies automatic fixes, and commits autofix changes back to the source branch.
 
-**Basic usage:**
+#### Usage
 
 Simply include the template in your `.gitlab-ci.yaml` configuration.
 
@@ -71,7 +71,7 @@ By default, the template assumes you are using pipelines for merge requests. If 
 
 Using devcontainer/cli makes it easy to integrate devcontainer into a CI environment.
 
-**Basic usage:**
+#### Usage
 
 Simply include the template in your `.gitlab-ci.yaml` configuration as below.
 
@@ -94,7 +94,7 @@ devcontainer_build:
 
 Use act to bridge github actions into gitlab runner CI environment.
 
-**Basic usage:**
+#### Usage
 
 Simply include the template in your `.gitlab-ci.yaml` configuration as below.
 
@@ -166,4 +166,26 @@ act:
       # Pass the secrets of docker authentication by github action job build
       act -j build -v -s DOCKER_REGISTRY_ID=<your dockerhub id> -s DOCKER_REGISTRY_PASS=<your dockerhub password>
 EOF
+```
+
+### semantic-release
+
+Fully automated version management and package publishing on ci.
+
+#### Usage
+
+The following demonstrates how to publish release with semantic-release with gitlab CI environment painlessly and simply.
+
+```yaml
+stages:
+  - release
+
+include:
+  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+
+# @Description release with semantic-release
+release:
+  stage: release
+  extends:
+    - .release
 ```
