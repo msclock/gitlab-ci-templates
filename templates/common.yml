@@ -234,6 +234,7 @@
     GITLAB_URL: $CI_SERVER_URL
     OVERRIDE_RELEASE: ''
     USING_PRESET_RELEASERC: ''
+    _PRESET_RELEASERC_FILE: .releaserc
   script:
     - |
       set -x
@@ -253,9 +254,9 @@
       git tag -d $(git tag -l)
 
       if [[ -n "$USING_PRESET_RELEASERC" ]]; then
-        echo "generating preset releaserc .releaserc..."
+        echo "generating preset releaserc $_PRESET_RELEASERC_FILE..."
 
-      cat >.releaserc<<EOF
+      cat >"$_PRESET_RELEASERC_FILE"<<EOF
       {
           "branches":[
               "$CI_DEFAULT_BRANCH",
@@ -293,6 +294,6 @@
       semantic-release
   after_script:
     - |
-      if [[ -n "$USING_PRESET_RELEASERC" ]]; then
-        rm .releaserc
+      if [[ -n "$USING_PRESET_RELEASERC" ]] && [[ -f "$_PRESET_RELEASERC_FILE" ]]; then
+        rm "$_PRESET_RELEASERC_FILE"
       fi
