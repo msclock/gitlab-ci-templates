@@ -19,7 +19,6 @@ jobs:
       - name: mirror-to-gitlab
         uses: yesolutions/mirror-action@master
         with:
-          REMOTE: https://gitlab.com/gitlab-aux/gitlab-ci-templates.git
+          REMOTE: https://gitlab.com/msclock/gitlab-ci-templates.git
           GIT_USERNAME: ${{ github.repository_owner }}
           GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
-          DEBUG: 'true'
