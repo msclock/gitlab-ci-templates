@@ -5,6 +5,19 @@
         set -x
     fi
 
+.security_git_config:
+  script: |
+    # Prepare config for git
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    fi
+    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+        git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+    fi
+
+    git config --global user.name "GitLab Ci"
+    git config --global user.email "gitlab-ci@no-reply.com"
+
 # @Description make changes on codebase
 .make_changes:
   variables:
@@ -13,19 +26,9 @@
     MAKE_CHANGES_EXIT: ''
   script:
     - !reference [.security_check_sensible, script]
+    - !reference [.security_git_config, script]
     - |
       if [[ -n "$(git status -s)" ]]; then
-
-        # Prepare config for git
-        if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-            git remote set-url origin "https://gitlab-ci-token:${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-        fi
-        if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-            git remote set-url origin "https://gitlab-ci-token:${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-        fi
-
-        git config --global user.name "GitLab Ci"
-        git config --global user.email "gitlab-ci@no-reply.com"
 
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
             temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
@@ -36,7 +39,7 @@
         git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" -m "job url:$CI_JOB_URL"
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
             git push origin "$temp_branch"
-            curl --header "PRIVATE-TOKEN: ${MAKE_CHANGES_ACCESS_TOKEN:-$CI_JOB_TOKEN}" \
+            curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
                 --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
                 --form "source_branch=$temp_branch" \
                 --form "target_branch=$CI_COMMIT_REF_NAME" \
@@ -142,7 +145,7 @@
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
     MAKE_CHANGES_MSG: 'ci: auto fixes from pre-commit'
     MAKE_CHANGES_EXIT: '1'
-    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
+    PRE_COMMIT_HOME: ~/.cache/.pre-commit
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   cache:
     key: $CI_COMMIT_REF_SLUG
@@ -241,12 +244,8 @@
       npm install -g semantic-release \
         @semantic-release/release-notes-generator \
         @semantic-release/gitlab $RELEASE_EXTRA_PLUGINS
-
-      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-
-      git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
-      git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
-
+    - !reference [.security_git_config, script]
+    - |
       # delete history tags locally
       git log --oneline  -6
       git tag -d $(git tag -l)

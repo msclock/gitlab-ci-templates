@@ -46,18 +46,18 @@ pre-commit:
     CLASH_PROXY_SUB: "your clash subscribe"
 ```
 
-To enable auto-fixes, you'll need to set the CI/CD variable `PRE_COMMIT_ACCESS_TOKEN` with an GitLab access token with `repository write` scope. A convenient way to do this is using [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) but any GitLab API token will work.
+To enable auto-fixes, you'll need to set the CI/CD variable `GITLAB_TOKEN` with an GitLab access token with `repository write` scope. A convenient way to do this is using [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) but any GitLab API token will work.
 
 
 This template will include a job `pre-commit` which runs in the `.pre` stage.
 
-**Configuration:**
+#### Configuration
 
 There are several configurations available, which you can apply by setting CI/CD variables. The available configuration variables are as follows:
 
 | Variable Name                        | Description                                                                                                                                                                                                                                                                                                                 | Default |
 |--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| PRE_COMMIT_ACCESS_TOKEN              | A GitLab API token with write access to the project. Required for automatic fixes.                                                                                                                                                                                                                                          |         |
+| GITLAB_TOKEN              | A GitLab API token with write access to the project. Required for automatic fixes.                                                                                                                                                                                                                                          |         |
 | PRE_COMMIT_AUTO_FIX                  | Whether to apply, commit, and push autofixes to the source branch                                                                                                                                                                                                                                                           | 1       |
 | PRE_COMMIT_SKIP_BRANCH_PIPELINE      | If set to a non-empty value, disables the job for branch pipelines                                                                                                                                                                                                                                                          |         |
 | PRE_COMMIT_SKIP_MR_PIPELINE          | If set to a non-empty value, disables the job for merge request pipelines                                                                                                                                                                                                                                                   |         |
@@ -110,8 +110,6 @@ act:
     - |
       act -j <job-id>
 ```
-
-**Example:**
 
 The following demonstrates how to bridge github actions into gitlab CI environment painlessly and simply.
 
@@ -190,8 +188,6 @@ release:
   extends:
     - .release
 ```
-
-#### Example
 
 The following demonstrates how to configure a release workflow with changelog file generated.
 
