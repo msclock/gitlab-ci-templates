@@ -22,3 +22,4 @@ jobs:
           REMOTE: https://gitlab.com/msclock/gitlab-ci-templates.git
           GIT_USERNAME: ${{ github.repository_owner }}
           GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          PUSH_ALL_REFS: 'false'
