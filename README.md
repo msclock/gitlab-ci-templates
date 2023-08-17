@@ -16,7 +16,7 @@ Simply include the template in your `.gitlab-ci.yaml` configuration.
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 # @Description check codebase with pre-commit
 pre-commit:
@@ -32,7 +32,7 @@ Use pre-commit on a proxy
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
 
 # @Description check codebase with pre-commit
 pre-commit:
@@ -77,7 +77,7 @@ Simply include the template in your `.gitlab-ci.yaml` configuration as below.
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
 # @Description devcontainer build
 devcontainer_build:
@@ -100,7 +100,7 @@ Simply include the template in your `.gitlab-ci.yaml` configuration as below.
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
 # @Description act
 act:
@@ -118,7 +118,7 @@ The following demonstrates how to bridge github actions into gitlab CI environme
 git clone https://github.com/microsoft/vscode-remote-try-rust && cd vscode-remote-try-rust
 
 # Add gitlab action job for pre-build rust image
-cat >>.github/workflows/pre-build.yml<<'EOF'
+cat >.github/workflows/pre-build.yml<<'EOF'
 name: pre-rust-image-build
 on:
   pull_request:
@@ -148,12 +148,12 @@ jobs:
 EOF
 
 # Add gitlab ci for pre-build rust image
-cat >>.gitlab-ci.yml<<EOF
+cat >.gitlab-ci.yml<<EOF
 stages:
   - prepare
 
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
 # @Description pre-build rust image and push to docker.io
 act:
@@ -180,7 +180,7 @@ stages:
   - release
 
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
 # @Description release with semantic-release
 release:
@@ -193,7 +193,7 @@ The following demonstrates how to configure a release workflow with changelog fi
 
 ```bash
 # Add release rc
-cat >>.releaserc<<'EOF'
+cat >.releaserc<<'EOF'
 {
     "branches":[
         "main",
@@ -230,12 +230,12 @@ cat >>.releaserc<<'EOF'
 EOF
 
 # Add gitlab ci for release
-cat >>.gitlab-ci.yml<<'EOF'
+cat >.gitlab-ci.yml<<'EOF'
 stages:
   - release
 
 include:
-  - remote: "https://gitlab.com/gitlab-aux/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
 # @Description release with semantic-release
 release:
