@@ -233,6 +233,7 @@
     GITLAB_PREFIX: /api/v4
     GITLAB_URL: $CI_SERVER_URL
     OVERRIDE_RELEASE: ''
+    USING_PRESET_RELEASERC: ''
   script:
     - |
       set -x
@@ -251,11 +252,47 @@
       git log --oneline  -6
       git tag -d $(git tag -l)
 
-      # delete the existing release
+      if [[ -n "$USING_PRESET_RELEASERC" ]]; then
+        echo "generating preset releaserc .releaserc..."
+
+      cat >.releaserc<<EOF
+      {
+          "branches":[
+              "$CI_DEFAULT_BRANCH",
+              {
+                  "name": "alpha",
+                  "prerelease": true
+              },
+              {
+                  "name": "beta",
+                  "prerelease": true
+              }
+          ],
+          "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              "@semantic-release/gitlab"
+          ]
+      }
+      EOF
+
+      fi
+
+      # delete the existing tag and release if possible
       if [[ -n "$OVERRIDE_RELEASE" ]]; then
         _next_version=$(semantic-release -d --no-ci | grep -oP "(?<=the next release version is ).*")
         echo "the next release version is \033[32m$_next_version\033[0m"
+        # delete tag
         git push origin :refs/tags/v$_next_version || true
+
+        # delete release
+        curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+          --request DELETE "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/releases/v$_next_version" || true
       fi
 
       semantic-release
+  after_script:
+    - |
+      if [[ -n "$USING_PRESET_RELEASERC" ]]; then
+        rm .releaserc
+      fi
