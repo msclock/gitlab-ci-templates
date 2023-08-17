@@ -232,6 +232,7 @@
     # Env for plugin gitlab
     GITLAB_PREFIX: /api/v4
     GITLAB_URL: $CI_SERVER_URL
+    OVERRIDE_RELEASE: ''
   script:
     - |
       set -x
@@ -249,5 +250,12 @@
       # delete history tags locally
       git log --oneline  -6
       git tag -d $(git tag -l)
+
+      # delete the existing release
+      if [[ -n "$OVERRIDE_RELEASE" ]]; then
+        _next_version=$(semantic-release -d --no-ci | grep -oP "(?<=the next release version is ).*")
+        echo "the next release version is \033[32m$_next_version\033[0m"
+        git push origin :refs/tags/v$_next_version || true
+      fi
 
       semantic-release
