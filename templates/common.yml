@@ -275,7 +275,7 @@
 
       fi
 
-      # delete the existing tag and release if possible
+      # detect conflicit release and delete the existing tag and release if possible
       if [[ -n "$OVERRIDE_RELEASE" ]]; then
 
         _sr_log=$(semantic-release -d --ci)
