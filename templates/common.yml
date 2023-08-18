@@ -278,7 +278,7 @@
       # detect conflicit release and delete the existing tag and release if possible
       if [[ -n "$OVERRIDE_RELEASE" ]]; then
 
-        _sr_log=$(semantic-release -d --no-ci)
+        _sr_log=$(semantic-release -d --ci)
         if [[ "$CI_DEBUG_TRACE" == "1" ]] || [[ "$CI_DEBUG_TRACE" == "true" ]]; then
           echo "THE RELEASE DRY-RUN LOG:\n$_sr_log"
         fi
