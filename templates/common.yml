@@ -289,16 +289,16 @@
           # delete tag
           git push origin :refs/tags/$_conflicit_version || true
 
+          # delete history tags locally
+          git log --oneline  -6
+          git tag -d $(git tag -l)
+
           # delete release
           curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
             --request DELETE "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/releases/$_conflicit_version" || true
         fi
 
       fi
-
-      # delete history tags locally
-      git log --oneline  -6
-      git tag -d $(git tag -l)
 
       semantic-release
   after_script:
