@@ -228,13 +228,13 @@
     - if: $CI_COMMIT_REF_NAME == "alpha"
   variables:
     RELEASE_EXTRA_PLUGINS: ''
+    OVERRIDE_RELEASE: ''
+    USING_PRESET_RELEASERC: ''
+    _PRESET_RELEASERC_FILE: .releaserc
     NPM_SOURCE: ''
     # Env for plugin gitlab
     GITLAB_PREFIX: /api/v4
     GITLAB_URL: $CI_SERVER_URL
-    OVERRIDE_RELEASE: ''
-    USING_PRESET_RELEASERC: ''
-    _PRESET_RELEASERC_FILE: .releaserc
   script:
     - |
       set -x
