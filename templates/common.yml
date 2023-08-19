@@ -1,7 +1,7 @@
 .security_check_sensible:
   script: |
-    if [[ "$CI_DEBUG_TRACE" == "1" ]] || [[ "$CI_DEBUG_TRACE" == "true" ]]; then
-        echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed.Please be careful!!!"
+    if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
+        echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
         set -x
     fi
 
@@ -10,8 +10,7 @@
     # Prepare config for git
     if [[ -n "$CI_COMMIT_BRANCH" ]]; then
         git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-    fi
-    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
         git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
     fi
 
@@ -155,25 +154,27 @@
     - !reference [.security_check_sensible, script]
     - |
       if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
-          echo "invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+          echo "Invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
           exit 1
       fi
 
       status=0
 
       pre-commit run --all-files || status=$?
+
       if [[ $status -eq 0 ]]; then
-          exit 0  # we're all good, pipeline can proceed
+          exit 0  # We're all good, pipeline can proceed
       fi
 
       _init_fail_code=3
+
       if [[ $status -eq $_init_fail_code ]]; then
-          echo "pre-commit init plugins failed!!, please retry it again!!!"
+          echo "pre-commit init plugins failed!! Please retry it again!!!"
           exit 1
       fi
 
       if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-          exit $status # fail the job with status holding exit code
+          exit $status # Fail the job with status holding exit code
       fi
     - !reference [.make_changes, script]
 
@@ -195,20 +196,21 @@
       set -x
 
       build_extra=(--workspace-folder .)
+
       if [ -n "$SUB_FOLDER" ]; then
-          build_extra+=(--config $SUB_FOLDER)
+          build_extra+=(--config "$SUB_FOLDER")
       fi
 
       if [ -n "$IMAGE_NAME" ]; then
-          build_extra+=(--image-name $IMAGE_NAME)
+          build_extra+=(--image-name "$IMAGE_NAME")
       fi
 
       if [ -n "$PUSH" ]; then
-          build_extra+=($build_extra --push)
+          build_extra+=(--push)
       fi
 
       if [ -n "$PLATFORM" ]; then
-          build_extra+=(--platform $PLATFORM)
+          build_extra+=(--platform "$PLATFORM")
       fi
 
       # build image by devcontainer
@@ -245,6 +247,7 @@
         npm get registry
       fi
 
+      echo "Install semantic release plugins..." >> /dev/stderr
       npm install -g semantic-release \
         @semantic-release/release-notes-generator \
         @semantic-release/gitlab $RELEASE_EXTRA_PLUGINS
@@ -252,7 +255,6 @@
     - |
       if [[ -n "$USING_PRESET_RELEASERC" ]]; then
         echo "Generating preset releaserc $_PRESET_RELEASERC_FILE..."
-
       cat >"$_PRESET_RELEASERC_FILE"<<EOF
       {
           "branches":[
@@ -273,7 +275,6 @@
           ]
       }
       EOF
-
       fi
 
       echo "Local tags:" >> /dev/stderr
@@ -285,12 +286,12 @@
 
       echo "Detect conflicting release and delete the existing tag and release if possible"
       if [[ -n "$OVERRIDE_RELEASE" ]]; then
-        _sr_log=$(semantic-release -d --ci)
-        _verify_version=$(echo "$_sr_log" | grep -oP "(?<=Skip ).+(?= tag creation in dry-run mode)") || true
+        _dry_run_output=$(semantic-release -d --ci)
+        _verify_version=$(echo "$_dry_run_output" | grep -oP "(?<=Skip ).+(?= tag creation in dry-run mode)") || true
         if [[ $(git tag -l) =~ (^|[[:space:]])"$_verify_version"($|[[:space:]]) ]]; then
             echo "Found and delete conflicting tag $_verify_version"
-            git push origin :refs/tags/$_verify_version || true
-            git tag -d $_verify_version
+            git push origin :refs/tags/"$_verify_version" || true
+            git tag -d "$_verify_version"
 
             echo "Delete release if possible"
             curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
@@ -298,7 +299,6 @@
         else
             echo "No conflicting release found"
         fi
-
       fi
 
       if [[ -z "$SEMANTIC_RELEASE_OPTIONS" ]]; then
@@ -309,6 +309,6 @@
       fi
   after_script:
     - |
-      if [[ -n "$USING_PRESET_RELEASERC" ]] && [[ -f "$_PRESET_RELEASERC_FILE" ]]; then
+      [[ -n "$USING_PRESET_RELEASERC" && -f "$_PRESET_RELEASERC_FILE" ]] && rm -f "$_PRESET_RELEASERC_FILE"
         rm "$_PRESET_RELEASERC_FILE"
       fi
