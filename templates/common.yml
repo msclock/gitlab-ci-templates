@@ -302,13 +302,17 @@
       fi
 
       if [[ -z "$SEMANTIC_RELEASE_OPTIONS" ]]; then
-        semantic-release
+        _release_output=$(semantic-release)
       else
         echo "Be careful!! CLI arguments take precedence over options configured in the configuration file"
-        semantic-release "$SEMANTIC_RELEASE_OPTIONS"
+        _release_output=$(semantic-release "$SEMANTIC_RELEASE_OPTIONS")
       fi
+      echo -e "Semantic Release Output:\n$_release_output"
+      new_release_version=$(echo "$_release_output" | grep -oP "(?<=Published release ).+(?= on)")
+      echo "new_release_version=$new_release_version" >> semantic.env
   after_script:
     - |
       [[ -n "$USING_PRESET_RELEASERC" && -f "$_PRESET_RELEASERC_FILE" ]] && rm -f "$_PRESET_RELEASERC_FILE"
-        rm "$_PRESET_RELEASERC_FILE"
-      fi
+  artifacts:
+    reports:
+      dotenv: semantic.env
