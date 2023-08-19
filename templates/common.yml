@@ -212,7 +212,7 @@
       fi
 
       # build image by devcontainer
-      devcontainer build $build_extra
+      devcontainer build "${build_extra[@]}"
 
 # @Description template of the base image of act
 .act:
