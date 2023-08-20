@@ -47,7 +47,7 @@ runs:
         # prepare changed images
         cd ${{ inputs.path }}
         echo '${{ steps.paths-filter.outputs.images_files }}' > images_files.json
-        cat images_files.json |  jq --raw-output | awk -F'/' '{print $2}' | jq -R -s -c 'split("\n")' | jq -c 'map(select(length > 0))' > changed_images_images.json
+        cat images_files.json | jq --raw-output | awk -F'/' '{print $2}' | jq -R -s -c 'split("\n")' | jq -c 'map(select(length > 0))' > changed_images_images.json
         jq -sc '.[0] + .[1] | unique' changed_images_images.json > changed_images.json
         changed_images=$(cat changed_images.json)
 
