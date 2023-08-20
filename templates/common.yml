@@ -372,19 +372,16 @@
         echo "$expose_key='${content//$'\n'/\\n}'" >> filter.env
       }
 
-      echo "all_changes_output: $all_changes_output"
+      echo -e "all_changes_output:\n$all_changes_output"
       echo "raw_all_changes_output='${all_changes_output//$'\n'/\\n}'" > filter.env
       expose "all_changes_output" "$all_changes_output"
 
       keys=$(echo "$FILTERS" | jq -r "keys[]")
       for category in $keys; do
-        values=$(echo "$FILTERS" | jq -r ".$category")
-        # echo -e "values: ${values}"
-        readarray -t _values <<< "$(echo -e "$values" | jq -r ".[]")"
-        # echo -e "_values: ${_values[@]}"
+        readarray -t patterns <<< "$(echo -e "$FILTERS" | jq -r ".$category[]")"
+        echo -e "patterns from $category:${patterns[@]}"
         changes=""
-        for pattern in "${_values[@]}"; do
-          # echo -e "pattern: $pattern"
+        for pattern in "${patterns[@]}"; do
           filtered=""
           while IFS= read -r line; do
             filename=$(echo "$line" | awk '{print $2}')
@@ -396,6 +393,7 @@
           changes+="$filtered"
         done
 
+        echo -e "changes from $category:\n$changes"
         expose "$category" "$changes"
       done
   artifacts:
