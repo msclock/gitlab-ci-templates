@@ -317,6 +317,7 @@
     reports:
       dotenv: semantic.env
 
+# @Description template for path changes based on git subcommand diff
 .path-filter:
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   variables:
@@ -354,22 +355,27 @@
         all_changes_output=$(git diff --no-renames --name-status HEAD)
       fi
 
-      # expose to dotenv artifact
+      # Expose to dotenv artifact
       function expose() {
         expose_key=$1
-        content=$(echo -e "$2" | tr -s '\n')
+        content=${2%'\n'} # trim the newline
 
-        if [ "$LIST_FILES" = "csv" ]; then
-          content=$(echo -e "$content" | awk '{print "\""$2"\""}'| paste -sd ",")
-        elif [ "$LIST_FILES" = "json" ]; then
-          content=$(echo -e "$content" | awk '{print $2}' | jq -R . | jq -s .)
-        elif [ "$LIST_FILES" = "shell" ]; then
-          content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}")
-        elif [ "$LIST_FILES" = "escape" ]; then
-          content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}" | sed 's/[^a-zA-Z0-9,._+:@%/-]/\\&/g')
-        fi
+        case "$LIST_FILES" in
+          csv)
+            content=$(echo -e "$content" | awk '{print "\""$2"\""}'| paste -sd ",")
+            ;;
+          json)
+            content=$(echo -e "$content" | awk '{print $2}' | jq -R . | jq -s .)
+            ;;
+          shell)
+            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}")
+            ;;
+          escape)
+            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}" | sed 's/[^a-zA-Z0-9,._+:@%/-]/\\&/g')
+            ;;
+        esac
 
-        echo "$expose_key='${content//$'\n'/\\n}'" >> filter.env
+        echo "$expose_key='${content//$'\n'/\\n}'" >> filter.env # escape new line into dotenv
       }
 
       echo -e "all_changes_output:\n$all_changes_output"
@@ -377,21 +383,24 @@
       expose "all_changes_output" "$all_changes_output"
 
       keys=$(echo "$FILTERS" | jq -r "keys[]")
+      declare -A patterns_map
       for category in $keys; do
-        readarray -t patterns <<< "$(echo -e "$FILTERS" | jq -r ".$category[]")"
-        echo -e "patterns from $category:${patterns[@]}"
-        changes=""
-        for pattern in "${patterns[@]}"; do
-          filtered=""
-          while IFS= read -r line; do
-            filename=$(echo "$line" | awk '{print $2}')
-            if echo "$filename" | grep -Pq "$pattern"; then
-              filtered+="$line\n"
-            fi
-          done <<< "$all_changes_output"
+        patterns_map["$category"]=$(echo -e "$FILTERS" | jq -r ".$category[]")
+      done
 
-          changes+="$filtered"
-        done
+      for category in "${!patterns_map[@]}"; do
+        patterns="${patterns_map[$category]}"
+        echo -e "patterns from $category:\n${patterns[@]}"
+        changes=""
+        while IFS= read -r line; do
+          filename=$(echo "$line" | awk '{print $2}')
+          for pattern in $patterns; do
+            if echo "$filename" | grep -Pq "$pattern"; then
+              changes+="$line\n"
+              break
+            fi
+          done
+        done <<< "$all_changes_output"
 
         echo -e "changes from $category:\n$changes"
         expose "$category" "$changes"
