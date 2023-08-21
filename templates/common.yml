@@ -308,7 +308,7 @@
         _release_output=$(semantic-release "$SEMANTIC_RELEASE_OPTIONS")
       fi
       echo -e "Semantic Release Output:\n$_release_output"
-      new_release_version=$(echo "$_release_output" | grep -oP "(?<=Published release ).+(?= on)")
+      new_release_version=$(echo "$_release_output" | grep -oP "(?<=Published release ).+(?= on)") || true
       echo "new_release_version=$new_release_version" >> semantic.env
   after_script:
     - |
