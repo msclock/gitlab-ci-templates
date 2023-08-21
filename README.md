@@ -263,12 +263,6 @@ stages:
 include:
   - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
 
-# @Description release with semantic-release
-release:
-  stage: release
-  extends:
-    - .release
-
 detect:
   extends:
     - .path-filter
