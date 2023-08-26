@@ -278,10 +278,13 @@
       EOF
       fi
 
-      echo "Local tags:" >> /dev/stderr
-      git tag -l
-      echo "Remote tags:" >> /dev/stderr
-      git ls-remote --tags origin
+      if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
+        echo "Local tags:" >> /dev/stderr
+        git tag -l
+        echo "Remote tags:" >> /dev/stderr
+        git ls-remote --tags origin
+      fi
+
       echo "Delete the local tags that no longer exist on the remote repository" >> /dev/stderr
       git fetch origin --prune-tags
 
