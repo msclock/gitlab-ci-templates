@@ -148,7 +148,7 @@
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   cache:
-    key: $CI_COMMIT_REF_SLUG
+    key: ${CI_COMMIT_REF_SLUG}-pre-commit-cache
     paths:
       - $PRE_COMMIT_HOME
   script:
@@ -445,3 +445,7 @@
   artifacts:
     paths:
       - public/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-pages-pip-cache
+    paths:
+      - $PIP_CACHE_DIR
