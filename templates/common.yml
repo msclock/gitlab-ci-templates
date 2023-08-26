@@ -14,8 +14,8 @@
         git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
     fi
 
-    git config --global user.name "GitLab Ci"
-    git config --global user.email "gitlab-ci@no-reply.com"
+    git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
+    git config --global user.email ${CI_USER_EMAIL:-noreply+gitlab-ci[bot]@${CI_SERVER_HOST}}
     git config --global lfs.locksverify true
 
 # @Description make changes on codebase
