@@ -1,6 +1,7 @@
 stages:
   - lint
   - release
+  - deploy
 
 include:
   - local: /templates/common.yml
@@ -23,3 +24,16 @@ release:
     - .release
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
+
+# @Description deploy with mkdocs
+pages:
+  stage: deploy
+  extends:
+    - .proxy_backend
+    - .pages-mkdocs
+  variables:
+    CLASH_PROXY_SUB: $PROXY_SUB
+    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

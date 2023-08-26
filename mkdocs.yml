@@ -1,0 +1,98 @@
+# Project information
+site_name: GitLab CI Templates
+site_url: https://msclock.gitlab.io/gitlab-ci-templates/
+site_author: msclock
+site_description: >-
+  Archive common template based on the gitlab CI
+
+# Repository
+repo_name: gitlab-ci-tempaltes
+repo_url: https://gitlab.com/msclock/gitlab-ci-templates
+
+# Copyright
+copyright: Copyright &copy; 2023 Msclock
+
+theme:
+  name: material
+
+  features:
+    - navigation.top
+    - navigation.path
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - navigation.footer
+    - navigation.instant
+    - navigation.indexes
+    - toc.follow
+    - content.tooltips
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: (prefers-color-scheme)
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  languages: en
+
+  icon:
+    logo: fontawesome/brands/gitlab
+    repo: fontawesome/brands/gitlab
+
+extra:
+  version:
+    provider: mike
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - abbr
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      check_paths: true
+      auto_append:
+        - docs/includes/abbreviations.md
+
+nav:
+  - Overview: index.md
+  - Available Templates:
+      - proxy-backend: proxy_backend.md
+      - make_changes: make_changes.md
+      - pre-commit: pre-commit.md
+      - devcontainer: devcontainer.md
+      - act: act.md
+      - semantic-release: semantic-release.md
+      - path-filter: path-filter.md
+      - pages-mkdocs: pages-mkdocs.md
