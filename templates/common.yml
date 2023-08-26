@@ -409,3 +409,36 @@
   artifacts:
     reports:
       dotenv: filter.env
+
+# @Description template for deploy mkdocs
+.pages-mkdocs:
+  stage: deploy
+  variables:
+    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+    PAGES_BRANCH: gl-pages
+    VRESION_DOCS: ''
+    MKDOCS_EXTRA_PLUGINS: ''
+  image: python:3.8-bullseye
+  script:
+    - !reference [.security_check_sensible, script]
+    - !reference [.security_git_config, script]
+    - |
+      echo "Install mkdocs plugins: mkdocs ${MKDOCS_EXTRA_PLUGINS}" >> /dev/stderr
+      pip install mkdocs ${MKDOCS_EXTRA_PLUGINS}
+
+      if [[ -n "$VRESION_DOCS" ]]; then
+        pip install mike
+
+        git fetch origin $PAGES_BRANCH
+        git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || echo "Pages branch not deployed yet."
+        git checkout $CI_COMMIT_SHA
+
+        mike deploy --rebase --prefix public -p -b $PAGES_BRANCH -u $CI_COMMIT_TAG latest
+        mike set-default --rebase --prefix public -p -b $PAGES_BRANCH latest
+        git checkout $PAGES_BRANCH -- public/
+      else
+        mkdocs build --site-dir public
+      fi
+  artifacts:
+    paths:
+      - public/
