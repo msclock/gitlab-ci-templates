@@ -16,6 +16,7 @@
 
     git config --global user.name "GitLab Ci"
     git config --global user.email "gitlab-ci@no-reply.com"
+    git config --global lfs.locksverify true
 
 # @Description make changes on codebase
 .make_changes:
