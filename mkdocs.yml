@@ -4,6 +4,7 @@ site_url: https://msclock.gitlab.io/gitlab-ci-templates/
 site_author: msclock
 site_description: >-
   Archive common template based on the gitlab CI
+edit_uri: edit/main/docs/
 
 # Repository
 repo_name: gitlab-ci-tempaltes
