@@ -33,7 +33,6 @@ pages:
     - .pages-mkdocs
   variables:
     CLASH_PROXY_SUB: $PROXY_SUB
-    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
