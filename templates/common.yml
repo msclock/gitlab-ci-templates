@@ -24,11 +24,17 @@
     MAKE_CHANGES_MSG: ''
     MAKE_CHANGES_ON_PR: ''
     MAKE_CHANGES_EXIT: ''
+    DETECT_CHANGES_ADD: 1
   script:
     - !reference [.security_check_sensible, script]
     - !reference [.security_git_config, script]
     - |
-      if [[ -n "$(git status -s)" ]]; then
+      _detect_pattern='[^?]'
+      if [[ $DETECT_CHANGES_ADD =~ ^(1|true)$ ]]; then
+        _detect_pattern='.'
+      fi
+
+      if [[ -n "$(git status -s | grep -E "^"$_detect_pattern"+$")" ]]; then
 
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
             temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
@@ -146,6 +152,7 @@
     MAKE_CHANGES_MSG: 'ci: auto fixes from pre-commit'
     MAKE_CHANGES_EXIT: '1'
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
+    DETECT_CHANGES_ADD: 0
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   cache:
     key: ${CI_COMMIT_REF_SLUG}-pre-commit-cache
