@@ -2,6 +2,9 @@
 
 Deploy the mkdocs documentation to gitlab pages.
 
+!!! info
+    [MkDocs](https://www.mkdocs.org/) is a fast, simple and downright gorgeous static site generator that's geared towards building project documentation.
+
 ## Usage
 
 Simply include the template in your `.gitlab-ci.yaml` configuration as below.

@@ -97,3 +97,4 @@ nav:
       - semantic-release: semantic-release.md
       - path-filter: path-filter.md
       - pages-mkdocs: pages-mkdocs.md
+      - count-code: count-code.md

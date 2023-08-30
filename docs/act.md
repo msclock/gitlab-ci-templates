@@ -80,4 +80,4 @@ EOF
 
 ## Configuration
 
-To run act, no configuration is required at the moment.
+No configuration is required at the moment.

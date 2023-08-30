@@ -456,3 +456,27 @@
     key: ${CI_COMMIT_REF_SLUG}-pages-pip-cache
     paths:
       - $PIP_CACHE_DIR
+
+# @Description using cloc to count lines of code. Artifact is JSON file
+# with results (code/comments by language). Also converts JSON
+# file to metrics report with LOC by language.
+.count-code:
+  image: alpine:latest
+  stage: test
+  script:
+    - |
+      apk add --no-cache cloc jq
+      cloc --version
+    - cloc --json --report-file=code-count.json --not-match-f=package-lock.json .
+  after_script:
+    # Create metrics report for code metrics as well as release artifacts.
+    # Get keys from JSON, format as "sloc{key} code", and remove the sum and header lines.
+    - >
+      cat code-count.json |
+      jq -r 'keys[] as $k | "sloc{language=\"\($k)\"} \(.[$k] | .code)"' |
+      sed '/^.*{language="\(SUM\|header\)"}.*$/d' > metrics.txt
+  artifacts:
+    paths:
+      - code-count.json
+    reports:
+      metrics: metrics.txt

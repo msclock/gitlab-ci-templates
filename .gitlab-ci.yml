@@ -1,5 +1,6 @@
 stages:
   - lint
+  - test
   - release
   - deploy
 
@@ -15,6 +16,15 @@ pre-commit:
   variables:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'false'
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
+    CLASH_PROXY_SUB: $PROXY_SUB
+
+# @Description count codes
+count_code:
+  stage: test
+  extends:
+    - .count-code
+    - .proxy_backend
+  variables:
     CLASH_PROXY_SUB: $PROXY_SUB
 
 # @Description release with semantic-release
