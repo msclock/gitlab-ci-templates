@@ -1,6 +1,6 @@
 .security_check_sensible:
   script: |
-    if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
+    if [ "$CI_DEBUG_TRACE" = "1" ] || [ "$CI_DEBUG_TRACE" = "true" ]; then
         echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
         set -x
     fi
