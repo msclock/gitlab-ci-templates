@@ -1,10 +1,8 @@
-stages:
-  - lint
-  - test
-  - release
-  - deploy
-
 include:
+  - project: msclock/gitlab-ci-utils-templates
+    ref: master
+    file:
+      - /collections/All-Projects-General.gitlab-ci.yml
   - local: /templates/common.yml
 
 # @Description lint codebase with pre-commit
@@ -18,11 +16,9 @@ pre-commit:
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
     CLASH_PROXY_SUB: $PROXY_SUB
 
-# @Description count codes
-count_code:
-  stage: test
+# @Description count codebase
+code_count:
   extends:
-    - .count-code
     - .proxy_backend
   variables:
     CLASH_PROXY_SUB: $PROXY_SUB
