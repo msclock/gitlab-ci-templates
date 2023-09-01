@@ -110,7 +110,7 @@ Attach assets to the release created by semantic-release can refer to the follow
 ```yaml
 attach-to-release:
   stage: release
-  image: msclock/semantic-release:2023-08-17T08-27-38Z
+  image: curlimages/curl:latest
   variables:
     ARTIFACT_PATH: xxx.tar.gz
   script:
@@ -134,6 +134,6 @@ attach-to-release:
     - tags
 ```
 
-Also, [release-cli](https://docs.gitlab.com/ee/user/project/releases/release_cli.html) from gitlab can be used to update the release.
+Also, [release-cli](https://docs.gitlab.com/ee/user/project/releases/release_cli.html) from gitlab can be used to update the release that is used by the [example](https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-assets-as-generic-package/).
 
 [^1]: Default plugins include semantic-release, @semantic-release/commit-analyzer, @semantic-release/release-notes-generator, @semantic-release/release-notes-generator, and @semantic-release/gitlab.
