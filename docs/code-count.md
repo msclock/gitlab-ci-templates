@@ -1,4 +1,4 @@
-# count_code
+# code-count
 
 Using cloc counts the number of lines of code.
 
@@ -7,20 +7,15 @@ Using cloc counts the number of lines of code.
 
 ## Usage
 
-Include the template in your `.gitlab-ci.yaml` configuration as below.
+**Code Count** is from the repository [gitlab-ci-utils-templates](https://gitlab.com/msclock/gitlab-ci-utils-templates).
 
 ```yaml
-stages:
-  - test
-
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
-
-# @Description count codes
-count_code:
-  stage: test
-  extends:
-    - .count-code
+  - project: msclock/gitlab-ci-utils-templates
+    ref: master
+    file:
+      - /templates/Stages.gitlab-ci.yml
+      - /jobs/Code-Count.gitlab-ci.yml
 ```
 
 ## Configuration
