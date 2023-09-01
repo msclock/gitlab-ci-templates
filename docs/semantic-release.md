@@ -2,7 +2,8 @@
 
 Fully automated version management and package publishing on ci.
 
-Semantic-release is a tool that automates the release process for software projects. It follows the principles of semantic versioning to determine the appropriate version number for each release based on the changes made to the codebase. This tool analyzes the commit history, detects the types of changes (e.g., bug fixes, new features, breaking changes), and automatically increments the version number accordingly. It also generates release notes based on the commit messages and publishes the release to the appropriate package registry or distribution channel. By automating the release process, semantic-release helps to ensure consistent versioning and eliminates the need for manual intervention, making it easier to maintain and distribute software projects.
+!!! info "semantic-release"
+    [semantic-release](https://github.com/semantic-release/semantic-release) is a tool that automates the release process for software projects. It follows the principles of semantic versioning to determine the appropriate version number for each release based on the changes made to the codebase. This tool analyzes the commit history, detects the types of changes (e.g., bug fixes, new features, breaking changes), and automatically increments the version number accordingly. It also generates release notes based on the commit messages and publishes the release to the appropriate package registry or distribution channel. By automating the release process, semantic-release helps to ensure consistent versioning and eliminates the need for manual intervention, making it easier to maintain and distribute software projects.
 
 ## Usage
 
@@ -81,6 +82,8 @@ release:
 EOF
 ```
 
+## Configuration
+
 The available configuration variables can be set as CI/CD variables:
 
 | Variable Name             | Description                                                                            | Default          |
@@ -94,6 +97,43 @@ The available configuration variables can be set as CI/CD variables:
 | GITLAB_URL                | Specifies the gitlab instance.                                                         | '$CI_SERVER_URL' |
 
 !!! note "Note"
-    Preset releaserc is configured to run on the branch CI_DEFAULT_BRANCH for release, the named branch `alpha` or `beta` for pre-release.
+    Preset releaserc is configured to run on the default branch CI_DEFAULT_BRANCH for release, the named branch `alpha` or `beta` for pre-release.
 
-[^1]: Default plugins include semantic-release, @semantic-release/release-notes-generator, @semantic-release/gitlab, and @semantic-release/changelog.
+## Release workflow
+
+### No Changes on repository
+
+This is the preset releaserc with the .release template including the default plugins[^1], so no changes are made to the repository. What needs to be done is to write the steps on the tag created and attach assets to the release created by semantic-release.
+
+Attach assets to the release created by semantic-release can refer to the following:
+
+```yaml
+attach-to-release:
+  stage: release
+  image: msclock/semantic-release:2023-08-17T08-27-38Z
+  variables:
+    ARTIFACT_PATH: xxx.tar.gz
+  script:
+    - |
+      RELEASE_ID=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
+                    "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases?tag_name=$CI_COMMIT_TAG" | \
+                    jq -r '.[0].id')
+
+      ASSET_LINK=$(curl --header 'Content-Type: application/json' \
+                    --request PUT --data "{\"milestones\": [\"$CI_COMMIT_TAG\"]}" \
+                    --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
+                    --form "file=@$ARTIFACT_PATH" \
+                    "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$RELEASE_ID/assets/links" | \
+                    jq -r '.markdown')
+
+      echo "Add asset $ARTIFACT_PATH with a attachment link $ASSET_LINK to $RELEASE_ID"
+  artifacts:
+    paths:
+      - $ARTIFACT_PATH
+  only:
+    - tags
+```
+
+Also, [release-cli](https://docs.gitlab.com/ee/user/project/releases/release_cli.html) from gitlab can be used to update the release.
+
+[^1]: Default plugins include semantic-release, @semantic-release/commit-analyzer, @semantic-release/release-notes-generator, @semantic-release/release-notes-generator, and @semantic-release/gitlab.
