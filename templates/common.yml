@@ -48,7 +48,7 @@
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
             git push origin "$temp_branch"
             curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-                --request POST "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/merge_requests" \
+                --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests" \
                 --form "source_branch=$temp_branch" \
                 --form "target_branch=$CI_COMMIT_REF_NAME" \
                 --form "title=PR from $temp_branch"
@@ -308,7 +308,7 @@
 
             echo "Delete release if possible"
             curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-                --request DELETE "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/releases/$_verify_version" || true
+                --request DELETE "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$_verify_version" || true
         else
             echo "No conflicting release found"
         fi
