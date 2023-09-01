@@ -24,12 +24,18 @@ code_count:
     CLASH_PROXY_SUB: $PROXY_SUB
 
 # @Description release with semantic-release
-release:
+semantic-release:
   stage: release
   extends:
     - .release
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
+    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git'
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /^(chore\(release\))/
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
 
 # @Description deploy with mkdocs
 pages:
