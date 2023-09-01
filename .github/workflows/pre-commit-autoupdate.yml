@@ -1,5 +1,6 @@
 # Auto-update pre-commit
 name: pre-commit update
+
 on:
   # on demand
   workflow_dispatch:

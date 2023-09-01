@@ -26,17 +26,14 @@ on:
         default: true
 
   push:
-    branches:
-      - main
-
   pull_request:
-    branches:
-      - main
+
 
 jobs:
 
   pre-commit:
     runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
 
     steps:
       - name: Checkout repository

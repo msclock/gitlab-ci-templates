@@ -2,13 +2,12 @@ name: mirror to gitlab
 
 on:
   push:
-    branches:
-      - main
 
 jobs:
 
   gitlab:
     runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
     name: mirror to gitlab
 
     steps:
