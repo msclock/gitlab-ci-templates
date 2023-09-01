@@ -234,10 +234,7 @@
 .release:
   image: msclock/semantic-release:2023-08-17T08-27-38Z
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # for prerelease on beta or alpha
-    - if: $CI_COMMIT_REF_NAME == "beta"
-    - if: $CI_COMMIT_REF_NAME == "alpha"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
   variables:
     RELEASE_EXTRA_PLUGINS: ''
     OVERRIDE_RELEASE: ''
