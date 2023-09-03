@@ -15,6 +15,10 @@ pre-commit:
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'false'
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
     CLASH_PROXY_SUB: $PROXY_SUB
+  cache:
+    key: pre-commit-cache
+    paths:
+      - $PRE_COMMIT_HOME
 
 # @Description count codebase
 code_count:
