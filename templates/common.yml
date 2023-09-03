@@ -427,7 +427,7 @@
     PAGES_BRANCH: gl-pages
     VRESION_DOCS: ''
     MKDOCS_EXTRA_PLUGINS: ''
-  image: python:3.8-bullseye
+  image: python:3.11-bullseye
   script:
     - !reference [.security_check_sensible, script]
     - !reference [.security_git_config, script]
