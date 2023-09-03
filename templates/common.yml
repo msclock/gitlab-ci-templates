@@ -176,10 +176,17 @@
           exit 0  # We're all good, pipeline can proceed
       fi
 
-      _init_fail_code=3
+      _init_fail_expectedly=1
 
-      if [[ $status -eq $_init_fail_code ]]; then
-          echo "pre-commit init plugins failed!! Please retry it again!!!"
+      if [[ $status -eq $_init_fail_expectedly ]]; then
+          echo "pre-commit init occurred failed expectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
+          exit 1
+      fi
+
+      _init_fail_unexpectedly=3
+
+      if [[ $status -eq $_init_fail_unexpectedly ]]; then
+          echo "pre-commit init occurred failed unexpectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
           exit 1
       fi
 
