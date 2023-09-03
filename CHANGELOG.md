@@ -1,3 +1,10 @@
+## [1.6.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.1...v1.6.2) (2023-09-03)
+
+
+### Performance Improvements
+
+* add expected codes on pre-commit ([b0ddae5](https://gitlab.com/msclock/gitlab-ci-templates/commit/b0ddae5f488b779dfde35c9a248b05084310c33e))
+
 ## [1.6.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.0...v1.6.1) (2023-09-01)
 
 
