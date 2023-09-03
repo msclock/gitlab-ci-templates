@@ -11,7 +11,7 @@ stages:
   - test
 
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
 
 detect:
   extends:
@@ -34,8 +34,8 @@ downstream_job:
     - detect
   stage: test
   script:
-    - echo "raw_all_changes_output"
-    - echo "all_changes_output"
+    - echo "$raw_all_changes_output"
+    - echo "$all_changes_output"
     - echo "$images"
     - echo "$templates"
 ```

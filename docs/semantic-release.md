@@ -14,7 +14,7 @@ stages:
   - release
 
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
 
 # @Description release with semantic-release
 release:
@@ -69,7 +69,7 @@ stages:
   - release
 
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
 
 # @Description release with semantic-release
 release:

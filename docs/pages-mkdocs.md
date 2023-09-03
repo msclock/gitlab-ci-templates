@@ -14,7 +14,7 @@ stages:
   - test
 
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/templates/common.yml"
+  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
 
 # @Description deploy with mkdocs
 # This is the current project configuration for mkdocs
