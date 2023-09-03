@@ -1,3 +1,10 @@
+## [1.6.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.3...v1.6.4) (2023-09-03)
+
+
+### Performance Improvements
+
+* global cache set ([6501a24](https://gitlab.com/msclock/gitlab-ci-templates/commit/6501a244717b2ae900d4defc61387bdd87fa17aa))
+
 ## [1.6.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.2...v1.6.3) (2023-09-03)
 
 
