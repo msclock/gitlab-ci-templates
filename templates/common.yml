@@ -158,7 +158,7 @@
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
   image: msclock/pre-commit:2023-08-10T09-27-52Z@sha256:c83ef93c05af976279d1cf23b362d562217a62b5d550be09ed7785f76195ef41
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-pre-commit-cache
+    key: pre-commit-cache
     paths:
       - $PRE_COMMIT_HOME
   script:
@@ -463,6 +463,6 @@
     paths:
       - public/
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-pages-pip-cache
+    key: pages-pip-cache
     paths:
       - $PIP_CACHE_DIR
