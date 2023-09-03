@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  "prHourlyLimit": 0,
+  "ignorePresets": [
+    ":dependencyDashboard",
+    ":prHourlyLimit2"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "description": "Pin digests only if they begin with a numbered version",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchCurrentVersion": "/^v?[0-9.]+/",
+      "pinDigests": true
+    },
+    {
+      "matchPackagePatterns": [
+        "eslint"
+      ],
+      "labels": [
+        "linting"
+      ]
+    },
+    {
+      "matchDepTypes": [
+        "optionalDependencies"
+      ],
+      "addLabels": [
+        "optional"
+      ]
+    }
+  ],
+  "timezone": "Asia/Shanghai"
+}
