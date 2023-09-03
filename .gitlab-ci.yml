@@ -23,6 +23,18 @@ code_count:
   variables:
     CLASH_PROXY_SUB: $PROXY_SUB
 
+# @Description deploy with mkdocs
+pages:
+  stage: deploy
+  extends:
+    - .proxy_backend
+    - .pages-mkdocs
+  variables:
+    CLASH_PROXY_SUB: $PROXY_SUB
+    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 # @Description release with semantic-release
 semantic-release:
   stage: release
@@ -34,17 +46,4 @@ semantic-release:
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /^(chore\(release\))/
       when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-
-# @Description deploy with mkdocs
-pages:
-  stage: deploy
-  extends:
-    - .proxy_backend
-    - .pages-mkdocs
-  variables:
-    CLASH_PROXY_SUB: $PROXY_SUB
-    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
-  rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
