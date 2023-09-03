@@ -155,6 +155,7 @@
     MAKE_CHANGES_EXIT: '1'
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
+    _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
   image: msclock/pre-commit:2023-08-10T09-27-52Z
   cache:
     key: ${CI_COMMIT_REF_SLUG}-pre-commit-cache
@@ -170,17 +171,20 @@
 
       status=0
 
-      pre-commit run --all-files || status=$?
+      if [[ -d "$PRE_COMMIT_HOME" ]]; then
+          echo "Found cache at $PRE_COMMIT_HOME for pre-commit and move it to $_REAL_PRE_COMMIT_HOME"
+          if [[ ! -d "$_REAL_PRE_COMMIT_HOME" ]]; then
+              mkdir -p $_REAL_PRE_COMMIT_HOME
+          fi
+          mv $PRE_COMMIT_HOME/* $_REAL_PRE_COMMIT_HOME
+      fi
+
+      PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run --all-files || status=$?
+      mkdir -p $PRE_COMMIT_HOME
+      mv $_REAL_PRE_COMMIT_HOME/* $PRE_COMMIT_HOME
 
       if [[ $status -eq 0 ]]; then
           exit 0  # We're all good, pipeline can proceed
-      fi
-
-      _init_fail_expectedly=1
-
-      if [[ $status -eq $_init_fail_expectedly ]]; then
-          echo "pre-commit init occurred failed expectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
-          exit 1
       fi
 
       _init_fail_unexpectedly=3
