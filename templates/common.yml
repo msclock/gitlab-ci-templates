@@ -71,7 +71,7 @@
 # @Description proxy backend based on clash
 .proxy_backend:
   services:
-    - name: msclock/clash:2023-08-10T04-27-58Z
+    - name: msclock/clash:2023-08-10T04-27-58Z@sha256:e6ffc5eb6f112db344c83b354abccf1fb22768f38251b2415ddb883a54fac004
       alias: proxy_backend
       entrypoint:
         - ''
@@ -156,7 +156,7 @@
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
-  image: msclock/pre-commit:2023-08-10T09-27-52Z
+  image: msclock/pre-commit:2023-08-10T09-27-52Z@sha256:c83ef93c05af976279d1cf23b362d562217a62b5d550be09ed7785f76195ef41
   cache:
     key: ${CI_COMMIT_REF_SLUG}-pre-commit-cache
     paths:
@@ -201,7 +201,7 @@
 
 # @Description template of the base image of devcontainer
 .devcontainer:
-  image: msclock/devcontainer:2023-08-10T04-27-58Z
+  image: msclock/devcontainer:2023-08-10T04-27-58Z@sha256:c0c869ecd10d10908172562777493dc1959149f90d4445236116d91c5105416d
 
 # @Description devcontainer build
 .devcontainer::build:
@@ -239,11 +239,11 @@
 
 # @Description template of the base image of act
 .act:
-  image: msclock/act:2023-08-12T17-40-49Z
+  image: msclock/act:2023-08-12T17-40-49Z@sha256:85e72e3206ec7c36093dbf70403c32ed5c34d82f0da23468dff5e4b69e064ab9
 
 # @Description template for release publish
 .release:
-  image: msclock/semantic-release:2023-08-17T08-27-38Z
+  image: msclock/semantic-release:2023-08-17T08-27-38Z@sha256:56cb64988a590143997df1e47f1a4df22c3b3960f200aa7d0581adba8a1fde75
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
   variables:
@@ -340,7 +340,7 @@
 
 # @Description template for path changes based on git subcommand diff
 .path-filter:
-  image: msclock/pre-commit:2023-08-10T09-27-52Z
+  image: msclock/pre-commit:2023-08-10T09-27-52Z@sha256:c83ef93c05af976279d1cf23b362d562217a62b5d550be09ed7785f76195ef41
   variables:
     WORKING_DIRECTORY: .
     REF: ''
@@ -438,7 +438,7 @@
     PAGES_BRANCH: gl-pages
     VRESION_DOCS: ''
     MKDOCS_EXTRA_PLUGINS: ''
-  image: python:3.11-bullseye
+  image: python:3.11-bullseye@sha256:4463d71187d5a84367f8df9ebc29bec6db50ddd70864ee9f184ab63566772ff3
   script:
     - !reference [.security_check_sensible, script]
     - !reference [.security_git_config, script]
