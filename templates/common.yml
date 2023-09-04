@@ -156,7 +156,7 @@
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
-  image: msclock/pre-commit:2023-09-03T17-05-58Z
+  image: msclock/pre-commit:2023-09-03T17-05-58Z@sha256:0fe959535e22a15f101472c92a452ee12ede557f0a909d66b8dc43b4c0b3f62c
   cache:
     key: pre-commit-cache
     paths:
@@ -243,7 +243,7 @@
 
 # @Description template for release publish
 .release:
-  image: msclock/semantic-release:2023-09-03T17-05-58Z
+  image: msclock/semantic-release:2023-09-03T17-05-58Z@sha256:7ba76db6e63a3751abfadfc19d3f061b6fd8e1f41a0af33478c67027eaef5c57
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
   variables:
@@ -340,7 +340,7 @@
 
 # @Description template for path changes based on git subcommand diff
 .path-filter:
-  image: msclock/pre-commit:2023-09-03T17-05-58Z
+  image: msclock/pre-commit:2023-09-03T17-05-58Z@sha256:0fe959535e22a15f101472c92a452ee12ede557f0a909d66b8dc43b4c0b3f62c
   variables:
     WORKING_DIRECTORY: .
     REF: ''
