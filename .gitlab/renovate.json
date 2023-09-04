@@ -14,14 +14,6 @@
   ],
   "packageRules": [
     {
-      "description": "Pin digests only if they begin with a numbered version",
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchCurrentVersion": "/^v?[0-9.]+/",
-      "pinDigests": true
-    },
-    {
       "matchPackagePatterns": [
         "eslint"
       ],
