@@ -16,13 +16,6 @@ pre-commit:
     PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
     CLASH_PROXY_SUB: $PROXY_SUB
 
-# @Description count codebase
-code_count:
-  extends:
-    - .proxy_backend
-  variables:
-    CLASH_PROXY_SUB: $PROXY_SUB
-
 # @Description deploy with mkdocs
 pages:
   stage: deploy
