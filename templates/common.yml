@@ -251,9 +251,27 @@
     OVERRIDE_RELEASE: ''
     USING_PRESET_RELEASERC: ''
     _PRESET_RELEASERC_FILE: .releaserc
+    _PRESET_RELEASERC_CONFIG: |
+      {
+        "branches":[
+          "$CI_DEFAULT_BRANCH",
+          {
+            "name": "alpha",
+            "prerelease": true
+          },
+          {
+            "name": "beta",
+            "prerelease": true
+          }
+        ],
+        "plugins": [
+          "@semantic-release/commit-analyzer",
+          "@semantic-release/release-notes-generator",
+          "@semantic-release/gitlab"
+        ]
+      }
     NPM_SOURCE: ''
     SEMANTIC_RELEASE_OPTIONS: ''
-    # Env for plugin gitlab
     GITLAB_PREFIX: /api/v4
     GITLAB_URL: $CI_SERVER_URL
   script:
@@ -273,26 +291,7 @@
     - |
       if [[ -n "$USING_PRESET_RELEASERC" ]]; then
         echo "Generating preset releaserc $_PRESET_RELEASERC_FILE..."
-      cat >"$_PRESET_RELEASERC_FILE"<<EOF
-      {
-          "branches":[
-              "$CI_DEFAULT_BRANCH",
-              {
-                  "name": "alpha",
-                  "prerelease": true
-              },
-              {
-                  "name": "beta",
-                  "prerelease": true
-              }
-          ],
-          "plugins": [
-              "@semantic-release/commit-analyzer",
-              "@semantic-release/release-notes-generator",
-              "@semantic-release/gitlab"
-          ]
-      }
-      EOF
+        echo "$_PRESET_RELEASERC_CONFIG" > "$_PRESET_RELEASERC_FILE"
       fi
 
       if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
