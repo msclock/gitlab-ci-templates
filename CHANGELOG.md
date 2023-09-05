@@ -1,3 +1,10 @@
+## [1.6.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.4...v1.6.5) (2023-09-05)
+
+
+### Performance Improvements
+
+* improve stability with release ([8b3fe07](https://gitlab.com/msclock/gitlab-ci-templates/commit/8b3fe07a32938352e748bb0a7784f6fe38e209f6))
+
 ## [1.6.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.3...v1.6.4) (2023-09-03)
 
 
