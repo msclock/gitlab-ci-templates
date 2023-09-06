@@ -241,10 +241,6 @@
       # build image by devcontainer
       devcontainer build "${build_extra[@]}"
 
-# @Description template of the base image of act
-.act:
-  image: msclock/act:2023-08-12T17-40-49Z
-
 # @Description template for release publish
 .release:
   image: msclock/semantic-release:2023-09-06T11-42-09Z
