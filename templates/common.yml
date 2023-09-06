@@ -2,8 +2,8 @@
 .security_check_sensible:
   script: |
     if [ "$CI_DEBUG_TRACE" = "1" ] || [ "$CI_DEBUG_TRACE" = "true" ]; then
-        echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
-        set -x
+      echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
+      set -x
     fi
 
 # @Description configure git
@@ -11,9 +11,9 @@
   script: |
     # Prepare config for git
     if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
     elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-        git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
     fi
 
     git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
@@ -25,7 +25,7 @@
   variables:
     MAKE_CHANGES_MSG: ''
     MAKE_CHANGES_ON_PR: ''
-    MAKE_CHANGES_EXIT: ''
+    MAKE_CHANGES_FINISH: ''
     DETECT_CHANGES_ADD: 1
   script:
     - !reference [.security_check_sensible, script]
@@ -39,34 +39,38 @@
       if [[ -n "$(git status -s | grep -E "^"$_detect_pattern"+$")" ]]; then
 
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
-            temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
-            git checkout -B "$temp_branch" --
+          temp_branch=temp_black_${CI_COMMIT_SHA:0:12}
+          git checkout -B "$temp_branch" --
         fi
 
         git add -u .
         git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" -m "job url:$CI_JOB_URL"
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
-            git push origin "$temp_branch"
-            curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-                --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests" \
-                --form "source_branch=$temp_branch" \
-                --form "target_branch=$CI_COMMIT_REF_NAME" \
-                --form "title=PR from $temp_branch"
+          git push origin "$temp_branch"
+          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+            --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests" \
+            --form "source_branch=$temp_branch" \
+            --form "target_branch=$CI_COMMIT_REF_NAME" \
+            --form "title=PR from $temp_branch"
         elif [[ -n "$CI_COMMIT_BRANCH" ]]; then
-            git push origin HEAD:"$CI_COMMIT_BRANCH"
+          git push origin HEAD:"$CI_COMMIT_BRANCH"
         elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-            git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+          git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
         fi
       else
         echo "Working tree clean. Nothing to make changes.";
         exit 0
       fi
 
-      if [[ -z "$MAKE_CHANGES_EXIT" ]]; then
-          exit 0
-      else
-          exit 1
-      fi
+      case $MAKE_CHANGES_FINISH in
+        error) exit 1 ;;
+        skip)
+          echo "Finish with skip the current pipeline..."
+          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+            --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipelines/${CI_PIPELINE_ID}/cancel"
+          ;;
+        *) exit 0 ;;
+      esac
 
 # @Description proxy backend based on clash
 .proxy_backend:
@@ -152,7 +156,7 @@
     PRE_COMMIT_AUTO_FIX: '1'
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
     MAKE_CHANGES_MSG: 'ci: auto fixes from pre-commit'
-    MAKE_CHANGES_EXIT: '1'
+    MAKE_CHANGES_FINISH: error
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
@@ -165,18 +169,18 @@
     - !reference [.security_check_sensible, script]
     - |
       if [[ -n "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" && -n "$PRE_COMMIT_AUTO_FIX_MR_ONLY" ]]; then
-          echo "Invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
-          exit 1
+        echo "Invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+        exit 1
       fi
 
       status=0
 
       if [[ -d "$PRE_COMMIT_HOME" ]]; then
-          echo "Found cache at $PRE_COMMIT_HOME for pre-commit and move it to $_REAL_PRE_COMMIT_HOME"
-          if [[ ! -d "$_REAL_PRE_COMMIT_HOME" ]]; then
-              mkdir -p $_REAL_PRE_COMMIT_HOME
-          fi
-          mv $PRE_COMMIT_HOME/* $_REAL_PRE_COMMIT_HOME
+        echo "Found cache at $PRE_COMMIT_HOME for pre-commit and move it to $_REAL_PRE_COMMIT_HOME"
+        if [[ ! -d "$_REAL_PRE_COMMIT_HOME" ]]; then
+          mkdir -p $_REAL_PRE_COMMIT_HOME
+        fi
+        mv $PRE_COMMIT_HOME/* $_REAL_PRE_COMMIT_HOME
       fi
 
       PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run --all-files || status=$?
@@ -184,18 +188,18 @@
       mv $_REAL_PRE_COMMIT_HOME/* $PRE_COMMIT_HOME
 
       if [[ $status -eq 0 ]]; then
-          exit 0  # We're all good, pipeline can proceed
+        exit 0  # We're all good, pipeline can proceed
       fi
 
       _init_fail_unexpectedly=3
 
       if [[ $status -eq $_init_fail_unexpectedly ]]; then
-          echo "pre-commit init occurred failed unexpectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
-          exit 1
+        echo "pre-commit init occurred failed unexpectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
+        exit 1
       fi
 
       if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-          exit $status # Fail the job with status holding exit code
+        exit $status # Fail the job with status holding exit code
       fi
     - !reference [.make_changes, script]
 
@@ -219,19 +223,19 @@
       build_extra=(--workspace-folder .)
 
       if [ -n "$SUB_FOLDER" ]; then
-          build_extra+=(--config "$SUB_FOLDER")
+        build_extra+=(--config "$SUB_FOLDER")
       fi
 
       if [ -n "$IMAGE_NAME" ]; then
-          build_extra+=(--image-name "$IMAGE_NAME")
+        build_extra+=(--image-name "$IMAGE_NAME")
       fi
 
       if [ -n "$PUSH" ]; then
-          build_extra+=(--push)
+        build_extra+=(--push)
       fi
 
       if [ -n "$PLATFORM" ]; then
-          build_extra+=(--platform "$PLATFORM")
+        build_extra+=(--platform "$PLATFORM")
       fi
 
       # build image by devcontainer
@@ -309,15 +313,15 @@
         _dry_run_output=$(semantic-release -d --ci)
         _verify_version=$(echo "$_dry_run_output" | grep -oP "(?<=Skip ).+(?= tag creation in dry-run mode)") || true
         if [[ $(git tag -l) =~ (^|[[:space:]])"$_verify_version"($|[[:space:]]) ]]; then
-            echo "Found and delete conflicting tag $_verify_version"
-            git push origin :refs/tags/"$_verify_version" || true
-            git tag -d "$_verify_version"
+          echo "Found and delete conflicting tag $_verify_version"
+          git push origin :refs/tags/"$_verify_version" || true
+          git tag -d "$_verify_version"
 
-            echo "Delete release if possible"
-            curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-                --request DELETE "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$_verify_version" || true
+          echo "Delete release if possible"
+          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+              --request DELETE "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$_verify_version" || true
         else
-            echo "No conflicting release found"
+          echo "No conflicting release found"
         fi
       fi
 

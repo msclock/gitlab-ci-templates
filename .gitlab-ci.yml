@@ -12,8 +12,6 @@ pre-commit:
     - .pre_commit
     - .proxy_backend
   variables:
-    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'false'
-    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: 'true'
     CLASH_PROXY_SUB: $PROXY_SUB
 
 # @Description deploy with mkdocs
