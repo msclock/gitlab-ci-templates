@@ -151,6 +151,7 @@ jobs:
     needs:
       - find-images
       - prepare-matrix
+      - build-image
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -159,7 +160,7 @@ jobs:
       - name: Checkout (GitHub)
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_TOKEN  }}
           ref: ${{ github.head_ref }}
 
       - name: Pin image version
