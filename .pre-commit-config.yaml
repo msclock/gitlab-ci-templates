@@ -15,7 +15,8 @@
 fail_fast: false
 exclude: |
   (?x)(
-    ^(node_modules/.*)
+    ^(node_modules/.*) |
+    ^(CHANGELOG.md)
   )
 
 repos:
