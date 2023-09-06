@@ -1,3 +1,10 @@
+## [1.7.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.7.1...v1.7.2) (2023-09-06)
+
+
+### Performance Improvements
+
+* post the proxy sub validation ([c4dde07](https://gitlab.com/msclock/gitlab-ci-templates/commit/c4dde07a555a2df6ecd8fc40a3abf469234e4f33))
+
 ## [1.7.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.7.0...v1.7.1) (2023-09-06)
 
 
