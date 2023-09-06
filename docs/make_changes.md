@@ -17,10 +17,10 @@ make_changes_to_codebase:
   variables:
     MAKE_CHANGES_MSG: 'ci: automated commit changes from CI job'
     MAKE_CHANGES_ON_PR: '1'
-    MAKE_CHANGES_EXIT: ''
+    MAKE_CHANGES_FINISH: ''
   script:
     - |
-      echo "Below is the changes" > README.md
+      echo "Make changes" >> README.md
     - !reference [.make_changes, script]
 ```
 
@@ -28,8 +28,11 @@ make_changes_to_codebase:
 
 The available configuration variables can be set as CI/CD variables:
 
-| Variable Name      | Description                                                                                                                              | Default |
-|--------------------|------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| MAKE_CHANGES_MSG   | Allows customization of the commit message. This is **Required**.                                                                        |         |
-| MAKE_CHANGES_ON_PR | When set, creates a temporary branch and pushes the changes to it, along with creating a merge request for code review..                 |         |
-| MAKE_CHANGES_EXIT  | Controls the exit code of the CI job. If unset, the job will exit with a success code (0); if set, it will exit with a failure code (1). |         |
+| Variable Name       | Description                                                                                                             | Default |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------|---------|
+| MAKE_CHANGES_MSG    | Allows customization of the commit message. This is **Required**.                                                       |         |
+| MAKE_CHANGES_FINISH | Controls the exit behavior[^1] of the CI job.                                                                           |         |
+| MAKE_CHANGES_ON_PR  | When set, creates a temporary branch and pushes the changes to it, along with creating a merge request for code review. |         |
+| DETECT_CHANGES_ADD  | Controls if the added files are detected as changes.                                                                    | 1       |
+
+[^1]: `skip`: the current pipeline will be skipped. `error`: exits code 1. Leave blank to exits 0.
