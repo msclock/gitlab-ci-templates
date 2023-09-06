@@ -1,3 +1,21 @@
+# [1.7.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.5...v1.7.0) (2023-09-06)
+
+
+### Bug Fixes
+
+* add curl dep with make_changes ([486332a](https://gitlab.com/msclock/gitlab-ci-templates/commit/486332ab35cf30c4cdb87e3b923c74b2ac7a59a6))
+
+
+### Features
+
+* pin new image tag ([c72477d](https://gitlab.com/msclock/gitlab-ci-templates/commit/c72477d249bf8cb82297ae0b2967ea37e48a3317))
+
+
+### Performance Improvements
+
+* add options to finish make_changes ([da4dc67](https://gitlab.com/msclock/gitlab-ci-templates/commit/da4dc6730c681db67066b8df8469f3ea2c56d66f))
+* **deps:** update node.js to 8834432 ([bedb42f](https://gitlab.com/msclock/gitlab-ci-templates/commit/bedb42f21754ff061aa04291bca65b23e5c2d34f))
+
 ## [1.6.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.4...v1.6.5) (2023-09-05)
 
 
