@@ -1,3 +1,16 @@
+## [1.7.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.7.0...v1.7.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* history tag in ci created again ([fcf4ce1](https://gitlab.com/msclock/gitlab-ci-templates/commit/fcf4ce1884e9d35167faa5a61e34ed210db4f461))
+
+
+### Performance Improvements
+
+* change default topic on template pre-commit ([dc13a82](https://gitlab.com/msclock/gitlab-ci-templates/commit/dc13a829b593762fc79f3cdd1ebebd690642e1fb))
+* remove act template ([3fd436c](https://gitlab.com/msclock/gitlab-ci-templates/commit/3fd436c5e5abeb0cbaa41181f2b85f359dcea5c9))
+
 # [1.7.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.6.5...v1.7.0) (2023-09-06)
 
 
