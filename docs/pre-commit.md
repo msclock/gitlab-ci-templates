@@ -42,5 +42,10 @@ The available configuration variables can be set as CI/CD variables:
 
 By default, the template assumes that pipelines are being used for merge requests. If pipelines are not used for merge requests (branch pipelines only), unset `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and set `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
 
+## Practice
+
+!!! info
+    pre-commit is a powserful tool for checking code quality. But it is lack of reportibility and flexibility because of its plugin ecosystem that always depends on the capability of the plugin support. **So it is recommended to use plugins with a capability of fixible action**.
+
 [^1]: If an MR is open, the job will only run in the MR pipeline.This assumes the project is using [Merge request pipelines](https://gitlab.com/ee/ci/pipelines/merge_request_pipelines.html).To disable, set this to any other value than the string `"true"`.
 [^2]: Please refer to the details [MAKE_CHANGES_FINISH](make_changes.md#configuration).
