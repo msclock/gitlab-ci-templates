@@ -1,3 +1,10 @@
+# [1.8.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.7.2...v1.8.0) (2023-09-07)
+
+
+### Features
+
+* pin new image tag ([b0e659b](https://gitlab.com/msclock/gitlab-ci-templates/commit/b0e659b40609e0b56a0882f07bb4060b4d15c547))
+
 ## [1.7.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.7.1...v1.7.2) (2023-09-06)
 
 
