@@ -1,0 +1,91 @@
+# @Description template for path changes based on git subcommand diff
+.path_filter:
+  image: msclock/pre-commit:2023-09-09T11-10-11Z
+  variables:
+    WORKING_DIRECTORY: .
+    REF: ''
+    BASE: ''
+    FILTERS: ''
+    LIST_FILES: none
+    INITIAL_FETCH_DEPTH: '100'
+  before_script:
+    - |
+      apt update && apt install jq -y
+  script:
+    - |
+      # set -x
+
+      # Set the working directory if provided
+      if [[ -n "$WORKING_DIRECTORY" ]]; then
+        cd "$WORKING_DIRECTORY"
+      fi
+
+      # Checkout the specified ref
+      if [[ -n "$REF" ]]; then
+        git checkout "$REF"
+      fi
+
+      if [[ -z "$FILTERS" ]]; then
+        echo "Invalid FILTERS configuration."
+        exit 1
+      fi
+
+      if [[ -n "$BASE" ]]; then
+        all_changes_output=$(git diff --no-renames --name-status "$BASE"..HEAD)
+      else
+        all_changes_output=$(git diff --no-renames --name-status HEAD)
+      fi
+
+      # Expose to dotenv artifact
+      function expose() {
+        expose_key=$1
+        content=${2%'\n'} # trim the newline
+
+        case "$LIST_FILES" in
+          csv)
+            content=$(echo -e "$content" | awk '{print "\""$2"\""}'| paste -sd ",")
+            ;;
+          json)
+            content=$(echo -e "$content" | awk '{print $2}' | jq -R . | jq -s .)
+            ;;
+          shell)
+            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}")
+            ;;
+          escape)
+            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}" | sed 's/[^a-zA-Z0-9,._+:@%/-]/\\&/g')
+            ;;
+        esac
+
+        echo "$expose_key='${content//$'\n'/\\n}'" >> filter.env # escape new line into dotenv
+      }
+
+      echo -e "all_changes_output:\n$all_changes_output"
+      echo "raw_all_changes_output='${all_changes_output//$'\n'/\\n}'" > filter.env
+      expose "all_changes_output" "$all_changes_output"
+
+      keys=$(echo "$FILTERS" | jq -r "keys[]")
+      declare -A patterns_map
+      for category in $keys; do
+        patterns_map["$category"]=$(echo -e "$FILTERS" | jq -r ".$category[]")
+      done
+
+      for category in "${!patterns_map[@]}"; do
+        patterns="${patterns_map[$category]}"
+        echo -e "patterns from $category:\n${patterns[@]}"
+        changes=""
+        while IFS= read -r line; do
+          filename=$(echo "$line" | awk '{print $2}')
+          for pattern in $patterns; do
+            if echo "$filename" | grep -Pq "$pattern"; then
+              changes+="$line\n"
+              break
+            fi
+          done
+        done <<< "$all_changes_output"
+
+        echo -e "changes from $category:\n$changes"
+        expose "$category" "$changes"
+      done
+  artifacts:
+    reports:
+      dotenv: filter.env

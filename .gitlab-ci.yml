@@ -1,9 +1,9 @@
 include:
-  - project: msclock/gitlab-ci-utils-templates
-    ref: v1.0.0
-    file:
-      - /collections/All-Projects-General.gitlab-ci.yml
-  - local: /templates/common.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-utils-templates/-/raw/v1.0.0/collections/All-Projects-General.gitlab-ci.yml
+  - local: /templates/Release.gitlab-ci.yml
+  - local: /templates/Proxy.gitlab-ci.yml
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
+  - local: /jobs/Pre-Commit.gitlab-ci.yml
 
 .workflow:
   extends:
@@ -17,10 +17,9 @@ include:
 workflow: !reference [.workflow, workflow]
 
 # @Description lint codebase with pre-commit
-pre-commit:
+pre_commit:
   stage: lint
   extends:
-    - .pre_commit
     - .proxy_backend
   variables:
     CLASH_PROXY_SUB: $PROXY_SUB
@@ -52,4 +51,4 @@ semantic_release:
     - .release
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git'
+    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git @google/semantic-release-replace-plugin'

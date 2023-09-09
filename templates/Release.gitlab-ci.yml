@@ -1,0 +1,101 @@
+include:
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Rules.gitlab-ci.yml
+
+# @Description template for release publish
+.release:
+  image: msclock/semantic-release:2023-09-07T07-45-23Z
+  rules:
+    - !reference [.rules, Skip Release Commits]
+    - if: |
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
+        $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
+  variables:
+    RELEASE_EXTRA_PLUGINS: ''
+    OVERRIDE_RELEASE: ''
+    USING_PRESET_RELEASERC: ''
+    _PRESET_RELEASERC_FILE: .releaserc
+    _PRESET_RELEASERC_CONFIG: |
+      {
+        "branches":[
+          "$CI_DEFAULT_BRANCH",
+          {
+            "name": "alpha",
+            "prerelease": true
+          },
+          {
+            "name": "beta",
+            "prerelease": true
+          }
+        ],
+        "plugins": [
+          "@semantic-release/commit-analyzer",
+          "@semantic-release/release-notes-generator",
+          "@semantic-release/gitlab"
+        ]
+      }
+    NPM_SOURCE: ''
+    SEMANTIC_RELEASE_OPTIONS: ''
+    GITLAB_PREFIX: /api/v4
+    GITLAB_URL: $CI_SERVER_URL
+  script:
+    - !reference [.security_check_sensible, script]
+    - |
+      if [[ -n "$NPM_SOURCE" ]]; then
+        echo "Configuring npm registry from $NPM_SOURCE"
+        npm config set registry "$NPM_SOURCE"
+        npm get registry
+      fi
+
+      echo "Install semantic release plugins..." >> /dev/stderr
+      npm install -g semantic-release \
+        @semantic-release/release-notes-generator \
+        @semantic-release/gitlab $RELEASE_EXTRA_PLUGINS
+    - !reference [.security_git_config, script]
+    - |
+      if [[ -n "$USING_PRESET_RELEASERC" ]]; then
+        echo "Generating preset releaserc $_PRESET_RELEASERC_FILE..."
+        echo "$_PRESET_RELEASERC_CONFIG" > "$_PRESET_RELEASERC_FILE"
+      fi
+
+      if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
+        echo "Local tags:" >> /dev/stderr
+        git tag -l
+        echo "Remote tags:" >> /dev/stderr
+        git ls-remote --tags origin
+      fi
+
+      echo "Delete the local tags that no longer exist on the remote repository" >> /dev/stderr
+      git fetch origin --prune --prune-tags
+
+      echo "Detect conflicting release and delete the existing tag and release if possible"
+      if [[ -n "$OVERRIDE_RELEASE" ]]; then
+        _dry_run_output=$(semantic-release -d --ci)
+        _verify_version=$(echo "$_dry_run_output" | grep -oP "(?<=Skip ).+(?= tag creation in dry-run mode)") || true
+        if [[ $(git tag -l) =~ (^|[[:space:]])"$_verify_version"($|[[:space:]]) ]]; then
+          echo "Found and delete conflicting tag $_verify_version"
+          git push origin :refs/tags/"$_verify_version" || true
+          git tag -d "$_verify_version"
+
+          echo "Delete release if possible"
+          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+              --request DELETE "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$_verify_version" || true
+        else
+          echo "No conflicting release found"
+        fi
+      fi
+
+      if [[ -z "$SEMANTIC_RELEASE_OPTIONS" ]]; then
+        _release_output=$(semantic-release)
+      else
+        echo "Be careful!! CLI arguments take precedence over options configured in the configuration file"
+        _release_output=$(semantic-release "$SEMANTIC_RELEASE_OPTIONS")
+      fi
+      echo -e "Semantic Release Output:\n$_release_output"
+      new_release_version=$(echo "$_release_output" | grep -oP "(?<=Published release ).+(?= on)") || true
+      echo "new_release_version=$new_release_version" >> semantic.env
+  after_script:
+    - |
+      [[ -n "$USING_PRESET_RELEASERC" && -f "$_PRESET_RELEASERC_FILE" ]] && rm -f "$_PRESET_RELEASERC_FILE"
+  artifacts:
+    reports:
+      dotenv: semantic.env

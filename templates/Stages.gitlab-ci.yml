@@ -1,0 +1,19 @@
+# Template with standard stages used in this project
+
+stages:
+  - prepare
+  - lint
+  - build
+  - pre-test
+  - test
+  - post-test
+  - pre-deploy
+  - deploy
+  - pre-container-build
+  - container-build
+  - pre-container-test
+  - container-test
+  - post-container-test
+  - container-deploy
+  - pre-release
+  - release

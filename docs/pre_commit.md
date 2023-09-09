@@ -8,15 +8,7 @@ To include the template in the `.gitlab-ci.yaml` configuration, add the followin
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
-
-# @Description check codebase with pre-commit
-pre-commit:
-  extends:
-    - .pre-commit
-  variables:
-    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
-    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Pre-Commit.gitlab-ci.yml
 ```
 
 To enable auto-fixes, set the CI/CD variable `GITLAB_TOKEN` with a GitLab access token that has the `repository write` scope. A GitLab API token can be used, such as [project access tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html).

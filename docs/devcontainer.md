@@ -8,7 +8,7 @@ Simply include the template in the `.gitlab-ci.yaml` configuration as below.
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Devcontainer.gitlab-ci.yml
 
 # @Description devcontainer build
 devcontainer_build:

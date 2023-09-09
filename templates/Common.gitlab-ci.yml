@@ -1,0 +1,24 @@
+include:
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Stages.gitlab-ci.yml
+
+# @Description open debug trace
+.security_check_sensible:
+  script: |
+    if [ "$CI_DEBUG_TRACE" = "1" ] || [ "$CI_DEBUG_TRACE" = "true" ]; then
+      echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
+      set -x
+    fi
+
+# @Description configure git
+.security_git_config:
+  script: |
+    # Prepare config for git
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+    fi
+
+    git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
+    git config --global user.email ${CI_USER_EMAIL:-noreply+gitlab-ci[bot]@${CI_SERVER_HOST}}
+    git config --global lfs.locksverify true

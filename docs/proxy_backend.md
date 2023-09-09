@@ -17,7 +17,7 @@ Use pre-commit on a proxy
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Proxy.gitlab-ci.yml
 
 # @Description check codebase with pre-commit
 pre-commit:

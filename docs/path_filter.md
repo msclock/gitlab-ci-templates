@@ -11,7 +11,7 @@ stages:
   - test
 
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Path-Filter.gitlab-ci.yml
 
 detect:
   extends:

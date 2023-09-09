@@ -8,7 +8,7 @@ Here presents the usage of rules template to write a workflow.
 
 ```yaml
 include:
-  - local: /templates/common.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Rules.gitlab-ci.yml
 
 .workflow:
   extends:

@@ -8,7 +8,7 @@ Simply include the template in the `.gitlab-ci.yaml` configuration as below.
 
 ```yaml
 include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/main/jobs/pre-commit.yml"
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Make-Changes.gitlab-ci.yml
 
 # @Description make changes
 make_changes_to_codebase:
