@@ -89,6 +89,7 @@ markdown_extensions:
 nav:
   - Overview: index.md
   - Available Templates:
+      - rules: rules.md
       - proxy-backend: proxy_backend.md
       - make_changes: make_changes.md
       - pre-commit: pre-commit.md

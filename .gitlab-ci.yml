@@ -5,6 +5,17 @@ include:
       - /collections/All-Projects-General.gitlab-ci.yml
   - local: /templates/common.yml
 
+.workflow:
+  extends:
+    - .rules
+  workflow:
+    rules:
+      - !reference [.workflow, Merge Request]
+      - !reference [.workflow, Avoid MR Duplication Pipeline]
+      - when: always
+
+workflow: !reference [.workflow, workflow]
+
 # @Description lint codebase with pre-commit
 pre-commit:
   stage: lint

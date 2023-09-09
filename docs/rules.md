@@ -1,0 +1,34 @@
+# rules
+
+Using rules template facilitates the rules and workflow writing.
+
+## Usage
+
+Here presents the usage of rules template to write a workflow.
+
+```yaml
+include:
+  - local: /templates/common.yml
+
+.workflow:
+  extends:
+    - .rules
+  workflow:
+    rules:
+      # enable open MR pipeline
+      - !reference [.workflow, Merge Request]
+      # avoid mr and branch duplication pipeline
+      - !reference [.workflow, Avoid MR Duplication Pipeline]
+      # enable branch pipeline
+      - !reference [.workflow, Branch]
+      # enable release tag pipeline
+      - !reference [.workflow, Release]
+      # enable prerelease tag pipeline
+      - !reference [.workflow, Prerelease]
+
+workflow: !reference [.workflow, workflow]
+```
+
+## Configuration
+
+No configuration is required at the moment.
