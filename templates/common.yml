@@ -420,7 +420,7 @@ stages:
       dotenv: semantic.env
 
 # @Description template for path changes based on git subcommand diff
-.path-filter:
+.path_filter:
   image: msclock/pre-commit:2023-09-07T07-45-23Z
   variables:
     WORKING_DIRECTORY: .
@@ -512,7 +512,7 @@ stages:
       dotenv: filter.env
 
 # @Description template for deploy mkdocs
-.pages-mkdocs:
+.pages_mkdocs:
   stage: deploy
   variables:
     PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip

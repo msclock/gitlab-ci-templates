@@ -90,13 +90,13 @@ nav:
   - Overview: index.md
   - Available Templates:
       - rules: rules.md
-      - proxy-backend: proxy_backend.md
+      - proxy_backend: proxy_backend.md
       - make_changes: make_changes.md
-      - pre-commit: pre-commit.md
+      - pre_commit: pre_commit.md
       - devcontainer: devcontainer.md
       - act: act.md
-      - semantic-release: semantic-release.md
-      - path-filter: path-filter.md
-      - pages-mkdocs: pages-mkdocs.md
-      - code-count: code-count.md
+      - release: release.md
+      - path_filter: path_filter.md
+      - pages_mkdocs: pages_mkdocs.md
+      - code_count: code_count.md
       - sokrates: sokrates.md
