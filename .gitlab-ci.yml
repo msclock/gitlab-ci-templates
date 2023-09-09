@@ -45,7 +45,3 @@ semantic-release:
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
     RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git'
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^(chore\(release\))/
-      when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

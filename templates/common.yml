@@ -61,6 +61,11 @@ stages:
     if: |
       $CI_PIPELINE_SOURCE == 'push' &&
       $CI_COMMIT_TAG =~ /^(?P<version>v\d+(\.\d+){2})-(?P<prerelease>(([^0][\p{L}\d-]*)|(0(\d*[\p{L}-]+)*))(\.(([^0][\p{L}\d-]*)|(0(\d*[\p{L}-]+)*)))*)(?P<buildIdentifier>\+[\p{L}\d-]+(\.[\p{L}\d-]+)*)?$/
+  Skip Release Commits:
+    # Never run for `chore(release):` commits that are created for releases by
+    # the process itself
+    if: $CI_COMMIT_MESSAGE =~ /^(chore\(release\))/
+    when: never
 
 # @Description open debug trace
 .security_check_sensible:
@@ -319,7 +324,10 @@ stages:
 .release:
   image: msclock/semantic-release:2023-09-07T07-45-23Z
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
+    - !reference [.rules, Skip Release Commits]
+    - if: |
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
+        $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
   variables:
     RELEASE_EXTRA_PLUGINS: ''
     OVERRIDE_RELEASE: ''
