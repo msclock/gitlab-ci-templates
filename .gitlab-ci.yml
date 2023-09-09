@@ -31,10 +31,13 @@ pages:
   extends:
     - .pages_mkdocs
   variables:
-    CLASH_PROXY_SUB: $PROXY_SUB
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - |
+      pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+      pip config set global.trusted-host mirrors.tuna.tsinghua.edu.cn
 
 # @Description release with semantic_release
 semantic_release:
