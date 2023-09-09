@@ -5,10 +5,6 @@
     "docker:enableMajor"
   ],
   "prHourlyLimit": 0,
-  "ignorePresets": [
-    ":dependencyDashboard",
-    ":prHourlyLimit2"
-  ],
   "labels": [
     "dependencies"
   ],
