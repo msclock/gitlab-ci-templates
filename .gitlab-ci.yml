@@ -1,6 +1,6 @@
 include:
   - project: msclock/gitlab-ci-utils-templates
-    ref: master
+    ref: v1.0.0
     file:
       - /collections/All-Projects-General.gitlab-ci.yml
   - local: /templates/common.yml
