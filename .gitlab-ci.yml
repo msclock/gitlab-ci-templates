@@ -25,6 +25,12 @@ pre-commit:
   variables:
     CLASH_PROXY_SUB: $PROXY_SUB
 
+# @Description count codes
+code_count:
+  before_script:
+    - |
+      sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
 # @Description deploy with mkdocs
 pages:
   stage: deploy
