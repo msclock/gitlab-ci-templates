@@ -1,9 +1,9 @@
 include:
   - remote: https://gitlab.com/msclock/gitlab-ci-utils-templates/-/raw/v1.0.0/collections/All-Projects-General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Release.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Proxy.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Pages-Mkdocs.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/jobs/Pre-Commit.gitlab-ci.yml
+  - local: /jobs/Release-General.gitlab-ci.yml
 
 .workflow:
   extends:
@@ -44,19 +44,7 @@ pages:
       pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
       pip config set global.trusted-host mirrors.tuna.tsinghua.edu.cn
 
-# @Description release with semantic_release
+# @Description semantic_release
 semantic_release:
-  stage: pre-release
-  extends:
-    - .release
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git @google/semantic-release-replace-plugin'
-
-# @Description trigger tag for semantic_release
-post_release:
-  stage: release
-  needs:
-    - semantic_release
-  extends:
-    - .post_pipelilne
