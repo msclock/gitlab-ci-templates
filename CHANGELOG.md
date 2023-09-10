@@ -1,3 +1,10 @@
+# [2.2.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.1.0...v2.2.0) (2023-09-10)
+
+
+### Features
+
+* add workflows ([7f1fae1](https://gitlab.com/msclock/gitlab-ci-templates/commit/7f1fae16a6d52c7f5a5d179c7af8ff3847ef7bcf))
+
 # [2.1.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.0.1...v2.1.0) (2023-09-10)
 
 

@@ -1,5 +1,5 @@
 include:
-  - local: /templates/Rules.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.2.0/templates/Rules.gitlab-ci.yml
 
 .workflow:
   extends:
