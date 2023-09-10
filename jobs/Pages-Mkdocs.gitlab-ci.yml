@@ -1,0 +1,14 @@
+# Job to run mkdocs deployment
+
+include:
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
+
+# @Description deploy with mkdocs
+pages_mkdocs:
+  stage: deploy
+  extends:
+    - .pages_mkdocs
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      exists:
+        - mkdocs.yml

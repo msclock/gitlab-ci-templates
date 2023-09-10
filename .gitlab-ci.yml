@@ -1,6 +1,7 @@
 include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/collections/All-Projects-General.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Proxy.gitlab-ci.yml
+  - local: /jobs/Pages-Mkdocs.gitlab-ci.yml
 
 # @Description lint codebase with pre-commit
 pre_commit:
@@ -17,14 +18,9 @@ code_count:
       sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 # @Description deploy with mkdocs
-pages:
-  stage: deploy
-  extends:
-    - .pages_mkdocs
+pages_mkdocs:
   variables:
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   before_script:
     - |
       pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple

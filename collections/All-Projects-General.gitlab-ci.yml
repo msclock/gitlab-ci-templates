@@ -5,7 +5,6 @@ include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Node.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Stages.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Global-Templates.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Pages-Mkdocs.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/jobs/Lint-Renovate.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/jobs/Pre-Commit.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/jobs/Code-Count.gitlab-ci.yml
