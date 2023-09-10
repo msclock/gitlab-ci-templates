@@ -1,5 +1,5 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Common.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.0/templates/Common.gitlab-ci.yml
 
 # @Description make changes on codebase
 .make_changes:
