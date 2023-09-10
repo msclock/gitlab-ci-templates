@@ -59,7 +59,7 @@ repos:
     hooks:
       - id: codespell
         args:
-          - -L Transer,transer,axises,pres,seh,SEH,indexs,indexS,reworkd
+          - -L nstall
           - --check-filenames
           - --write-changes
 
