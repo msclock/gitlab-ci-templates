@@ -6,7 +6,7 @@ lint_md:
     - .node
   stage: lint
   variables:
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.0/Linters/.markdownlint.json
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.1/Linters/.markdownlint.json
   needs: []
   rules:
     - exists:

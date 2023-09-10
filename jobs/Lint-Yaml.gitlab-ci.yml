@@ -9,7 +9,7 @@ lint_yaml:
     - .python
   stage: lint
   variables:
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.0/Linters/.yamllint.yml
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.1/Linters/.yamllint.yml
   needs: []
   script:
     - pip install yamllint==1.32.0
