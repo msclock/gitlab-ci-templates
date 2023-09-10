@@ -46,9 +46,17 @@ pages:
 
 # @Description release with semantic_release
 semantic_release:
-  stage: release
+  stage: pre-release
   extends:
     - .release
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
     RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git @google/semantic-release-replace-plugin'
+
+# @Description trigger tag for semantic_release
+post_release:
+  stage: release
+  needs:
+    - semantic_release
+  extends:
+    - .post_pipelilne

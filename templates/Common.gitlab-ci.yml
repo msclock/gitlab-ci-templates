@@ -22,3 +22,23 @@ include:
     git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
     git config --global user.email ${CI_USER_EMAIL:-noreply+gitlab-ci[bot]@${CI_SERVER_HOST}}
     git config --global lfs.locksverify true
+
+# @Description create pipeline, if pipeline ref SCHEDULE_REF is set
+.schedule_pipeline:
+  image: msclock/semantic-release:2023-09-07T07-45-23Z
+  variables:
+    SCHEDULE_REF: ''
+  script:
+    - !reference [.security_check_sensible, script]
+    - |
+      if [[ -z "$SCHEDULE_REF" ]]; then
+        echo "Invalid pipeline ref=$SCHEDULE_REF, must be set properly" >> /dev/stderr
+        exit 1
+      fi
+
+      response=$(curl -sw '\n%{http_code}\n' --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+          --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipeline?ref=$SCHEDULE_REF")
+      if [[ "$(echo -e "$response" | tail -n 1)" != "201" ]]; then
+        echo -e "Failed to create pipeline, response:\n$response" >> /dev/stderr
+        exit 1
+      fi

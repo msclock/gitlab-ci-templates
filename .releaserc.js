@@ -64,6 +64,11 @@ module.exports = {
                         from: "(?<=(https://gitlab.com/msclock/gitlab-ci-templates/-/raw/)).+?(?=(/))",
                         to: "v${nextRelease.version}",
                     },
+                    {
+                        files: GITLAB_CI_FILES,
+                        from: "(?:- local: )(.*)(?=(/.+))",
+                        to: "- remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v${nextRelease.version}$1",
+                    },
                 ],
             },
         ],

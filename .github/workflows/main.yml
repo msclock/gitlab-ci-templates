@@ -174,7 +174,9 @@ jobs:
             _prefix=msclock/$i
             _image_name=$_prefix:$tag
             echo "pin tag $tag on the image $i"
-            sed -i "s@$_prefix.*@$_image_name@g" ./templates/common.yml
+            for file in $(find . -name "*.gitlab-ci.yml" -not -path "./.github/*"); do
+              sed -i "s@$_prefix.*@$_image_name@g" "$file"
+            done
           done
 
       - name: Auto commit to pin image

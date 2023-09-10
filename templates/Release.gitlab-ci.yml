@@ -1,5 +1,6 @@
 include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.0/templates/Rules.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
 
 # @Description template for release publish
 .release:
@@ -99,3 +100,36 @@ include:
   artifacts:
     reports:
       dotenv: semantic.env
+
+# @Description post release pipeline, default to run tag post pipeline
+.post_pipelilne:
+  extends:
+    - .schedule_pipeline
+  rules:
+    - !reference [.rules, Skip Release Commits]
+    - if: |
+        ( $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
+        $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/ ) &&
+        $RELEASE_POST_PIPELINE_TYPE
+  variables:
+    RELEASE_POST_PIPELINE_TYPE: '' # '', 'tag' or 'branch'
+  before_script:
+    - |
+      if [[ -z "$new_release_version" ]]; then
+        echo "Skip post release pipeline because new_release_version is not set" >> /dev/stderr
+        exit 0
+      fi
+
+      if [[ "$RELEASE_POST_PIPELINE_TYPE" == "tag" ]]; then
+        export SCHEDULE_REF="v$new_release_version"
+      fi
+
+      if [[ "$RELEASE_POST_PIPELINE_TYPE" == "branch" ]]; then
+        if [[ -z "$CI_COMMIT_BRANCH" ]]; then
+          echo "Invalid schedule pipeline, and CI_COMMIT_BRANCH must be set if RELEASE_POST_PIPELINE_TYPE is branch" >> /dev/stderr
+          exit 1
+        fi
+        export SCHEDULE_REF="$CI_COMMIT_BRANCH"
+      fi
+
+      echo "Ready to schedule pipeline type: $RELEASE_POST_PIPELINE_TYPE, ref: $SCHEDULE_REF"
