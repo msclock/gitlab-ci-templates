@@ -1,3 +1,10 @@
+# [2.3.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.2.0...v2.3.0) (2023-09-10)
+
+
+### Features
+
+* more templates ([40f9d2d](https://gitlab.com/msclock/gitlab-ci-templates/commit/40f9d2d0e37ca7ea9b9bb821bca27ebb50a10d96))
+
 # [2.2.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.1.0...v2.2.0) (2023-09-10)
 
 

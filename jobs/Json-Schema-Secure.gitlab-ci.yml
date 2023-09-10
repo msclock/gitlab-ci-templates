@@ -3,7 +3,7 @@
 # list of files to check (relative to project root, with no spaces)
 
 include:
-  - local: /templates/Node.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Node.gitlab-ci.yml
 
 json_schema_secure:
   extends:

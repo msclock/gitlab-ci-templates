@@ -1,6 +1,6 @@
 include:
-  - local: /collections/All-Projects-General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.2.0/templates/Proxy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/collections/All-Projects-General.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Proxy.gitlab-ci.yml
 
 # @Description lint codebase with pre-commit
 pre_commit:

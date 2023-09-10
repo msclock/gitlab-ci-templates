@@ -3,7 +3,7 @@
 #   CONFIG_FILE_LINK: url for the default config file
 
 include:
-  - local: /templates/Python.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.0/templates/Python.gitlab-ci.yml
 
 .djlint:
   extends:
