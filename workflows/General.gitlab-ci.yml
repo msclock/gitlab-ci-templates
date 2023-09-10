@@ -1,0 +1,13 @@
+include:
+  - local: /templates/Rules.gitlab-ci.yml
+
+.workflow:
+  extends:
+    - .rules
+  workflow:
+    rules:
+      - !reference [.workflow, Merge Request]
+      - !reference [.workflow, Avoid MR Duplication Pipeline]
+      - when: always
+
+workflow: !reference [.workflow, workflow]

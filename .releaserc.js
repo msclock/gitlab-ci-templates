@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-var GITLAB_CI_FOLDER = ["jobs", "templates", "."];
+var GITLAB_CI_FOLDER = ["jobs", "templates", "workflows", "."];
 var GITLAB_CI_FILES = [];
 
 GITLAB_CI_FOLDER.forEach((dir) => {

@@ -4,17 +4,7 @@ include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/templates/Pages-Mkdocs.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/jobs/Pre-Commit.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/jobs/Release-General.gitlab-ci.yml
-
-.workflow:
-  extends:
-    - .rules
-  workflow:
-    rules:
-      - !reference [.workflow, Merge Request]
-      - !reference [.workflow, Avoid MR Duplication Pipeline]
-      - when: always
-
-workflow: !reference [.workflow, workflow]
+  - local: /workflows/General.gitlab-ci.yml
 
 # @Description lint codebase with pre-commit
 pre_commit:
