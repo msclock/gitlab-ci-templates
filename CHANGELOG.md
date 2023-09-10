@@ -1,3 +1,10 @@
+## [2.3.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.0...v2.3.1) (2023-09-10)
+
+
+### Performance Improvements
+
+* extract mkdocs job ([0497b27](https://gitlab.com/msclock/gitlab-ci-templates/commit/0497b27d526a3851fa96de3987c75963bd96375a))
+
 # [2.3.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.2.0...v2.3.0) (2023-09-10)
 
 
