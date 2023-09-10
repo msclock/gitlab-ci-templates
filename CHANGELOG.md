@@ -1,3 +1,10 @@
+## [2.0.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.0.0...v2.0.1) (2023-09-10)
+
+
+### Performance Improvements
+
+* add schedule pipeline actions for release ([290760d](https://gitlab.com/msclock/gitlab-ci-templates/commit/290760dbca256d46b0ffe08eb28553f7a1d3b6ac))
+
 # [2.0.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v1.8.0...v2.0.0) (2023-09-10)
 
 
