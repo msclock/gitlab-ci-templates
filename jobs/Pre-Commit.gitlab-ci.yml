@@ -1,6 +1,6 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Rules.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Make-Changes.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/templates/Rules.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/templates/Make-Changes.gitlab-ci.yml
 
 # @Description pre-commit template
 pre_commit:

@@ -1,5 +1,5 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.0.1/templates/Stages.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.1.0/templates/Stages.gitlab-ci.yml
 
 # @Description open debug trace
 .security_check_sensible:

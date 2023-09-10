@@ -1,3 +1,10 @@
+# [2.1.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.0.1...v2.1.0) (2023-09-10)
+
+
+### Features
+
+* add general release job flow ([127aac0](https://gitlab.com/msclock/gitlab-ci-templates/commit/127aac089e31566ed1cd8a2b8ed42d4689371fa5))
+
 ## [2.0.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.0.0...v2.0.1) (2023-09-10)
 
 
