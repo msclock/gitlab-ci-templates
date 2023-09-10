@@ -1,0 +1,5 @@
+# Collection with jobs for NPM published projects
+
+include:
+  - local: /jobs/Npm-Publish.gitlab-ci.yml
+  - local: /jobs/Release-Check.gitlab-ci.yml

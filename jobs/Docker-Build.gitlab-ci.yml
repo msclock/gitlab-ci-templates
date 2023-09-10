@@ -1,0 +1,15 @@
+# Job to build and push a docker image with repository/tag to match the container scanning job.
+
+docker_build:
+  extends: .dind
+  variables:
+    # These are the variables and default values for repository/tag in the container scanning job.
+    # They are used here so they can be overridden once globally (if desired).
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    DOCKERFILE: Dockerfile
+  stage: container-build
+  script:
+    - !reference [.dind, script]
+    - docker build --pull -f ${DOCKERFILE} -t ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG} .
+    - docker push ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}

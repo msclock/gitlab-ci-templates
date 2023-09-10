@@ -1,0 +1,21 @@
+# Job using Dive to analyze efficiency of a Docker image.
+# See https://github.com/wagoodman/dive.
+
+docker_dive:
+  stage: container-test
+  extends: .dind
+  variables:
+    # These are the variables and default values for repository/tag in the container scanning job.
+    # They are used here so they can be overridden once globally (if desired).
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    GIT_STRATEGY: none
+  allow_failure: true
+  needs: [docker_build]
+  script:
+    - !reference [.dind, script]
+    - apk add --no-cache curl jq
+    - export VERSION=$(curl --silent "https://api.github.com/repos/wagoodman/dive/releases/latest" | jq -r '.tag_name' | sed -E 's/v(.+)/\1/')
+    - wget https://github.com/wagoodman/dive/releases/download/v${VERSION}/dive_${VERSION}_linux_amd64.tar.gz
+    - tar zxvf dive_${VERSION}_linux_amd64.tar.gz
+    - ./dive ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}

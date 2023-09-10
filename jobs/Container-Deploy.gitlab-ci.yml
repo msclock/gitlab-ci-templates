@@ -1,0 +1,42 @@
+# Template and jobs to copy a container image to the project main registry tagged as follows:
+#   - Commit Tags: tag image with commit tag
+#   - $CI_DEFAULT_BRANCH branch: tag image with "latest"
+#   - Other branches or MR: tag image with branch name
+
+include:
+  - local: /templates/Skopeo.gitlab-ci.yml
+
+.copy_image:
+  extends: .skopeo
+  variables:
+    # These are the variables and default values for repository/tag in the container scanning job.
+    # They are used here so they can be overridden once globally (if desired).
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    DOCKER_CREDS: $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD
+  stage: container-deploy
+  script:
+    - !reference [.skopeo, script]
+    - |
+      export SOURCE_IMAGE=docker://$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+      echo SOURCE_IMAGE: $SOURCE_IMAGE
+      export DEST_IMAGE=docker://$CI_REGISTRY_IMAGE:$IMAGE_TAG
+      echo DEST_IMAGE: $DEST_IMAGE
+    - skopeo copy --src-creds=$DOCKER_CREDS --dest-creds=$DOCKER_CREDS $SOURCE_IMAGE $DEST_IMAGE
+
+deploy_branch:
+  extends: .copy_image
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG
+      variables:
+        IMAGE_TAG: latest
+    - if: ($CI_COMMIT_BRANCH && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH) || $CI_MERGE_REQUEST_IID
+      variables:
+        IMAGE_TAG: $CI_COMMIT_REF_SLUG
+
+deploy_tag:
+  extends: .copy_image
+  variables:
+    IMAGE_TAG: $CI_COMMIT_TAG
+  rules:
+    - if: $CI_COMMIT_TAG

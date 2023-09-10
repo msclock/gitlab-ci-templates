@@ -1,0 +1,14 @@
+# Template for testing node applications with Jest.  Assumes:
+#   - Jest is executed in the NPM "test" script is defined in package.json
+#   - npm ci (preferred over NPM install) is performed to ensure no
+#     installation issues with this node version
+
+.node_test:
+  extends:
+    - .node
+  stage: test
+  needs: []
+  script:
+    - node -v && npm -v && yarn -v
+    - npm ci
+    - npm test

@@ -1,0 +1,21 @@
+# Job to lint all YAML in the project. Uses default yamllint
+# configuration file if no project-specific configuration is found.
+
+include:
+  - local: /templates/Python.gitlab-ci.yml
+
+lint_yaml:
+  extends:
+    - .python
+  stage: lint
+  variables:
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.0/Linters/.yamllint.yml
+  needs: []
+  script:
+    - pip install yamllint==1.32.0
+    # If none of the three default config file names exist, get default
+    # file from the config-files project.
+    - >
+      if [ ! -f .yamllint ] && [ ! -f .yamllint.yml ] && [ ! -f .yamllint.yaml ];
+      then (wget $CONFIG_FILE_LINK) fi
+    - yamllint .

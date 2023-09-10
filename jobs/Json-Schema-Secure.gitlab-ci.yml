@@ -1,0 +1,26 @@
+# Job using ajv to check for potential JSON schema security issues.
+# Requires variable JSON_SCHEMAS to be specified as a comma delimited
+# list of files to check (relative to project root, with no spaces)
+
+include:
+  - local: /templates/Node.gitlab-ci.yml
+
+json_schema_secure:
+  extends:
+    - .node
+  stage: test
+  needs: []
+  script:
+    - npm install -g ajv-cli@5.0.0
+    - |
+      # Test each schema and catch errors to flag any failed, ensuring all schemas are tested
+      RESULT=passed
+      for SCHEMA in ${JSON_SCHEMAS//,/ }; do
+        ajv -s /usr/local/lib/node_modules/ajv-cli/node_modules/ajv/lib/refs/json-schema-secure.json -d $SCHEMA --all-errors --strictTypes=false || RESULT=failed
+      done
+      # If any schema failed, fail job
+      if [ $RESULT == "failed" ]; then exit 1; fi
+  allow_failure: true
+  rules:
+    # Only run if JSON schemas are specified
+    - if: $JSON_SCHEMAS

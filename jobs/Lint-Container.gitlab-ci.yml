@@ -1,0 +1,13 @@
+# Job using Hadolint to lint a Dockerfile.
+# See full details at https://github.com/hadolint/hadolint
+
+lint_container:
+  image: hadolint/hadolint:v2.12.0-alpine@sha256:3c206a451cec6d486367e758645269fd7d696c5ccb6ff59d8b03b0e45268a199
+  stage: lint
+  needs: []
+  rules:
+    - exists:
+        - '*Dockerfile'
+  allow_failure: true
+  script:
+    - hadolint *Dockerfile

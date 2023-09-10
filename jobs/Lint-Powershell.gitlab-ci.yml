@@ -1,0 +1,14 @@
+# Job to lint all powershell files in the project
+# using https://github.com/PowerShell/PSScriptAnalyzer
+
+lint_powershell:
+  image: mcr.microsoft.com/powershell:7.3-alpine-3.17@sha256:6e07aefdc73d2139b65c17266281fc7cd36f1d8ef649069f3f613632da678986
+  stage: lint
+  needs: []
+  rules:
+    - exists:
+        - '**/*.ps1'
+        - '**/*.psm1'
+  script:
+    - pwsh -c "Install-Module PSScriptAnalyzer -Force"
+    - pwsh -c "Invoke-ScriptAnalyzer -Path . -EnableExit"

@@ -1,0 +1,20 @@
+# Job using anti-trojan-source to check for unicode
+# bidirectional character attacks.
+#
+# See: https://github.com/lirantal/anti-trojan-source/,
+# https://snyk.io/blog/how-to-detect-mitigate-trojan-source-attacks-javascript-eslint/
+#
+# The FILES variable can be used to override file types to prevent false positives.
+
+unicode_bidi_test:
+  extends:
+    - .node
+  stage: test
+  needs: []
+  variables:
+    # A comma delimited list of file types to test.
+    # Note some binary file types will flag as false positives.
+    FILES: .css,Dockerfile,.handlebars,.htm,.html,.js,.json,.md,.ps1,.sh,.svg,.toml,.ts,.xml,.yml,.yaml
+  script:
+    - npm install -g anti-trojan-source@1.4.1
+    - anti-trojan-source --files='./**/*{$FILES}'

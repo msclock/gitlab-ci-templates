@@ -1,0 +1,46 @@
+# Collection to consolidate container build, lint, scan, and deploy.
+# Uses kaniko for build and skopeo for image copy.
+
+include:
+  - local: /collections/Container-Base.gitlab-ci.yml
+  - local: /jobs/Container-Build.gitlab-ci.yml
+  - local: /jobs/Container-Deploy.gitlab-ci.yml
+
+# Included from Container-Base.gitlab-ci.yml
+lint_container:
+  needs: []
+
+# Included from Container-Build.gitlab-ci.yml
+container_build:
+  variables:
+    # Override repository for temp image and tag.  Must be done in job since defined in job template.
+    CI_APPLICATION_REPOSITORY: $TEMP_IMAGE_REPOSITORY
+    CI_APPLICATION_TAG: $TEMP_IMAGE_TAG
+  needs:
+    - lint_container
+
+# Included from Container-Base.gitlab-ci.yml
+container_scanning:
+  needs:
+    - container_build
+
+# Included from Container-Base.gitlab-ci.yml
+docker_dive:
+  needs:
+    - container_build
+
+# Included from Container-Deploy.gitlab-ci.yml
+.copy_image:
+  variables:
+    # Override repository for temp image and tag.  Must be done in job since defined in job template.
+    CI_APPLICATION_REPOSITORY: $TEMP_IMAGE_REPOSITORY
+    CI_APPLICATION_TAG: $TEMP_IMAGE_TAG
+  needs:
+    - container_scanning
+    - docker_dive
+
+remove_image:
+  needs:
+    - deploy_branch
+    - job: deploy_tag
+      optional: true

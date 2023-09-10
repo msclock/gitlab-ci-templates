@@ -1,0 +1,14 @@
+# Job to lint all nunjucks files in the project using djlint. Uses default
+# configuration file if no project-specific configuration is found.
+
+include:
+  - local: /templates/Djlint.gitlab-ci.yml
+
+lint_nunjucks:
+  extends:
+    - .djlint
+  variables:
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.0/Linters/Nunjucks.djlintrc
+  rules:
+    - exists:
+        - '**/*.njk'

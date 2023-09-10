@@ -1,0 +1,27 @@
+.all_except_schedule:
+  rules:
+    - if: $ENABLE_SCHEDULE
+      when: on_success
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: on_success
+
+.schedule_pass_without_renovate:
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      exists:
+        - .gitlab/renovate.json
+        - renovate.json
+      when: never
+    - allow_failure: true
+
+.schedule_fail_without_renovate:
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      exists:
+        - .gitlab/renovate.json
+        - renovate.json
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      allow_failure: false
+    - allow_failure: true
