@@ -1,6 +1,3 @@
-include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.1/templates/Common.gitlab-ci.yml
-
 # @Description make changes on codebase
 .make_changes:
   variables:

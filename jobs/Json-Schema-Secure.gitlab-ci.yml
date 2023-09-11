@@ -2,9 +2,6 @@
 # Requires variable JSON_SCHEMAS to be specified as a comma delimited
 # list of files to check (relative to project root, with no spaces)
 
-include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.1/templates/Node.gitlab-ci.yml
-
 json_schema_secure:
   extends:
     - .node
