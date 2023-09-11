@@ -108,7 +108,8 @@
         $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/ ) &&
         $RELEASE_POST_PIPELINE_TYPE
   variables:
-    RELEASE_POST_PIPELINE_TYPE: '' # '', 'tag' or 'branch'
+    # '', 'tag' or 'branch'
+    RELEASE_POST_PIPELINE_TYPE: ''
   before_script:
     - |
       if [[ -z "$new_release_version" ]]; then

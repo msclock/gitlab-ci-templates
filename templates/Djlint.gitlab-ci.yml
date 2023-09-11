@@ -2,9 +2,6 @@
 # for various languages. Assumes the following variables are specified:
 #   CONFIG_FILE_LINK: url for the default config file
 
-include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/templates/Python.gitlab-ci.yml
-
 .djlint:
   extends:
     - .python

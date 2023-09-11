@@ -9,10 +9,20 @@ lint_md:
     CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.1/Linters/.markdownlint.json
   needs: []
   rules:
-    - exists:
+    - if: $LINT_MD_ENABLE
+      exists:
         - '**/*.md'
   script:
     - npm install -g markdownlint-cli2@0.9.2
-    # If settings file does not exist, get default from config-file project
-    - if [ ! -f .markdownlint.json ]; then (wget $CONFIG_FILE_LINK) fi
+    # If setting files do not exist, get default from config-file project
+    - |
+      if [ ! -f .markdownlint.json ] && \
+        [ ! -f .markdownlint.jsonc ] && \
+        [ ! -f .markdownlint.yaml ] && \
+        [ ! -f .markdownlint.yml ]; then
+        wget $CONFIG_FILE_LINK
+      fi
     - markdownlint-cli2 "**/*.md" "#node_modules"
+
+variables:
+  LINT_MD_ENABLE: '1'

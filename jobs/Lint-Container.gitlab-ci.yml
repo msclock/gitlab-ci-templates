@@ -6,8 +6,12 @@ lint_container:
   stage: lint
   needs: []
   rules:
-    - exists:
+    - if: $LINT_DOCKERFILE_ENABLE
+      exists:
         - '*Dockerfile'
   allow_failure: true
   script:
     - hadolint *Dockerfile
+
+variables:
+  LINT_DOCKERFILE_ENABLE: '1'

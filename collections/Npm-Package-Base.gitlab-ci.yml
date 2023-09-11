@@ -1,9 +1,9 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/collections/All-Projects.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/collections/Node-Build-Test-Schedules-Fail.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/collections/Node-Version-Tests.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/collections/GitLab-Security-Scans-Schedules-Fail.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.2/collections/Npm-Publish-Release.gitlab-ci.yml
+  - local: /collections/All-Projects.gitlab-ci.yml
+  - local: /collections/Node-Build-Test-Schedules-Fail.gitlab-ci.yml
+  - local: /collections/Node-Version-Tests.gitlab-ci.yml
+  - local: /collections/GitLab-Security-Scans-Schedules-Fail.gitlab-ci.yml
+  - local: /collections/Npm-Publish-Release.gitlab-ci.yml
 
 # Included from Node-Build-Test-Schedules-Fail.gitlab-ci.yml
 npm_check:
