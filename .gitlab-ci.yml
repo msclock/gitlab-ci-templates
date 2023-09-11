@@ -1,8 +1,8 @@
 include:
-  - local: /collections/All-Projects-General.gitlab-ci.yml
-  - local: /templates/Proxy.gitlab-ci.yml
-  - local: /jobs/Pages-Mkdocs.gitlab-ci.yml
-  - local: /collections/Code-Quality.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/collections/All-Projects-General.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/templates/Proxy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/jobs/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/collections/Code-Quality.gitlab-ci.yml
 
 variables:
   LINT_YAML_ENABLE: ''

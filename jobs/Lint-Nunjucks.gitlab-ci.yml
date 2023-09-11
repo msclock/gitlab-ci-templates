@@ -2,7 +2,7 @@
 # configuration file if no project-specific configuration is found.
 
 include:
-  - local: /templates/Djlint.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/templates/Djlint.gitlab-ci.yml
 
 lint_nunjucks:
   extends:

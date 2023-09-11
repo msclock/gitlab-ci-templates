@@ -1,3 +1,10 @@
+## [2.3.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.2...v2.3.3) (2023-09-11)
+
+
+### Performance Improvements
+
+* add code quality check and improve yaml lint ([a58d98c](https://gitlab.com/msclock/gitlab-ci-templates/commit/a58d98cf11df43cd27a5f79c7588d26b88d1d5ca))
+
 ## [2.3.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.1...v2.3.2) (2023-09-11)
 
 
