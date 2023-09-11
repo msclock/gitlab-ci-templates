@@ -1,3 +1,11 @@
+## [2.3.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.1...v2.3.2) (2023-09-11)
+
+
+### Performance Improvements
+
+* improve compatibility ([3b1f6be](https://gitlab.com/msclock/gitlab-ci-templates/commit/3b1f6be101fdc788477b666bc8d2c3e38c1a4d5f))
+* rename general workflow ([d30fcfe](https://gitlab.com/msclock/gitlab-ci-templates/commit/d30fcfeba2d09801759bb91177c3bd185d93b7a7))
+
 ## [2.3.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.0...v2.3.1) (2023-09-10)
 
 
