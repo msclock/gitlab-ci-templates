@@ -1,3 +1,10 @@
+## [2.3.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.3...v2.3.4) (2023-09-13)
+
+
+### Performance Improvements
+
+* add deploy page rules on tags ([8602f83](https://gitlab.com/msclock/gitlab-ci-templates/commit/8602f83dc5281f56624d3916644280e8da2ce788))
+
 ## [2.3.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.2...v2.3.3) (2023-09-11)
 
 

@@ -1,5 +1,5 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.3/templates/Release.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.4/templates/Release.gitlab-ci.yml
 
 # @Description release with semantic_release
 semantic_release:
