@@ -27,7 +27,7 @@ prepare_release:
       - .gitlab/release.sh
 
 create_release:
-  image: registry.gitlab.com/gitlab-org/release-cli:v0.15.0@sha256:452bfc383a1bf77045b7a4935d76014159a8e14fb3a09c2dee2d4cff46ca8b10
+  image: registry.gitlab.com/gitlab-org/release-cli:v0.16.0@sha256:5a71acbadc47c1971100f5246b09f88ba09e84ebe7769e425475dce85245a2bf
   stage: release
   needs:
     - prepare_release
