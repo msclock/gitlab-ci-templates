@@ -1,11 +1,11 @@
 # Collection with all code quality jobs
 
 include:
-  - local: /templates/Python.gitlab-ci.yml
-  - local: /jobs/Duplication.gitlab-ci.yml
-  - local: /jobs/Lint-Container.gitlab-ci.yml
-  - local: /jobs/Lint-Md.gitlab-ci.yml
-  - local: /jobs/Lint-Nunjucks.gitlab-ci.yml
-  - local: /jobs/Lint-Powershell.gitlab-ci.yml
-  - local: /jobs/Lint-Shell.gitlab-ci.yml
-  - local: /jobs/Lint-Yaml.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/templates/Python.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Duplication.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Container.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Md.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Nunjucks.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Powershell.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Shell.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.1/jobs/Lint-Yaml.gitlab-ci.yml

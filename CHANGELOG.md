@@ -1,3 +1,10 @@
+## [2.4.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.0...v2.4.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* rename pages_mkdocs to pages ([30f3359](https://gitlab.com/msclock/gitlab-ci-templates/commit/30f3359d071a5881aabf10ada31aef7c0f3196fb))
+
 # [2.4.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.3.4...v2.4.0) (2023-09-14)
 
 
