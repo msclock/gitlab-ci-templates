@@ -1,8 +1,8 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/collections/All-Projects-General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/templates/Proxy.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/jobs/Pages-Mkdocs.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/collections/Code-Quality.gitlab-ci.yml
+  - local: /templates/Proxy.gitlab-ci.yml
+  - local: /jobs/Pages-Mkdocs.gitlab-ci.yml
+  - local: /collections/All-Projects-General.gitlab-ci.yml
+  - local: /collections/Code-Quality.gitlab-ci.yml
 
 variables:
   LINT_YAML_ENABLE: ''
@@ -23,7 +23,7 @@ code_count:
       sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 # @Description deploy with mkdocs
-pages_mkdocs:
+pages:
   variables:
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
   before_script:

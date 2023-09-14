@@ -1,10 +1,10 @@
 # Job to run mkdocs deployment
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/templates/Pages-Mkdocs.gitlab-ci.yml
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
 
-# @Description deploy with mkdocs
-pages_mkdocs:
+# @Description deploy pages with mkdocs, the named pages is a must for trigger pages:deploy
+pages:
   stage: deploy
   extends:
     - .pages_mkdocs
