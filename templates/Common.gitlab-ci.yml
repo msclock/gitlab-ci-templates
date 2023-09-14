@@ -22,7 +22,7 @@
 
 # @Description create pipeline, if pipeline ref SCHEDULE_REF is set
 .schedule_pipeline:
-  image: msclock/semantic-release:2023-09-07T07-45-23Z
+  image: msclock/semantic-release:2023-09-14T04-39-25Z
   variables:
     SCHEDULE_REF: ''
   script:
