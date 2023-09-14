@@ -4,7 +4,7 @@
 #   - intended to be run with Node-Build-Test collection
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.4/jobs/Node-LTS-Test-Win.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.0/jobs/Node-LTS-Test-Win.gitlab-ci.yml
 
 .node_test_nocoverage:
   extends:
