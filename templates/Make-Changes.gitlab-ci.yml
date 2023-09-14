@@ -1,10 +1,20 @@
+# This presents a template to make changes to codebase using the native
+# gitlab restapi.
+#
+# To configure the template refers to the variables section.
+
 # @Description make changes on codebase
 .make_changes:
   variables:
+    # Required. Allows customization of the commit message.
     MAKE_CHANGES_MSG: ''
+    # Optional. Allow customization of the commit body.
     MAKE_CHANGES_MSG_BODY: ''
+    # When set, creates a temporary branch and pushes the changes to it, along with creating a merge request for code review.
     MAKE_CHANGES_ON_PR: ''
+    # Controls the exit behavior of the CI job. `skip`: the current pipeline will be skipped. `error`: exits code 1. Leave blank to exits 0.
     MAKE_CHANGES_FINISH: ''
+    # Controls if the added files are detected as changes.
     DETECT_CHANGES_ADD: 1
   script:
     - !reference [.security_check_sensible, script]

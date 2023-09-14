@@ -28,7 +28,3 @@ include:
 
 workflow: !reference [.workflow, workflow]
 ```
-
-## Configuration
-
-No configuration is required at the moment.

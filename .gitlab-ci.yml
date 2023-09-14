@@ -24,7 +24,7 @@ code_count:
 # @Description deploy with mkdocs
 pages:
   variables:
-    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
+    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin mkdocs-same-dir
   before_script:
     - |
       pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple

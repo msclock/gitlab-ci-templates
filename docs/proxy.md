@@ -19,24 +19,15 @@ Use pre-commit on a proxy
 include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Proxy.gitlab-ci.yml
 
-# @Description check codebase with pre-commit
-pre-commit:
+# @Description a job needs customized proxy setup
+some_job_need_proxy:
   extends:
-    - .pre-commit
     - .proxy_backend
   variables:
-    PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: "false"
-    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: "true"
     # Set the proxy subscribe here
     CLASH_PROXY_SUB: "the clash subscribe"
 ```
 
-## Configuration
+More details can refer to related implementation.
 
-The available configuration variables can be set as CI/CD variables:
-
-| Variable Name    | Description                                          | Default                                                             |
-|------------------|------------------------------------------------------|---------------------------------------------------------------------|
-| CLASH_PROXY_SUB  | Specifies the clash subscribe. This is **Required**. |                                                                     |
-| PROXY_WHITE_LIST | The white list of proxy.                             | `10.0.0.0/8,192.168.0.0/16,127.0.0.1,172.16.0.0/16,$CI_SERVER_HOST` |
-| ENABLE_PROXY     | Specifies whether to enable the proxy configuration. |                                                                     |
+- [templates/Proxy.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Proxy.gitlab-ci.yml)

@@ -24,15 +24,7 @@ make_changes_to_codebase:
     - !reference [.make_changes, script]
 ```
 
-## Configuration
 
-The available configuration variables can be set as CI/CD variables:
+More details can refer to related implementation.
 
-| Variable Name       | Description                                                                                                             | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------|---------|
-| MAKE_CHANGES_MSG    | Allows customization of the commit message. This is **Required**.                                                       |         |
-| MAKE_CHANGES_FINISH | Controls the exit behavior[^1] of the CI job.                                                                           |         |
-| MAKE_CHANGES_ON_PR  | When set, creates a temporary branch and pushes the changes to it, along with creating a merge request for code review. |         |
-| DETECT_CHANGES_ADD  | Controls if the added files are detected as changes.                                                                    | 1       |
-
-[^1]: `skip`: the current pipeline will be skipped. `error`: exits code 1. Leave blank to exits 0.
+- [templates/Make-Changes.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Make-Changes.gitlab-ci.yml)

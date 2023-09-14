@@ -40,15 +40,6 @@ downstream_job:
     - echo "$templates"
 ```
 
-## Configuration
+More details can refer to related implementation.
 
-The available configuration variables can be set as CI/CD variables:
-
-| Variable Name       | Description                                         | Default |
-|---------------------|-----------------------------------------------------|---------|
-| WORKING_DIRECTORY   | The working directory for detecting changes.        | '.'     |
-| REF                 | The branch to checkout.                             |         |
-| BASE                | The base branch or HEAD.                            |         |
-| FILTERS             | Specifies the filter rules. This is **required**.   |         |
-| LIST_FILES          | Specifies the output format of the dotenv artifact. | none    |
-| INITIAL_FETCH_DEPTH | Specifies the depth of the initial fetch.           | '100'   |
+- [templates/Path-Filter.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Path-Filter.gitlab-ci.yml)

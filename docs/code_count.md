@@ -17,7 +17,3 @@ include:
       - /templates/Stages.gitlab-ci.yml
       - /jobs/Code-Count.gitlab-ci.yml
 ```
-
-## Configuration
-
-No configuration is required at the moment.

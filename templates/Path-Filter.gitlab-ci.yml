@@ -1,3 +1,7 @@
+# This presents a template to detect changes on codebase
+#
+# To configure the template refers to the variables section.
+
 # @Description template for path changes based on git subcommand diff
 .path_filter:
   image: msclock/common:latest

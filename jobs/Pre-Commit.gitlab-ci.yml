@@ -1,3 +1,10 @@
+# This presents a pre_commit job for powsering lint codebase.
+# see https://github.com/pre-commit/pre-commit.
+#
+# By default, the template assumes that pipelines are being used for merge requests.
+# If pipelines are not used for merge requests (branch pipelines only), unset
+# `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and set `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
+
 # @Description pre-commit template
 pre_commit:
   extends:
@@ -48,10 +55,26 @@ pre_commit:
       when: on_success
     - when: never
   variables:
+    # Specifies whether to apply, commit, and push autofixes to the source branch
     PRE_COMMIT_AUTO_FIX: '1'
+    # This prevents duplicating the pre-commit job on branch and MR pipelines. If an
+    # MR is open, the job will only run in the MR pipeline.This assumes the project
+    # is using [Merge request pipelines](https://gitlab.com/ee/ci/pipelines/merge_request_pipelines.html).
+    # To disable, set this to any other value than the string `"true"`.
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
+    # If set to a non-empty value, this disables PRE_COMMIT_AUTOFIX for non-branch pipelines.
+    PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: ''
+    # If set to a non-empty value, this disables PRE_COMMIT_AUTOFIX for non-MR pipelines.
+    PRE_COMMIT_AUTO_FIX_MR_ONLY: ''
+    # If set to a non-empty value, this disables the job for merge request pipelines
+    PRE_COMMIT_SKIP_MR_PIPELINE: ''
+    # If set to a non-empty value, this disables the job for branch pipelines
+    PRE_COMMIT_SKIP_BRANCH_PIPELINE: ''
+    # The message to include in the commit message.
     MAKE_CHANGES_MSG: 'style\(ci\): auto fixes from pre-commit'
+    # Controls the exit behavior of the CI job. Please refer templates/Make-Changes.gitlab-ci.yml.
     MAKE_CHANGES_FINISH: error
+    # The pre-commit cache
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit

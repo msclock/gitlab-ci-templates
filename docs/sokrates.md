@@ -7,17 +7,13 @@ Using sokrates document and analyze software architectures of complex systems.
 
 ## Usage
 
-**sokrates** is from the repository [gitlab-ci-utils-templates](https://gitlab.com/msclock/gitlab-ci-utils-templates).
+Here presents a simple usage.
 
 ```yaml
 include:
-  - project: msclock/gitlab-ci-utils-templates
+  - project: msclock/gitlab-ci-templates
     ref: master
     file:
       - /templates/Stages.gitlab-ci.yml
       - /jobs/Sokrates.gitlab-ci.yml
 ```
-
-## Configuration
-
-No configuration is required at the moment.

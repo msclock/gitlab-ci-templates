@@ -23,44 +23,17 @@ release:
     - .release
 ```
 
-More detail can be found in related implementation.
+More details can refer to related implementation.
 
-- [.release template](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Release.gitlab-ci.yml)
-- [semantic_release job](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Release-General.gitlab-ci.yml)
+- [templates/Release.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Release.gitlab-ci.yml)
+- [jobs/Release-General.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Release-General.gitlab-ci.yml)
 
 ## Release workflow
 
-### No Changes on repository
+### General Release Workflow
 
-This is the preset releaserc with the .release template including the default plugins[^1], so no changes are made to the repository. What needs to be done is to write the steps on the tag created and attach assets to the release created by semantic-release.
+Semantic-release recommends the following workflows:
 
-Attach assets to the release created by semantic-release can refer to the following:
-
-```yaml
-attach-to-release:
-  stage: release
-  image: curlimages/curl:latest
-  variables:
-    ARTIFACT_PATH: xxx.tar.gz
-  script:
-    - |
-      RELEASE_ID=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
-                    "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases?tag_name=$CI_COMMIT_TAG" | \
-                    jq -r '.[0].id')
-
-      ASSET_LINK=$(curl --header 'Content-Type: application/json' \
-                    --request PUT --data "{\"milestones\": [\"$CI_COMMIT_TAG\"]}" \
-                    --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
-                    --form "file=@$ARTIFACT_PATH" \
-                    "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases/$RELEASE_ID/assets/links" | \
-                    jq -r '.markdown')
-
-      echo "Add asset $ARTIFACT_PATH with a attachment link $ASSET_LINK to $RELEASE_ID"
-  artifacts:
-    paths:
-      - $ARTIFACT_PATH
-  only:
-    - tags
-```
-
-Also, [release-cli](https://docs.gitlab.com/ee/user/project/releases/release_cli.html) from gitlab can be used to update the release that is used by the [example](https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-assets-as-generic-package/).
+- [Distribution channels](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/distribution-channels)
+- [Maintenance release](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/maintenance-releases)
+- [Pre-release](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/pre-releases)

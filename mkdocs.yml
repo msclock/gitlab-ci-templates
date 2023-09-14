@@ -4,11 +4,15 @@ site_url: https://msclock.gitlab.io/gitlab-ci-templates/
 site_author: msclock
 site_description: >-
   Archive common template based on the gitlab CI
-edit_uri: edit/main/docs/
 
 # Repository
 repo_name: gitlab-ci-tempaltes
 repo_url: https://gitlab.com/msclock/gitlab-ci-templates
+
+edit_uri: edit/master/
+docs_dir: .
+exclude_docs: |
+  docs/includes
 
 # Copyright
 copyright: Copyright &copy; 2023 Msclock
@@ -63,6 +67,7 @@ extra:
 
 plugins:
   - search
+  - same-dir
   - git-revision-date-localized:
       enable_creation_date: true
       type: date
@@ -87,16 +92,15 @@ markdown_extensions:
         - docs/includes/abbreviations.md
 
 nav:
-  - Overview: index.md
+  - Overview: README.md
   - Available Templates:
-      - rules: rules.md
-      - proxy_backend: proxy_backend.md
-      - make_changes: make_changes.md
-      - pre_commit: pre_commit.md
-      - devcontainer: devcontainer.md
-      - act: act.md
-      - release: release.md
-      - path_filter: path_filter.md
-      - pages_mkdocs: pages_mkdocs.md
-      - code_count: code_count.md
-      - sokrates: sokrates.md
+      - rules: docs/rules.md
+      - proxy: docs/proxy.md
+      - make_changes: docs/make_changes.md
+      - pre_commit: docs/pre_commit.md
+      - devcontainer: docs/devcontainer.md
+      - release: docs/release.md
+      - path_filter: docs/path_filter.md
+      - pages_mkdocs: docs/pages_mkdocs.md
+      - code_count: docs/code_count.md
+      - sokrates: docs/sokrates.md

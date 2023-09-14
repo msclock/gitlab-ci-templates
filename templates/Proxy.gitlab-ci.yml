@@ -1,3 +1,11 @@
+# This presents a proxy template for overcoming some bad network conditions based
+# on clash. see https://github.com/users/Dreamacro/packages/container/package/clash-premium.
+#
+# To configure the template refers to the variables section.
+#
+# Notes: the template override the before_script by default.
+
+
 # @Description proxy backend based on clash
 .proxy_backend:
   services:
@@ -10,8 +18,11 @@
         - -c
         - set -xe && wget $CLASH_PROXY_SUB -O /root/.config/clash/config.yaml && ./clash
   variables:
+    # Required. Specifies the clash subscribe.
     CLASH_PROXY_SUB: ''
+    # The white list of proxy.
     PROXY_WHITE_LIST: 10.0.0.0/8,192.168.0.0/16,127.0.0.1,172.16.0.0/16,$CI_SERVER_HOST
+    # Specifies whether to enable the proxy configuration, and leave it empty to disable it.
     ENABLE_PROXY: '1'
   before_script:
     - !reference [.security_check_sensible, script]

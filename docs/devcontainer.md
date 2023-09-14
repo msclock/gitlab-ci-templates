@@ -29,13 +29,6 @@ devcontainer_build:
       echo "Below is the custom script"
 ```
 
-## Configuration
+More details can refer to related implementation.
 
-The available configuration variables can be set as CI/CD variables:
-
-| Variable Name | Description                                                                          | Default |
-|---------------|--------------------------------------------------------------------------------------|---------|
-| IMAGE_NAME    | Specifies the quilified image name such as docker.io/name:tag. This is **Required**. |         |
-| PUSH          | If set to a non-empty value, push the image to dockerhub.                            |         |
-| PLATFORM      | Specifies the build target image platform.                                           |         |
-| SUB_FOLDER    | Specifies .devcontainer folder or .devconntainer.json path.                          |         |
+- [templates/Devcontainer.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Devcontainer.gitlab-ci.yml)

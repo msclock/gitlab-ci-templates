@@ -1,5 +1,7 @@
-# This presents a semanti release templates for automatic release management
+# This presents a semantic release templates for automatic release management
 # based on semantic-release, see https://www.npmjs.com/package/semantic-release.
+#
+# To configure the template refers to the variables section.
 #
 # Normally, the templates can apply the release workflows:
 #   - [Distribution channels](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/distribution-channels)

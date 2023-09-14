@@ -1,10 +1,19 @@
+# This presents a template for making mkdocs pages deployment.
+# See https://www.mkdocs.org/.
+#
+# To configure the template refers to the variables section.
+
 # @Description template for deploy mkdocs
 .pages_mkdocs:
   stage: deploy
   variables:
+    # The pip cache
     PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+    # The branch to deploy when enable the VRESION_DOCS.
     PAGES_BRANCH: gl-pages
+    # Specifies whether to use mike to deploy mkdocs docs.
     VRESION_DOCS: ''
+    # Specifies the extra mkdocs plugins.
     MKDOCS_EXTRA_PLUGINS: ''
   image: python:3.11-bullseye
   script:

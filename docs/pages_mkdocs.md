@@ -17,7 +17,6 @@ include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Pages-Mkdocs.gitlab-ci.yml
 
 # @Description deploy with mkdocs
-# This is the current project configuration for mkdocs
 pages:
   stage: deploy
   extends:
@@ -28,14 +27,7 @@ pages:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
 
-## Configuration
+More details can refer to related implementation.
 
-The available configuration variables can be set as CI/CD variables:
-
-| Variable Name        | Description                                          | Default                    |
-|----------------------|------------------------------------------------------|----------------------------|
-| GITLAB_TOKEN         | A GitLab API token with write access to the project. |                            |
-| PIP_CACHE_DIR        | The pip cache                                        | $CI_PROJECT_DIR/.cache/pip |
-| PAGES_BRANCH         | The branch to deploy when enable the VRESION_DOCS.   | gl-pages                   |
-| VRESION_DOCS         | Specifies whether to use mike to deploy mkdocs docs. |                            |
-| MKDOCS_EXTRA_PLUGINS | Specifies the extra mkdocs plugins.                  |                            |
+- [templates/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Pages-Mkdocs.gitlab-ci.yml)
+- [jobs/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Pages-Mkdocs.gitlab-ci.yml)
