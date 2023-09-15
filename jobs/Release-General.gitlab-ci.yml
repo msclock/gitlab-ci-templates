@@ -7,7 +7,7 @@ semantic_release:
   extends:
     - .release
 
-# @Description trigger tag for semantic_release
+# @Description post to trigger pipeline
 post_release:
   stage: release
   needs:
