@@ -1,3 +1,11 @@
+## [2.4.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.1...v2.4.2) (2023-09-15)
+
+
+### Performance Improvements
+
+* add more rules ([aa7362b](https://gitlab.com/msclock/gitlab-ci-templates/commit/aa7362b4e5c85c7bc4e0df3e4c6464e05bc72919))
+* change semantic-release stage ([1a12555](https://gitlab.com/msclock/gitlab-ci-templates/commit/1a12555015992d6967c200e0912182db3dc798da))
+
 ## [2.4.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.0...v2.4.1) (2023-09-14)
 
 
