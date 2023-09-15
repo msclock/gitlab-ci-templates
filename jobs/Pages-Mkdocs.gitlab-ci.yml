@@ -1,7 +1,7 @@
 # Job to run mkdocs deployment
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.3.4/templates/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.2/templates/Pages-Mkdocs.gitlab-ci.yml
 
 # @Description deploy with mkdocs
 pages_mkdocs:
