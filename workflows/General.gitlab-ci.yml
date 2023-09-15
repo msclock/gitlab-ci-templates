@@ -1,3 +1,5 @@
+# @Require gitlab-ci-templates/templates/Rules.gitlab-ci.yml
+
 .general_workflow:
   extends:
     - .rules
