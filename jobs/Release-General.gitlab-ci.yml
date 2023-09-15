@@ -3,13 +3,13 @@ include:
 
 # @Description release with semantic_release
 semantic_release:
-  stage: pre-release
+  stage: release
   extends:
     - .release
 
 # @Description post to trigger pipeline
 post_release:
-  stage: release
+  stage: .post
   needs:
     - semantic_release
   extends:
