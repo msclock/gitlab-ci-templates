@@ -1,3 +1,10 @@
+## [2.4.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.2...v2.4.3) (2023-09-17)
+
+
+### Performance Improvements
+
+* add latest commit check script ([09dc353](https://gitlab.com/msclock/gitlab-ci-templates/commit/09dc353704cc61c3edc63f1ac1492dba464a61af))
+
 ## [2.4.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.1...v2.4.2) (2023-09-15)
 
 
