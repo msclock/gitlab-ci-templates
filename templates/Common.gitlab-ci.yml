@@ -20,6 +20,22 @@
     git config --global user.email ${CI_USER_EMAIL:-noreply+gitlab-ci[bot]@${CI_SERVER_HOST}}
     git config --global lfs.locksverify true
 
+# @Description check if latest commit id
+.check_latest_commit:
+  script:
+    - |
+      git fetch origin
+      CURRENT_COMMIT=$(git rev-parse HEAD)
+      LATEST_COMMIT=$(git rev-parse origin/$CI_COMMIT_REF_NAME)
+
+      if [ "$CURRENT_COMMIT" = "$LATEST_COMMIT" ]; then
+        IS_LATEST_COMMIT=true
+      else
+        IS_LATEST_COMMIT=false
+      fi
+
+      echo "Is current commit the latest? $IS_LATEST_COMMIT"
+
 # @Description create pipeline, if pipeline ref SCHEDULE_REF is set
 .schedule_pipeline:
   image: msclock/semantic-release:2023-09-14T04-39-25Z

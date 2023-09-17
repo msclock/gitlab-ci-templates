@@ -1,4 +1,5 @@
-# Collection for testing node applications with Jest in the supported Node versions.  Assumes:
+# Collection for testing node applications with Jest in the supported Node versions.
+# Assumes:
 #   - Node-Test template is included
 #   - Code coverage and junit reports are not saved for any of these versions
 #   - intended to be run with Node-Build-Test collection
