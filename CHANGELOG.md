@@ -1,3 +1,10 @@
+## [2.4.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.3...v2.4.4) (2023-09-19)
+
+
+### Performance Improvements
+
+* **deps:** update dependency djlint to v1.33.0 ([f5b5645](https://gitlab.com/msclock/gitlab-ci-templates/commit/f5b5645866c1fe6678f8f01fd1ccc6605128c4b7))
+
 ## [2.4.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.2...v2.4.3) (2023-09-17)
 
 
