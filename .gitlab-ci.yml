@@ -11,10 +11,9 @@ variables:
 # @Description lint codebase with pre-commit
 pre_commit:
   stage: lint
-  extends:
-    - .proxy_backend
-  variables:
-    CLASH_PROXY_SUB: $PROXY_SUB
+  before_script:
+    - |
+      git config --global url.https://ghproxy.com/https://github.com.insteadOf https://github.com
 
 # @Description count codes
 code_count:
