@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:20-buster-slim@sha256:ac8266bc02cbb93d91a3a81badc0d90d9652d581394201d8d45b4558e59431c5
+FROM node:20-buster-slim@sha256:6d887870e66c5766ac4b347d654a60d143454f1e18ede78fb68f1a636ee18d86
 
 RUN <<-EOF
     apt update && apt install -y --no-install-recommends apt-transport-https \
