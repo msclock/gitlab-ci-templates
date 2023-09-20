@@ -8,7 +8,7 @@
   stage: lint
   needs: []
   script:
-    - pip install djlint==1.33.0
+    - pip install djlint==1.34.0
     # If settings file does not exist, get default from config-file project
     # and save as .djlintrc
     - if [ ! -f .djlintrc ]; then (wget -O .djlintrc $CONFIG_FILE_LINK) fi
