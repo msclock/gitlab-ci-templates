@@ -3,7 +3,7 @@
 # used in these projects exist
 
 lint_renovate:
-  image: renovate/renovate:36
+  image: renovate/renovate:37
   stage: lint
   needs: []
   variables:
