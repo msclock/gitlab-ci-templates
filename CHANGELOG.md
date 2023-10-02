@@ -1,3 +1,10 @@
+## [2.5.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.0...v2.5.1) (2023-10-02)
+
+
+### Bug Fixes
+
+* .path_filter run on branch pipeline ([06abf5d](https://gitlab.com/msclock/gitlab-ci-templates/commit/06abf5d8becb49458e10ef6563287c5ed48ba31c))
+
 # [2.5.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.5...v2.5.0) (2023-10-02)
 
 

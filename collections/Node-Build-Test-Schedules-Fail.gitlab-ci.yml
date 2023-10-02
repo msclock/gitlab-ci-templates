@@ -3,7 +3,7 @@
 # npm check or npm audit, which will trigger notification for job failure.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.0/collections/Node-Build-Test.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.1/collections/Node-Build-Test.gitlab-ci.yml
 
 # Included from Node-Build-Test.gitlab-ci.yml
 npm_check:
