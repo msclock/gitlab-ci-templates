@@ -1,3 +1,15 @@
+# [2.5.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.5...v2.5.0) (2023-10-02)
+
+
+### Features
+
+* image build on matrix ([f900c8c](https://gitlab.com/msclock/gitlab-ci-templates/commit/f900c8c768aa3f0ad093ee549728d56780493899))
+
+
+### Performance Improvements
+
+* release config to retrive .gitlab-ci.yml files ([d8abd0f](https://gitlab.com/msclock/gitlab-ci-templates/commit/d8abd0f3379a5a6f74ef5c89c6831d29525900b6))
+
 ## [2.4.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.4...v2.4.5) (2023-10-02)
 
 

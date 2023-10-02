@@ -4,7 +4,7 @@
 #   - Other branches or MR: tag image with branch name
 
 include:
-  - local: /templates/Skopeo.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.0/templates/Skopeo.gitlab-ci.yml
 
 .copy_image:
   extends: .skopeo
