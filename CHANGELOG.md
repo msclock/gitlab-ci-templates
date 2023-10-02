@@ -1,3 +1,15 @@
+## [2.5.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.1...v2.5.2) (2023-10-02)
+
+
+### Performance
+
+* remove redundant release extra plugins ([2d6082d](https://gitlab.com/msclock/gitlab-ci-templates/commit/2d6082d7f560f0b9e1807aa9688ad59526a4c3ec))
+
+
+### CI
+
+* improve semantic release configuration ([3ab12f3](https://gitlab.com/msclock/gitlab-ci-templates/commit/3ab12f3cfd178e89b78540785d8d4ba5b2aa8e11))
+
 ## [2.5.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.0...v2.5.1) (2023-10-02)
 
 
