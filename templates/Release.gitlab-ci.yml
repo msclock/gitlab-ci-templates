@@ -54,6 +54,9 @@
         echo "$_PRESET_RELEASERC_CONFIG" > "$_PRESET_RELEASERC_FILE"
       fi
 
+      echo "Update the local tags" >> /dev/stderr
+      git fetch --tags --force
+
       if [[ $CI_DEBUG_TRACE =~ ^(1|true)$ ]]; then
         echo "Local tags:" >> /dev/stderr
         git tag -l
