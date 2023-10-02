@@ -4,7 +4,7 @@
 # See https://pip.pypa.io/en/stable/topics/configuration/.
 
 .python:
-  image: python:3.11.5-alpine3.18@sha256:e5d592c422d6e527cb946ae6abb1886c511a5e163d3543865f5a5b9b61c01584
+  image: python:3.11.5-alpine3.18@sha256:738ac14925d69ff88103c028573de949286c8d5c81afb202954512aa6207bbc2
   variables:
     PIP_ROOT_USER_ACTION: ignore
     PIP_NO_CACHE_DIR: 1
