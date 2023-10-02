@@ -42,19 +42,21 @@ module.exports = {
                     { type: "refactor", release: "patch" },
                     { type: "perf", release: "patch" },
                     { type: "revert", release: "patch" },
+                    { type: "chore", scope: "deps", release: "patch" },
+                    { type: "build", release: false },
+                    { type: "ci", release: false },
                     { type: "docs", release: false },
-                    { type: "chore", release: false },
                     { type: "test", release: false },
                 ],
                 parserOpts: {
-                    noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES"],
+                    noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
                 },
             },
         ],
         [
             "@semantic-release/release-notes-generator",
             {
-                preset: "angular",
+                preset: "conventionalcommits",
                 presetConfig: {
                     types: [
                         { type: "feat", section: "Features" },
@@ -63,10 +65,16 @@ module.exports = {
                         { type: "refactor", section: "Refactor" },
                         { type: "perf", section: "Performance" },
                         { type: "revert", section: "Reverts" },
-                        { type: "docs", hidden: true },
-                        { type: "chore", hidden: true },
-                        { type: "test", hidden: true },
+                        { type: "chore", scope: "deps", section: "Dependencies" },
+                        { type: "chore", section: "Chores" },
+                        { type: "build", section: "Build" },
+                        { type: "ci", section: "CI" },
+                        { type: "docs", section: "Docs" },
+                        { type: "test", section: "Tests" },
                     ],
+                },
+                parserOpts: {
+                    noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
                 },
             },
         ],
@@ -97,8 +105,7 @@ module.exports = {
             "@semantic-release/git",
             {
                 assets: [...GITLAB_CI_FILES, "CHANGELOG.md"],
-                message:
-                    "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+                message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
             },
         ],
         "@semantic-release/gitlab",
