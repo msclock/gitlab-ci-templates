@@ -7,7 +7,7 @@
         $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
         $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
   variables:
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git @google/semantic-release-replace-plugin'
+    RELEASE_EXTRA_PLUGINS: ''
     OVERRIDE_RELEASE: ''
     USING_PRESET_RELEASERC: ''
     _PRESET_RELEASERC_FILE: .releaserc

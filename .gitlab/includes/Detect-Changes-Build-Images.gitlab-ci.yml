@@ -2,7 +2,7 @@
 # using the build template yml file templates/Build-Changes-Images.gitlab-ci.yml.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.1/templates/Path-Filter.gitlab-ci.yml
+  - local: /templates/Path-Filter.gitlab-ci.yml
 
 # @Description detect changes on codebase
 detect_changes_on_images:
