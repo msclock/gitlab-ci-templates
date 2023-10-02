@@ -1,0 +1,121 @@
+# This is a template to used for generating build images with the variable $$images which
+# contains the list of changed images to build. If $$images is empty, no images are built that
+# because the workflow is triggered by the variable _IMAGES.
+
+include:
+  - local: /templates/Stages.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Make-Changes.gitlab-ci.yml
+  - local: /templates/Path-Filter.gitlab-ci.yml
+
+variables:
+  _IMAGES: $$images
+
+.build_on_changes:
+  rules:
+    - if: $_IMAGES != '[""]' && $_IMAGES != ''
+
+default:
+  image: !reference [.path_filter, image]
+
+workflow:
+  rules:
+    - when: always
+
+# @Description save envs to .env artifact
+save_changes_image:
+  stage: prepare
+  script:
+    - echo "images=$_IMAGES" >> .env
+    - |
+      if [ $_IMAGES == '[""]' ] || [ $_IMAGES == '' ]; then
+        echo "No images to build, skipping on value of $_IMAGES" >> /dev/stderr
+      fi
+  artifacts:
+    reports:
+      dotenv: .env
+
+# @Description format changes
+format_changes:
+  stage: build
+  extends: .build_on_changes
+  script:
+    - echo -e "$images"
+    - |
+      set -x
+      tag_to_image=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
+      echo -e "tag_to_image=$tag_to_image"
+
+      apt install jq tree -y
+      all_images=$(tree -J -d  ./images | jq -c '.[0].contents | map(.name)')
+      echo -e "all_images:\n$all_images"
+
+      echo -e "$images" | jq --raw-output | awk -F'/' '{print $2}' | jq -R -s -c 'split("\n")' | jq -c 'map(select(length > 0))' > changed_images_images.json
+      jq -sc '.[0] + .[1] | unique' changed_images_images.json > changed_images.json
+      changed_images=$(cat changed_images.json)
+      echo -e "changed_images:\n$changed_images"
+
+      echo "tag_to_image=$tag_to_image" >> .env
+      echo "all_images=$all_images" >> .env
+      echo "changed_images=$changed_images" >> .env
+  artifacts:
+    reports:
+      dotenv: .env
+
+# @Description generate dispatch template
+generate_dispatch_template:
+  stage: pre-container-build
+  extends: .build_on_changes
+  variables:
+    TEMPLATE: .gitlab/templates/Build-Image.gitlab-ci.yml
+  script:
+    - echo -e "$changed_images"
+    - echo -e "$tag_to_image"
+    - |
+      TAG_TO_IMAGE=$tag_to_image
+      BUILD_IMAGE_LIST=$(echo -e "$changed_images" | tr -d '"')
+      sed "s#\$BUILD_IMAGE_LIST#$BUILD_IMAGE_LIST#g; s#\$TAG_TO_IMAGE#$TAG_TO_IMAGE#g" $TEMPLATE > generated-config.yml
+  artifacts:
+    paths:
+      - generated-config.yml
+
+# @Description dispatch build image pipeline
+dispatch_build_image:
+  stage: container-build
+  extends: .build_on_changes
+  trigger:
+    strategy: depend
+    include:
+      - artifact: generated-config.yml
+        job: generate_dispatch_template
+
+# @Description pin changed images
+pin_changed_images:
+  stage: release
+  extends:
+    - .make_changes
+    - .build_on_changes
+  variables:
+    DETECT_CHANGES_ADD: 0
+    MAKE_CHANGES_MSG: 'perf(image): pin new image tag'
+  script:
+    - echo -e "$changed_images"
+    - echo -e "$tag_to_image"
+    - |
+      # Pin new image tag
+      tag=$tag_to_image
+      readarray -t image_array <<< "$(echo $changed_images | tr -d '[]"' | tr ',' '\n')"
+      for i in "${image_array[@]}"; do
+        _prefix=msclock/$i
+        _image_name=$_prefix:$tag
+        echo "pin tag $tag on the image $i"
+        for file in $(find . -name "*.gitlab-ci.yml" -not -path "./.github/*"); do
+          sed -i "s@$_prefix.*@$_image_name@g" "$file"
+        done
+      done
+
+      # Use include local template with changes
+      for file in $(find . -name "*.gitlab-ci.yml" -not -path "./.github/*"); do
+        sed -i 's/  - remote: https:\/\/gitlab.com\/msclock\/gitlab-ci-templates\/-\/raw/  - local: https:\/\/gitlab.com\/msclock\/gitlab-ci-templates\/-\/raw/g;s/https:\/\/gitlab.com\/msclock\/gitlab-ci-templates\/-\/raw\/v[^\/]*//g' "$file"
+      done
+    - !reference [.make_changes, script]

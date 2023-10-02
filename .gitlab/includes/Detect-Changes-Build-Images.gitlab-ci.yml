@@ -1,0 +1,48 @@
+# The ci yml aims to detect changes on the images folder and to generate a build image yml
+# using the build template yml file templates/Build-Changes-Images.gitlab-ci.yml.
+
+include:
+  - local: /templates/Path-Filter.gitlab-ci.yml
+
+# @Description detect changes on codebase
+detect_changes_on_images:
+  extends:
+    - .path_filter
+  stage: test
+  retry: 1
+  variables:
+    LIST_FILES: json
+    FILTERS: |
+      {
+        "images": [
+          "images/.*.json",
+          "images/.*Dockerfile"
+        ]
+      }
+
+# @Description generate changes build image pipeline yml
+generate_changes_build_image:
+  image: !reference [.path_filter, image]
+  stage: pre-container-build
+  variables:
+    TEMPLATE: .gitlab/templates/Build-Changes-Images.gitlab-ci.yml
+  script:
+    - echo "$raw_all_changes_output"
+    - echo "$all_changes_output"
+    - echo "$images"
+    - |
+      sed "s#\$\$images#'$(echo ${images//'\n'/} | tr -d ' ')'#g" $TEMPLATE > generated-config.yml
+  artifacts:
+    paths:
+      - generated-config.yml
+
+# @Description trigger changes build image pipeline
+trigger_changes_build_image:
+  stage: container-build
+  rules:
+    - if: '$CI_COMMIT_MESSAGE !~ /^(perf\(image\): pin new image tag.*)/'
+  trigger:
+    strategy: depend
+    include:
+      - artifact: generated-config.yml
+        job: generate_changes_build_image

@@ -1,0 +1,24 @@
+include:
+  - local: /templates/Devcontainer.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Proxy.gitlab-ci.yml
+  - local: /templates/Stages.gitlab-ci.yml
+
+workflow:
+  rules:
+    - when: always
+
+# @Description parallel to build images
+docker_build:
+  extends:
+    - .devcontainer::build
+    - .proxy_backend
+  stage: container-build
+  parallel:
+    matrix:
+      - IMAGE: $BUILD_IMAGE_LIST
+  variables:
+    IMAGE_NAME: msclock/$IMAGE:$TAG_TO_IMAGE
+    WORKING_DIRECTORY: images/$IMAGE
+    PUSH: '1'
+    PIN_LATEST: '1'

@@ -81,8 +81,8 @@ module.exports = {
                     },
                     {
                         files: GITLAB_CI_FILES,
-                        from: "(?:- local: )(.*)(?=(/.+))",
-                        to: "- remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v${nextRelease.version}$1",
+                        from: "(?:- local: /)(.*)(?=(/.+))",
+                        to: "- remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v${nextRelease.version}/$1",
                     },
                 ],
             },

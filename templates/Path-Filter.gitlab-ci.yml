@@ -2,10 +2,41 @@
 .path_filter:
   image: msclock/pre-commit:2023-09-09T11-10-11Z
   variables:
+    # This is no useful option yet.
     WORKING_DIRECTORY: .
-    REF: ''
-    BASE: ''
+    # Git reference (e.g. branch name) from which the changes will be detected.
+    # Useful when workflow can be triggered only on the default branch (e.g. repository_dispatch event)
+    # but you want to get changes on a different branch.
+    # This option is ignored if pipeline is triggered by pull_request event.
+    # default: $CI_COMMIT_BRANCH
+    REF: $CI_COMMIT_BRANCH
+    # Branch, tag, or commit SHA against which the changes will be detected.
+    # If it references the same branch it was pushed to,
+    # changes are detected against the most recent commit before the push.
+    # Otherwise, it uses git merge-base to find the best common ancestor between
+    # current branch (HEAD) and base.
+    # When merge-base is found, it's used for change detection - only changes
+    # introduced by the current branch are considered.
+    # All files are considered as added if there is no common ancestor with
+    # base branch or no previous commit.
+    # This option is ignored if pipeline is triggered by pull_request event.
+    # Default: repository default branch (e.g. $CI_DEFAULT_BRANCH)
+    BASE: $CI_DEFAULT_BRANCH
+    # Defines filters applied to detected changed files.
+    # Each filter has a name and a list of rules.
+    # Rule is a glob expression - paths of all changed
+    # files are matched against it.
     FILTERS: ''
+    # Enables listing of files matching the filter:
+    #   'none'  - Disables listing of matching files (default).
+    #   'csv'   - Coma separated list of filenames.
+    #             If needed, it uses double quotes to wrap filename with unsafe characters.
+    #   'json'  - File paths are formatted as JSON array.
+    #   'shell' - Space delimited list usable as command-line argument list in Linux shell.
+    #             If needed, it uses single or double quotes to wrap filename with unsafe characters.
+    #   'escape'- Space delimited list usable as command-line argument list in Linux shell.
+    #             Backslash escapes every potentially unsafe character.
+    # Default: none
     LIST_FILES: none
     INITIAL_FETCH_DEPTH: '100'
   before_script:
@@ -13,16 +44,9 @@
       apt update && apt install jq -y
   script:
     - |
-      # set -x
-
       # Set the working directory if provided
       if [[ -n "$WORKING_DIRECTORY" ]]; then
         cd "$WORKING_DIRECTORY"
-      fi
-
-      # Checkout the specified ref
-      if [[ -n "$REF" ]]; then
-        git checkout "$REF"
       fi
 
       if [[ -z "$FILTERS" ]]; then
@@ -30,10 +54,29 @@
         exit 1
       fi
 
-      if [[ -n "$BASE" ]]; then
-        all_changes_output=$(git diff --no-renames --name-status "$BASE"..HEAD)
+      # Detect changes
+      # If in pr, detect changes against pr target branch
+      if [[ -n "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]]; then
+        git fetch origin --force $CI_MERGE_REQUEST_TARGET_BRANCH_NAME:$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+        all_changes_output=$(git diff --no-renames --name-status $CI_MERGE_REQUEST_TARGET_BRANCH_NAME)
       else
-        all_changes_output=$(git diff --no-renames --name-status HEAD)
+        # Ensure on the branch we want to detect changes against
+        git checkout --force "$REF"
+
+        if [[ $BASE == $REF ]]; then
+          if [[ $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000" ]]; then
+            _against_base=$CI_COMMIT_BEFORE_SHA
+          else
+            _against_base=HEAD~1
+          fi
+        else
+          git branch -D $BASE || true
+          git fetch origin --force "$BASE":$CI_JOB_ID
+          _against_base=$(git merge-base $CI_JOB_ID $REF)
+        fi
+
+        all_changes_output=$(git diff --no-renames --name-status $_against_base..$REF)
+        git branch -D $CI_JOB_ID $BASE || true
       fi
 
       # Expose to dotenv artifact
@@ -56,7 +99,7 @@
             ;;
         esac
 
-        echo "$expose_key='${content//$'\n'/\\n}'" >> filter.env # escape new line into dotenv
+        echo "$expose_key=${content//$'\n'/\\n}" >> filter.env # escape new line into dotenv
       }
 
       echo -e "all_changes_output:\n$all_changes_output"

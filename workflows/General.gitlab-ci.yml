@@ -5,7 +5,7 @@
     - .rules
   workflow:
     rules:
-      - !reference [.general_workflow, Avoid MR Duplication Pipeline]
+      - !reference [.general_workflow, Avoid MR Duplication Pipeline But Trigger]
       - when: always
 
 workflow: !reference [.general_workflow, workflow]

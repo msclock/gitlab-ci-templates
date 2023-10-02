@@ -7,22 +7,25 @@
   extends:
     - .devcontainer
   variables:
+    # Full image name including registry and tag
     IMAGE_NAME: ''
+    # If on, push the image
     PUSH: ''
+    # Platform images to build
     PLATFORM: ''
-    SUB_FOLDER: ''
+    # Folder where to store devcontainer configuration
+    WORKING_DIRECTORY: ''
+    # If on, pin the generated image to the latest
+    PIN_LATEST: ''
   script:
     - |
-      set -x
-
-      build_extra=(--workspace-folder .)
-
-      if [ -n "$SUB_FOLDER" ]; then
-        build_extra+=(--config "$SUB_FOLDER")
-      fi
+      build_extra=(--workspace-folder ${WORKING_DIRECTORY})
 
       if [ -n "$IMAGE_NAME" ]; then
         build_extra+=(--image-name "$IMAGE_NAME")
+        if [ -n "$PIN_LATEST" ]; then
+          build_extra+=(--image-name "${IMAGE_NAME%:*}:latest")
+        fi
       fi
 
       if [ -n "$PUSH" ]; then
