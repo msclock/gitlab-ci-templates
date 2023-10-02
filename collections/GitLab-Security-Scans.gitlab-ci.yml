@@ -5,10 +5,10 @@ include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
   - template: Secret-Detection.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.4/jobs/Json-Schema-Secure.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.4/jobs/OSV-Scanner.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.4/jobs/OWASP-Dependency-Check.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.4/jobs/SAST-Powershell.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.5/jobs/Json-Schema-Secure.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.5/jobs/OSV-Scanner.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.5/jobs/OWASP-Dependency-Check.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.4.5/jobs/SAST-Powershell.gitlab-ci.yml
 
 # The overrides below are all included to save artifacts and run on tag pipelines until GitLab
 # issue https://gitlab.com/gitlab-org/gitlab/-/issues/225797 is fixed.  Only overrides required

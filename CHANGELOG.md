@@ -1,3 +1,10 @@
+## [2.4.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.4...v2.4.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* update local tag error ([2f410b0](https://gitlab.com/msclock/gitlab-ci-templates/commit/2f410b04baa0b4aa74a3d0048c447f5f95dbb039))
+
 ## [2.4.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.4.3...v2.4.4) (2023-09-19)
 
 
