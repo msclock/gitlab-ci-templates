@@ -1,16 +1,31 @@
 const fs = require("fs");
 const path = require("path");
 
-var GITLAB_CI_FOLDER = ["collections", "jobs", "templates", "workflows", "."];
-var GITLAB_CI_FILES = [];
+const GITLAB_CI_FOLDER = ["."];
+const GITLAB_CI_FILES = [];
 
-GITLAB_CI_FOLDER.forEach((dir) => {
+/**
+ * Traverses a directory recursively and collects paths to all ".gitlab-ci.yml" files.
+ *
+ * @param {string} dir - The directory to traverse.
+ * @return {void} - This function does not return a value.
+ */
+function traverseDirectory(dir) {
     const files = fs.readdirSync(dir);
     files.forEach((file) => {
-        if (file.endsWith(".gitlab-ci.yml")) {
-            GITLAB_CI_FILES.push(path.join(dir, file));
+        const filePath = path.join(dir, file);
+        const stats = fs.statSync(filePath);
+
+        if (stats.isDirectory()) {
+            traverseDirectory(filePath); // 递归遍历子目录
+        } else if (file.endsWith(".gitlab-ci.yml")) {
+            GITLAB_CI_FILES.push(filePath);
         }
     });
+}
+
+GITLAB_CI_FOLDER.forEach((dir) => {
+    traverseDirectory(dir);
 });
 
 module.exports = {
