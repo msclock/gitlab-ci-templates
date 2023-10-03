@@ -1,6 +1,6 @@
 # @Description template for path changes based on git subcommand diff
 .path_filter:
-  image: msclock/pre-commit:2023-10-03T06-15-42Z
+  image: msclock/pre-commit:2023-10-03T10-20-49Z
   variables:
     # This is no useful option yet.
     WORKING_DIRECTORY: .
