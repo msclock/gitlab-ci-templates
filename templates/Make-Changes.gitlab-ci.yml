@@ -2,6 +2,7 @@
 .make_changes:
   variables:
     MAKE_CHANGES_MSG: ''
+    MAKE_CHANGES_MSG_BODY: ''
     MAKE_CHANGES_ON_PR: ''
     MAKE_CHANGES_FINISH: ''
     DETECT_CHANGES_ADD: 1
@@ -22,7 +23,9 @@
         fi
 
         git add -u .
-        git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" -m "job url:$CI_JOB_URL"
+        git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" \
+          -m "${MAKE_CHANGES_MSG_BODY}" \
+          -m "job url: $CI_JOB_URL"
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
           git push origin "$temp_branch"
           curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
