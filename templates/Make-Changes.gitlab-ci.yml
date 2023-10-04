@@ -23,9 +23,9 @@
         fi
 
         git add -u .
-        git commit -m "${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}" \
-          -m "${MAKE_CHANGES_MSG_BODY}" \
-          -m "job url: $CI_JOB_URL"
+        _title=$(eval "echo ${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}")
+        _body=$(eval "echo ${MAKE_CHANGES_MSG_BODY}")
+        git commit -m "$_title" -m "$_body" -m "job url: $CI_JOB_URL"
         if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
           git push origin "$temp_branch"
           curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \

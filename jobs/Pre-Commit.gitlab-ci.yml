@@ -50,7 +50,7 @@ pre_commit:
   variables:
     PRE_COMMIT_AUTO_FIX: '1'
     PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH: 'true'
-    MAKE_CHANGES_MSG: 'style(ci): auto fixes from pre-commit'
+    MAKE_CHANGES_MSG: 'style\(ci\): auto fixes from pre-commit'
     MAKE_CHANGES_FINISH: error
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
