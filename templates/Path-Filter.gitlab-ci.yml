@@ -43,6 +43,7 @@
     - |
       apt update && apt install jq -y
   script:
+    - !reference [.security_git_config, script]
     - |
       # Set the working directory if provided
       if [[ -n "$WORKING_DIRECTORY" ]]; then
