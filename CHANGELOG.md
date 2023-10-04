@@ -1,3 +1,18 @@
+## [2.5.6](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.5...v2.5.6) (2023-10-04)
+
+
+### Performance
+
+* add git config on .path_filter ([92babe8](https://gitlab.com/msclock/gitlab-ci-templates/commit/92babe818c449a3d6deee4538d9fbbc17b05027a))
+* add MAKE_CHANGES_MSG_BODY option ([fe3945e](https://gitlab.com/msclock/gitlab-ci-templates/commit/fe3945e37cb47ae9dd893bdd3bd54c6b5cf6041b))
+* detect changes on same branch ([f8b8bf5](https://gitlab.com/msclock/gitlab-ci-templates/commit/f8b8bf519185e5eee2d63cf8ee29445c47bd0864))
+* using depths for .path_filter ([5402889](https://gitlab.com/msclock/gitlab-ci-templates/commit/5402889992ca818a987e43117619e01b0c008a81))
+
+
+### CI
+
+* make build images msg body ([20290c3](https://gitlab.com/msclock/gitlab-ci-templates/commit/20290c336388d0b1f2d60df53341d08f185165d3))
+
 ## [2.5.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.4...v2.5.5) (2023-10-04)
 
 
