@@ -1,6 +1,6 @@
 # @Description template for path changes based on git subcommand diff
 .path_filter:
-  image: msclock/pre-commit:2023-10-03T10-20-49Z
+  image: msclock/common:latest
   variables:
     # This is no useful option yet.
     WORKING_DIRECTORY: .
@@ -40,9 +40,6 @@
     LIST_FILES: none
     # Initial fetch depth for detecting changes
     INITIAL_FETCH_DEPTH: '30'
-  before_script:
-    - |
-      apt update && apt install jq -y
   script:
     - !reference [.security_git_config, script]
     - |
