@@ -11,5 +11,6 @@
 workflow: !reference [.general_workflow, workflow]
 
 default:
+  interruptible: true
   artifacts:
     expire_in: 15 days
