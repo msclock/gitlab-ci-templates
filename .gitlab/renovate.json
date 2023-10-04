@@ -24,6 +24,20 @@
       ],
       "matchCurrentVersion": "/^v?[0-9.]+/",
       "pinDigests": true
+    },
+    {
+      "description": "Disable update python images on major/minor",
+      "matchPackagePatterns": [
+        "python"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "enabled": false
     }
   ],
   "regexManagers": [
