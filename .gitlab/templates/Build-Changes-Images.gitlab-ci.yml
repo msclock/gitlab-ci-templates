@@ -3,10 +3,10 @@
 # because the workflow is triggered by the variable _IMAGES.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.7/templates/Stages.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.7/templates/Common.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.7/templates/Make-Changes.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.7/templates/Path-Filter.gitlab-ci.yml
+  - local: /templates/Stages.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Make-Changes.gitlab-ci.yml
+  - local: /templates/Path-Filter.gitlab-ci.yml
 
 variables:
   _IMAGES: $$images
@@ -97,8 +97,8 @@ pin_changed_images:
     - .build_on_changes
   variables:
     DETECT_CHANGES_ADD: 0
-    MAKE_CHANGES_MSG: 'perf(image): pin new image tag'
-    MAKE_CHANGES_BODY_MSG: Pin new tag $$tag_to_image on the images $$changed_images
+    MAKE_CHANGES_MSG: 'perf\(image\): pin new image tag $${tag_to_image}'
+    MAKE_CHANGES_MSG_BODY: Pin new tag $${tag_to_image} on the images $${changed_images}
   script:
     - echo -e "$changed_images"
     - echo -e "$tag_to_image"
