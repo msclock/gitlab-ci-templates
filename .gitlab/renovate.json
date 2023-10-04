@@ -1,83 +1,83 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-        "config:recommended",
-        "docker:enableMajor"
-    ],
-    "prHourlyLimit": 0,
-    "labels": [
-        "dependencies"
-    ],
-    "packageRules": [
-        {
-            "matchDepTypes": [
-                "optionalDependencies"
-            ],
-            "addLabels": [
-                "optional"
-            ]
-        },
-        {
-            "description": "Pin digests only if they begin with a numbered version",
-            "matchDatasources": [
-                "docker"
-            ],
-            "matchCurrentVersion": "/^v?[0-9.]+/",
-            "pinDigests": true
-        }
-    ],
-    "regexManagers": [
-        {
-            "description": "Update npm installed packages with pinned versions",
-            "fileMatch": [
-                "\\.gitlab-ci\\.yml$"
-            ],
-            "matchStrings": [
-                "\\bnpm i(?:install)? -g (?<depName>@?[\\w\\/.-]+)@(?<currentValue>[\\w.-]+)\\b"
-            ],
-            "datasourceTemplate": "npm"
-        },
-        {
-            "description": "Update pip installed packages with pinned versions",
-            "fileMatch": [
-                "\\.gitlab-ci\\.yml$"
-            ],
-            "matchStrings": [
-                "\\bpip install (?<depName>[\\w-]+)==(?<currentValue>[\\w.-]+)\\b"
-            ],
-            "datasourceTemplate": "pypi"
-        },
-        {
-            "description": "Update config file variable for any file from a GitLab project release",
-            "fileMatch": [
-                "\\.gitlab-ci\\.yml$"
-            ],
-            "matchStrings": [
-                "\\s+CONFIG_FILE_LINK: https:\\/\\/gitlab.com\\/(?<depName>.*?)\\/-\\/raw\\/(?<currentValue>.*?)\\/\\w+"
-            ],
-            "datasourceTemplate": "gitlab-releases"
-        },
-        {
-            "description": "Update https template URL for .gitlab-ci.yml from a GitLab project release",
-            "fileMatch": [
-                "\\.gitlab-ci\\.yml$"
-            ],
-            "matchStrings": [
-                "\\s+- remote: [\"']*?https:\\/\\/gitlab.com\\/(?<depName>.*?)\\/-\\/raw\\/(?<currentValue>.*?)\\/\\w+"
-            ],
-            "datasourceTemplate": "gitlab-releases"
-        },
-        {
-            "description": "Manage Alpine OS versions in container image tags",
-            "fileMatch": [
-                "\\.gitlab-ci\\.yml$"
-            ],
-            "matchStrings": [
-                "(?:image:\\s+name:\\s*|image:\\s*|services:\\s+-\\s+)(?<depName>[\\S]+):(?<currentValue>[\\S]+)"
-            ],
-            "versioningTemplate": "regex:^(?<compatibility>[\\S]*\\d+\\.\\d+(?:\\.\\d+)?(?:[\\S]*)?-alpine-?)(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$",
-            "datasourceTemplate": "docker"
-        }
-    ],
-    "timezone": "Asia/Shanghai"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  "prHourlyLimit": 0,
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "optionalDependencies"
+      ],
+      "addLabels": [
+        "optional"
+      ]
+    },
+    {
+      "description": "Pin digests only if they begin with a numbered version",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchCurrentVersion": "/^v?[0-9.]+/",
+      "pinDigests": true
+    }
+  ],
+  "regexManagers": [
+    {
+      "description": "Update npm installed packages with pinned versions",
+      "fileMatch": [
+        "\\.gitlab-ci\\.yml$"
+      ],
+      "matchStrings": [
+        "\\bnpm i(?:install)? -g (?<depName>@?[\\w\\/.-]+)@(?<currentValue>[\\w.-]+)\\b"
+      ],
+      "datasourceTemplate": "npm"
+    },
+    {
+      "description": "Update pip installed packages with pinned versions",
+      "fileMatch": [
+        "\\.gitlab-ci\\.yml$"
+      ],
+      "matchStrings": [
+        "\\bpip install (?<depName>[\\w-]+)==(?<currentValue>[\\w.-]+)\\b"
+      ],
+      "datasourceTemplate": "pypi"
+    },
+    {
+      "description": "Update config file variable for any file from a GitLab project release",
+      "fileMatch": [
+        "\\.gitlab-ci\\.yml$"
+      ],
+      "matchStrings": [
+        "\\s+CONFIG_FILE_LINK: https:\\/\\/gitlab.com\\/(?<depName>.*?)\\/-\\/raw\\/(?<currentValue>.*?)\\/\\w+"
+      ],
+      "datasourceTemplate": "gitlab-releases"
+    },
+    {
+      "description": "Update https template URL for .gitlab-ci.yml from a GitLab project release",
+      "fileMatch": [
+        "\\.gitlab-ci\\.yml$"
+      ],
+      "matchStrings": [
+        "\\s+- remote: [\"']*?https:\\/\\/gitlab.com\\/(?<depName>.*?)\\/-\\/raw\\/(?<currentValue>.*?)\\/\\w+"
+      ],
+      "datasourceTemplate": "gitlab-releases"
+    },
+    {
+      "description": "Manage Alpine OS versions in container image tags",
+      "fileMatch": [
+        "\\.gitlab-ci\\.yml$"
+      ],
+      "matchStrings": [
+        "(?:image:\\s+name:\\s*|image:\\s*|services:\\s+-\\s+)(?<depName>[\\S]+):(?<currentValue>[\\S]+)"
+      ],
+      "versioningTemplate": "regex:^(?<compatibility>[\\S]*\\d+\\.\\d+(?:\\.\\d+)?(?:[\\S]*)?-alpine-?)(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "timezone": "Asia/Shanghai"
 }
