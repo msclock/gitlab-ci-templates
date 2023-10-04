@@ -65,14 +65,10 @@
         git checkout --force "$REF"
 
         if [[ $BASE == $REF ]]; then
-          if [[ $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000" ]]; then
-            if git rev-list $REF | grep $CI_COMMIT_BEFORE_SHA > /dev/null; then
-              _against_base=$CI_COMMIT_BEFORE_SHA
-            else
-              _against_base=HEAD~1
-            fi
+          if [[ $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000" ]] && git rev-list $REF | grep $CI_COMMIT_BEFORE_SHA > /dev/null; then
+            _against_base=$CI_COMMIT_BEFORE_SHA
           else
-            _against_base=HEAD~1
+            _against_base=$(git rev-parse HEAD~1)
           fi
         else
           git branch -D $BASE || true
