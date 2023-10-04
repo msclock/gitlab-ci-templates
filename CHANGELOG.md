@@ -1,3 +1,10 @@
+## [2.5.7](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.6...v2.5.7) (2023-10-04)
+
+
+### Performance
+
+* default to interruptible on workflow ([53f7750](https://gitlab.com/msclock/gitlab-ci-templates/commit/53f7750a2438fb7e88b7f5e164345cc5a8d1ee53))
+
 ## [2.5.6](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.5...v2.5.6) (2023-10-04)
 
 
