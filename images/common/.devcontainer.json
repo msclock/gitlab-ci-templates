@@ -1,0 +1,6 @@
+{
+  "name": "common",
+  "build": {
+    "dockerfile": "Dockerfile"
+  }
+}
