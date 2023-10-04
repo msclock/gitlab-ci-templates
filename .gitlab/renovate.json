@@ -10,20 +10,20 @@
     ],
     "packageRules": [
         {
-            "matchPackagePatterns": [
-                "eslint"
-            ],
-            "labels": [
-                "linting"
-            ]
-        },
-        {
             "matchDepTypes": [
                 "optionalDependencies"
             ],
             "addLabels": [
                 "optional"
             ]
+        },
+        {
+            "description": "Pin digests only if they begin with a numbered version",
+            "matchDatasources": [
+                "docker"
+            ],
+            "matchCurrentVersion": "/^v?[0-9.]+/",
+            "pinDigests": true
         }
     ],
     "regexManagers": [
