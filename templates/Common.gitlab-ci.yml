@@ -17,7 +17,7 @@
     fi
 
     git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
-    git config --global user.email ${CI_USER_EMAIL:-noreply+gitlab-ci[bot]@${CI_SERVER_HOST}}
+    git config --global user.email ${CI_USER_EMAIL:-gitlab-ci[bot]@users.noreply.${CI_SERVER_HOST}}
     git config --global lfs.locksverify true
 
 # @Description check if latest commit id
