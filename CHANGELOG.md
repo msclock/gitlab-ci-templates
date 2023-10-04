@@ -1,3 +1,21 @@
+## [2.5.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.4...v2.5.5) (2023-10-04)
+
+
+### Style
+
+* format with indent 2 with json and js files ([a00e5b0](https://gitlab.com/msclock/gitlab-ci-templates/commit/a00e5b057aa01e05ed5d15383094c3505a926e6e))
+
+
+### Performance
+
+* use proper no-reply email in ci ([b96fbb0](https://gitlab.com/msclock/gitlab-ci-templates/commit/b96fbb042176046f3a951d36972cd38de786e1ba))
+
+
+### Chores
+
+* configure docker to pin digest on renovate ([8a36348](https://gitlab.com/msclock/gitlab-ci-templates/commit/8a36348650752880a50590d1d9b2ac667faba614))
+* disable python update on major/minor ([c579567](https://gitlab.com/msclock/gitlab-ci-templates/commit/c57956731d4515889c842a03f51856675f5b124c))
+
 ## [2.5.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.3...v2.5.4) (2023-10-03)
 
 

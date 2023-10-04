@@ -1,9 +1,9 @@
 # Collection to consolidate Docker build, lint, scan, and deploy.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.4/collections/Container-Base.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.4/jobs/Docker-Build.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.4/jobs/Docker-Deploy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.5/collections/Container-Base.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.5/jobs/Docker-Build.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.5/jobs/Docker-Deploy.gitlab-ci.yml
 
 # Included from Docker-Build.gitlab-ci.yml
 docker_build:
