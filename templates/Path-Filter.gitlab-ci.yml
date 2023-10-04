@@ -38,7 +38,8 @@
     #             Backslash escapes every potentially unsafe character.
     # Default: none
     LIST_FILES: none
-    INITIAL_FETCH_DEPTH: '100'
+    # Initial fetch depth for detecting changes
+    INITIAL_FETCH_DEPTH: '30'
   before_script:
     - |
       apt update && apt install jq -y
@@ -62,6 +63,8 @@
         all_changes_output=$(git diff --no-renames --name-status $CI_MERGE_REQUEST_TARGET_BRANCH_NAME)
       else
         # Ensure on the branch we want to detect changes against
+        git branch -D $REF || true
+        git fetch origin --depth=$INITIAL_FETCH_DEPTH --force $REF
         git checkout --force "$REF"
 
         if [[ $BASE == $REF ]]; then
@@ -72,7 +75,7 @@
           fi
         else
           git branch -D $BASE || true
-          git fetch origin --force "$BASE":$CI_JOB_ID
+          git fetch origin --depth=$INITIAL_FETCH_DEPTH --force "$BASE":$CI_JOB_ID
           _against_base=$(git merge-base $CI_JOB_ID $REF)
         fi
 
