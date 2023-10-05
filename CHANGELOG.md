@@ -1,3 +1,15 @@
+## [2.5.11](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.10...v2.5.11) (2023-10-05)
+
+
+### Performance
+
+* add changelog generation for release ([9b9a828](https://gitlab.com/msclock/gitlab-ci-templates/commit/9b9a82831f7e1e27a95c30b904667dd277fe4575))
+
+
+### Chores
+
+* remove redundant github ci ([ab7209f](https://gitlab.com/msclock/gitlab-ci-templates/commit/ab7209f5afd978d980decd20032ac73b5dbdd5a4))
+
 ## [2.5.10](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.9...v2.5.10) (2023-10-05)
 
 
