@@ -1,0 +1,61 @@
+# @Description template of dind mode
+.container::dind:
+  image: docker:24.0.6-alpine3.18
+  services:
+    - docker:24.0.6-dind-alpine3.18
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - docker info
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+# @Description template of common image build settings
+.container::image_common_settings:
+  variables:
+    # These are the variables and default values for repository/tag in the container scanning job.
+    # They are used here so they can be overridden once globally (if desired).
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
+    # Dockerfile Location
+    DOCKERFILE: Dockerfile
+    # Labels to add to the image
+    IMAGE_LABELS: >
+      --label org.opencontainers.image.vendor=$CI_SERVER_URL/$GITLAB_USER_LOGIN
+      --label org.opencontainers.image.authors=$CI_SERVER_URL/$GITLAB_USER_LOGIN
+      --label org.opencontainers.image.revision=$CI_COMMIT_SHA
+      --label org.opencontainers.image.source=$CI_PROJECT_URL
+      --label org.opencontainers.image.documentation=$CI_PROJECT_URL
+      --label org.opencontainers.image.licenses=$CI_PROJECT_URL
+      --label org.opencontainers.image.url=$CI_PROJECT_URL
+      --label vcs-url=$CI_PROJECT_URL
+      --label com.gitlab.ci.user=$CI_SERVER_URL/$GITLAB_USER_LOGIN
+      --label com.gitlab.ci.email=$GITLAB_USER_EMAIL
+      --label com.gitlab.ci.tagorbranch=$CI_COMMIT_REF_NAME
+      --label com.gitlab.ci.pipelineurl=$CI_PIPELINE_URL
+      --label com.gitlab.ci.commiturl=$CI_PROJECT_URL/commit/$CI_COMMIT_SHA
+      --label com.gitlab.ci.cijoburl=$CI_JOB_URL
+  script:
+    - |
+      echo "Building and shipping image to $CI_IMAGE_FULL_NAME"
+
+      # Build date for opencontainers
+      BUILD_DATE="'$(date '+%FT%T%z' | sed -E -n 's/(\+[0-9]{2})([0-9]{2})$/\1:\2/p')'" #rfc 3339 date
+      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.created=$BUILD_DATE --label build-date=$BUILD_DATE"
+
+      # Description for opencontainers
+      BUILD_TITLE=$(echo $CI_PROJECT_TITLE | tr " ")
+      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.title=$BUILD_TITLE --label org.opencontainers.image.description=$BUILD_TITLE"
+
+      # Add ref.name for opencontainers
+      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.ref.name=$CI_IMAGE_FULL_NAME:$CI_COMMIT_REF_NAME"
+
+      # Add mrurl
+      if [[ -n "$CI_MERGE_REQUEST_ID" ]]; then
+        IMAGE_LABELS="$IMAGE_LABELS --label com.gitlab.ci.mrurl=$CI_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_ID"
+      fi
+
+      # Add Identity tag
+      if [[ -z "$CI_IMAGE_IDENTITY_TAG" ]]; then
+        echo "CI_IMAGE_IDENTITY_TAG is not set, error" >> /dev/stderr
+        exit 1
+      fi

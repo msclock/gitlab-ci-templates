@@ -2,9 +2,9 @@
 # Uses kaniko for build and skopeo for image copy.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.9/collections/Container-Base.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.9/jobs/Container-Build.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.9/jobs/Container-Deploy.gitlab-ci.yml
+  - local: /collections/Container-Base.gitlab-ci.yml
+  - local: /jobs/Container-Build.gitlab-ci.yml
+  - local: /jobs/Container-Deploy.gitlab-ci.yml
 
 # Included from Container-Base.gitlab-ci.yml
 lint_container:
@@ -14,8 +14,8 @@ lint_container:
 container_build:
   variables:
     # Override repository for temp image and tag.  Must be done in job since defined in job template.
-    CI_APPLICATION_REPOSITORY: $TEMP_IMAGE_REPOSITORY
-    CI_APPLICATION_TAG: $TEMP_IMAGE_TAG
+    CI_IMAGE_FULL_NAME: $TEMP_IMAGE_REPOSITORY
+    CI_IMAGE_IDENTITY_TAG: $TEMP_IMAGE_TAG
   needs:
     - lint_container
 
@@ -33,8 +33,8 @@ docker_dive:
 .copy_image:
   variables:
     # Override repository for temp image and tag.  Must be done in job since defined in job template.
-    CI_APPLICATION_REPOSITORY: $TEMP_IMAGE_REPOSITORY
-    CI_APPLICATION_TAG: $TEMP_IMAGE_TAG
+    CI_IMAGE_FULL_NAME: $TEMP_IMAGE_REPOSITORY
+    CI_IMAGE_IDENTITY_TAG: $TEMP_IMAGE_TAG
   needs:
     - container_scanning
     - docker_dive

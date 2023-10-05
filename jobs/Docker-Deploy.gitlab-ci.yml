@@ -4,19 +4,19 @@
 #   - Other branches or MR: tag image with branch name
 
 .deploy_image:
-  extends: .dind
+  extends: .container::dind
   variables:
     # These are the variables and default values for repository/tag in the container scanning job.
     # They are used here so they can be overridden once globally (if desired).
-    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
-    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
     GIT_STRATEGY: none
   stage: container-deploy
   dependencies: []
   script:
-    - !reference [.dind, script]
+    - !reference [.container::dind, script]
     - |
-      export SOURCE_IMAGE=${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}
+      export SOURCE_IMAGE=${CI_IMAGE_FULL_NAME}:${CI_IMAGE_IDENTITY_TAG}
       echo SOURCE_IMAGE: $SOURCE_IMAGE
       export TARGET_IMAGE=$CI_REGISTRY_IMAGE:$IMAGE_TAG
       echo TARGET_IMAGE: $TARGET_IMAGE

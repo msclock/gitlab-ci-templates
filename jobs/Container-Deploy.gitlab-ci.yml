@@ -4,21 +4,21 @@
 #   - Other branches or MR: tag image with branch name
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.9/templates/Skopeo.gitlab-ci.yml
+  - local: /templates/Skopeo.gitlab-ci.yml
 
 .copy_image:
   extends: .skopeo
   variables:
     # These are the variables and default values for repository/tag in the container scanning job.
     # They are used here so they can be overridden once globally (if desired).
-    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
-    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
     DOCKER_CREDS: $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD
   stage: container-deploy
   script:
     - !reference [.skopeo, script]
     - |
-      export SOURCE_IMAGE=docker://$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+      export SOURCE_IMAGE=docker://$CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG
       echo SOURCE_IMAGE: $SOURCE_IMAGE
       export DEST_IMAGE=docker://$CI_REGISTRY_IMAGE:$IMAGE_TAG
       echo DEST_IMAGE: $DEST_IMAGE

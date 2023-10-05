@@ -6,8 +6,8 @@ remove_image:
   variables:
     # These are the variables and default values for repository/tag in the container scanning job.
     # They are used here so they can be overridden once globally (if desired).
-    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
-    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
     REG_VERSION: v0.16.1
     GIT_STRATEGY: none
     REG_SHA256: ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228
@@ -23,4 +23,4 @@ remove_image:
       --auth-url "$CI_REGISTRY"
       -u "$CI_REGISTRY_USER"
       -p "$CI_REGISTRY_PASSWORD"
-      "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG"
+      "$CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG"

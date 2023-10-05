@@ -9,8 +9,8 @@ anchore:
     GIT_STRATEGY: none
     # These are the variables and default values for repository/tag in the container scanning job.
     # They are used here so they can be overridden once globally (if desired).
-    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
-    CI_APPLICATION_TAG: $CI_COMMIT_SHA
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
   image: docker.io/anchore/inline-scan:latest
   services:
     - name: docker.io/anchore/inline-scan:latest
@@ -19,7 +19,7 @@ anchore:
   script:
     - anchore-cli system wait
     - anchore-cli registry add "$CI_REGISTRY" "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" --skip-validate
-    - anchore_ci_tools.py -a -r --timeout 500 --image $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+    - anchore_ci_tools.py -a -r --timeout 500 --image $CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG
 
     # Policy report contains policies as well as results, so check for failure and fail job as appropriate
     - IMAGE_DIGEST=$(cat anchore-reports/*-details.json | jq '.[0].image_detail[0].digest') && echo $IMAGE_DIGEST

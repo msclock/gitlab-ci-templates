@@ -1,17 +1,23 @@
 # Job to build and push a container image using kaniko with repository/tag to match the container scanning job.
 
 container_build:
+  extends:
+    - .container::image_common_settings
   stage: container-build
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: ['']
   variables:
-    # These are the variables and default values for repository/tag in the container scanning job.
-    # They are used here so they can be overridden once globally (if desired).
-    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
-    CI_APPLICATION_TAG: $CI_COMMIT_SHA
-    DOCKERFILE: Dockerfile
+    # More Information on Kaniko Caching: https://cloud.google.com/build/docs/kaniko-cache
+    # Default to 2 weeks
+    KANIKO_CACHE_TTL: 168h
+    # Kaniko cache arguments
+    KANIKO_CACHE_ARGS: --cache=true --cache-copy-layers=true --cache-ttl=${KANIKO_CACHE_TTL}
   script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/$DOCKERFILE --destination $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+    - !reference [.container::image_build, script]
+    - |
+      echo "Kaniko arguments to run: --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/$DOCKERFILE $KANIKO_CACHE_ARGS --destination $CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG $IMAGE_LABELS"
+
+      mkdir -p /kaniko/.docker
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/$DOCKERFILE $KANIKO_CACHE_ARGS --destination $CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG $IMAGE_LABELS
