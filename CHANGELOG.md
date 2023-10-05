@@ -1,3 +1,10 @@
+## [2.5.10](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.9...v2.5.10) (2023-10-05)
+
+
+### Performance
+
+* extra container build template ([39b073f](https://gitlab.com/msclock/gitlab-ci-templates/commit/39b073fa540755ef8a4dc528128ad35553dabbf2))
+
 ## [2.5.9](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.8...v2.5.9) (2023-10-05)
 
 
