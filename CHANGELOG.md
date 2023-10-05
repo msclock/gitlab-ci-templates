@@ -1,3 +1,20 @@
+## [2.5.8](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.7...v2.5.8) (2023-10-05)
+
+
+### Performance
+
+* improve msg eval on .make_changes ([c9fd37b](https://gitlab.com/msclock/gitlab-ci-templates/commit/c9fd37b6a4045087881f2ea7a30c6ecfe10c2854))
+
+
+### Build
+
+* add the image common ([7248fab](https://gitlab.com/msclock/gitlab-ci-templates/commit/7248fab7f43707efe447a1818b8954ae12a72def))
+
+
+### CI
+
+* fix to pin new image ([85b2c76](https://gitlab.com/msclock/gitlab-ci-templates/commit/85b2c76de7a55e342d2669ca6467d6c8c9af77eb))
+
 ## [2.5.7](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.6...v2.5.7) (2023-10-04)
 
 
