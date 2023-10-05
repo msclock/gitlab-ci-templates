@@ -34,4 +34,9 @@ pages:
 semantic_release:
   variables:
     NPM_SOURCE: https://registry.npm.taobao.org
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git @google/semantic-release-replace-plugin conventional-changelog-conventionalcommits'
+    RELEASE_EXTRA_PLUGINS: >-
+      @semantic-release/changelog
+      @semantic-release/git
+      semantic-release-replace-plugin
+      conventional-changelog-conventionalcommits
+      @semantic-release/exec

@@ -79,7 +79,7 @@ module.exports = {
       },
     ],
     [
-      "@google/semantic-release-replace-plugin",
+      "semantic-release-replace-plugin",
       {
         replacements: [
           {
@@ -95,11 +95,15 @@ module.exports = {
         ],
       },
     ],
+    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md", }],
     [
-      "@semantic-release/changelog",
+      "@semantic-release/exec",
       {
-        changelogFile: "CHANGELOG.md",
-      },
+        publishCmd: [
+          "git tag -a -f v${nextRelease.version} --cleanup=whitespace -m '${nextRelease.notes}'",
+          "git push --force origin v${nextRelease.version}"
+        ].join(" && "),
+      }
     ],
     [
       "@semantic-release/git",
