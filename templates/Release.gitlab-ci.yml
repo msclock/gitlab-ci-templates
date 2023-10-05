@@ -1,3 +1,13 @@
+# This presents a semanti release templates for automatic release management
+# based on semantic-release, see https://www.npmjs.com/package/semantic-release.
+#
+# Normally, the templates can apply the release workflows:
+#   - [Distribution channels](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/distribution-channels)
+#   - [Maintenance release](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/maintenance-releases)
+#   - [Pre-release](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/pre-releases)
+#
+# For more information about semantic-release, see https://github.com/semantic-release/semantic-release.
+
 # @Description template for release publish
 .release:
   image: msclock/semantic-release:2023-10-03T10-29-10Z
@@ -5,34 +15,102 @@
     - !reference [.rules, Skip Release Commits]
     - if: |
         $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
-        $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/
+        $CI_COMMIT_REF_NAME =~ /^(alpha|beta|next|next-major)$/ ||
+        $CI_COMMIT_REF_NAME =~ /^+([0-9])?(.{+([0-9]),x}).x$/
   variables:
-    RELEASE_EXTRA_PLUGINS: ''
+    # Extra plugins for semantic-release to install. Default to the below plugins are for making a release
+    # with preset release config _PRESEST_RELEASERC_CONFIG.
+    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git conventional-changelog-conventionalcommits'
+    # If on, the older release will be overwritten by the new release.
     OVERRIDE_RELEASE: ''
+    # If on, the triggered release will apply the preset release config _PRESEST_RELEASERC_CONFIG.
     USING_PRESET_RELEASERC: ''
-    _PRESET_RELEASERC_FILE: .releaserc
+    # The preset release config _PRESEST_RELEASERC_CONFIG saved in _PRESET_RELEASERC_FILE
+    _PRESET_RELEASERC_FILE: .releaserc.js
+    # The default preset release config for semantic-release, more details
+    # see https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md
     _PRESET_RELEASERC_CONFIG: |
-      {
-        "branches":[
+      module.exports = {
+        branches: [
+          "+([0-9])?(.{+([0-9]),x}).x",
           "$CI_DEFAULT_BRANCH",
-          {
-            "name": "alpha",
-            "prerelease": true
-          },
-          {
-            "name": "beta",
-            "prerelease": true
-          }
+          "next",
+          "next-major",
+          { name: "beta", prerelease: true },
+          { name: "alpha", prerelease: true },
         ],
-        "plugins": [
-          "@semantic-release/commit-analyzer",
-          "@semantic-release/release-notes-generator",
-          "@semantic-release/gitlab"
-        ]
-      }
+        plugins: [
+          [
+            "@semantic-release/commit-analyzer",
+            {
+              preset: "angular",
+              releaseRules: [
+                { breaking: true, release: "major" },
+                { type: "feat", release: "minor" },
+                { type: "fix", release: "patch" },
+                { type: "style", release: "patch" },
+                { type: "refactor", release: "patch" },
+                { type: "perf", release: "patch" },
+                { type: "revert", release: "patch" },
+                { type: "chore", scope: "deps", release: "patch" },
+                { type: "build", release: false },
+                { type: "ci", release: false },
+                { type: "docs", release: false },
+                { type: "test", release: false },
+              ],
+              parserOpts: {
+                noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+              },
+            },
+          ],
+          [
+            "@semantic-release/release-notes-generator",
+            {
+              preset: "conventionalcommits",
+              presetConfig: {
+                types: [
+                  { type: "feat", section: "Features" },
+                  { type: "fix", section: "Bug Fixes" },
+                  { type: "style", section: "Style" },
+                  { type: "refactor", section: "Refactor" },
+                  { type: "perf", section: "Performance" },
+                  { type: "revert", section: "Reverts" },
+                  { type: "chore", scope: "deps", section: "Dependencies" },
+                  { type: "chore", section: "Chores" },
+                  { type: "build", section: "Build" },
+                  { type: "ci", section: "CI" },
+                  { type: "docs", section: "Docs" },
+                  { type: "test", section: "Tests" },
+                ],
+              },
+              parserOpts: {
+                noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+              },
+            },
+          ],
+          [
+            "@semantic-release/changelog",
+            {
+              changelogFile: "CHANGELOG.md",
+            },
+          ],
+          [
+            "@semantic-release/git",
+            {
+              assets: ["CHANGELOG.md"],
+              message: "chore(release): $${nextRelease.version} [skip ci]\n\n$${nextRelease.notes}",
+            },
+          ],
+          "@semantic-release/gitlab",
+        ],
+      };
+    # Optional NPM registry to speed up dependencies installation.
     NPM_SOURCE: ''
+    # Optional options for semantic-release cli.
     SEMANTIC_RELEASE_OPTIONS: ''
+    # The api of gitlab for semantic-release
     GITLAB_PREFIX: /api/v4
+    # The instance of gitlab
     GITLAB_URL: $CI_SERVER_URL
   script:
     - !reference [.security_check_sensible, script]
@@ -94,11 +172,12 @@
       new_release_version=$(echo "$_release_output" | grep -oP "(?<=Published release ).+(?= on)") || true
       echo "new_release_version=$new_release_version" >> semantic.env
   after_script:
+    # Finally, remove the preset releaserc file
     - |
       [[ -n "$USING_PRESET_RELEASERC" && -f "$_PRESET_RELEASERC_FILE" ]] && rm -f "$_PRESET_RELEASERC_FILE"
   artifacts:
     reports:
-      dotenv: semantic.env
+      dotenv: semantic.env # Expose the new release version to dotenv
 
 # @Description post release pipeline, default to run tag post pipeline
 .post_pipelilne:
@@ -108,7 +187,8 @@
     - !reference [.rules, Skip Release Commits]
     - if: |
         ( $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
-        $CI_COMMIT_REF_NAME =~ /^(alpha|beta)$/ ) &&
+        $CI_COMMIT_REF_NAME =~ /^(alpha|beta|next|next-major)$/ ||
+        $CI_COMMIT_REF_NAME =~ /^+([0-9])?(.{+([0-9]),x}).x$/ ) &&
         $RELEASE_POST_PIPELINE_TYPE
   variables:
     # '', 'tag' or 'branch'

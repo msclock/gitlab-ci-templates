@@ -23,122 +23,10 @@ release:
     - .release
 ```
 
-The following presents how to configure a release workflow with changelog file generated.
+More detail can be found in related implementation.
 
-```bash
-# Add release rc
-cat >.releaserc<<'EOF'
-{
-  "plugins": [
-    [
-      "@semantic-release/commit-analyzer",
-      {
-        "preset": "angular",
-        "releaseRules": [
-          {
-            "type": "style",
-            "release": "patch"
-          },
-          {
-            "type": "refactor",
-            "release": "patch"
-          },
-          {
-            "type": "perf",
-            "release": "patch"
-          },
-          {
-            "type": "revert",
-            "release": "patch"
-          }
-        ]
-      }
-    ],
-    [
-      "@semantic-release/release-notes-generator",
-      {
-        "preset": "angular",
-        "presetConfig": {
-          "types": [
-            {
-              "type": "style",
-              "section": "Style"
-            },
-            {
-              "type": "refactor",
-              "section": "Refactor"
-            },
-            {
-              "type": "perf",
-              "section": "Performance"
-            },
-            {
-              "type": "revert",
-              "section": "Revert"
-            }
-          ]
-        }
-      }
-    ],
-    [
-      "@semantic-release/changelog",
-      {
-        "changelogFile": "CHANGELOG.md"
-      }
-    ],
-    [
-      "@semantic-release/git",
-      {
-        "assets": [
-          "CHANGELOG.md"
-        ],
-        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
-      }
-    ],
-    "@semantic-release/gitlab"
-  ]
-}
-EOF
-
-# Add gitlab ci for release
-cat >.gitlab-ci.yml<<'EOF'
-stages:
-  - release
-
-include:
-  - remote: "https://gitlab.com/msclock/gitlab-ci-templates/raw/master/templates/common.yml"
-
-# @Description release with semantic-release
-release:
-  stage: release
-  extends:
-    - .release
-  variables:
-    NPM_SOURCE: https://registry.npm.taobao.org
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git'
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^(chore\(release\))/
-      when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-EOF
-```
-
-## Configuration
-
-The available configuration variables can be set as CI/CD variables:
-
-| Variable Name             | Description                                                                            | Default          |
-|---------------------------|----------------------------------------------------------------------------------------|------------------|
-| RELEASE_EXTRA_PLUGINS[^1] | Specifies the extra semantic-release plugins.                                          |                  |
-| OVERRIDE_RELEASE          | If set to a non-empty value, override the release version when encountering conflicts. |                  |
-| USING_PRESET_RELEASERC    | Specifies whether to use the preset releaserc.                                         |                  |
-| NPM_SOURCE                | Specifies the NPM source.                                                              |                  |
-| SEMANTIC_RELEASE_OPTIONS  | Specifies semantic-release options.                                                    |                  |
-| GITLAB_PREFIX             | Specifies the gitlab api prefix.                                                       | '/api/v4'        |
-| GITLAB_URL                | Specifies the gitlab instance.                                                         | '$CI_SERVER_URL' |
-
-!!! note "Note"
-    Preset releaserc is configured to run on the default branch CI_DEFAULT_BRANCH for release, the named branch `alpha` or `beta` for pre-release.
+- [.release template](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Release.gitlab-ci.yml)
+- [semantic_release job](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Release-General.gitlab-ci.yml)
 
 ## Release workflow
 
@@ -176,5 +64,3 @@ attach-to-release:
 ```
 
 Also, [release-cli](https://docs.gitlab.com/ee/user/project/releases/release_cli.html) from gitlab can be used to update the release that is used by the [example](https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-assets-as-generic-package/).
-
-[^1]: Default plugins include semantic-release, @semantic-release/commit-analyzer, @semantic-release/release-notes-generator, and @semantic-release/gitlab.
