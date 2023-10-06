@@ -20,7 +20,11 @@
   variables:
     # Extra plugins for semantic-release to install. Default to the below plugins are for making a release
     # with preset release config _PRESEST_RELEASERC_CONFIG.
-    RELEASE_EXTRA_PLUGINS: '@semantic-release/changelog @semantic-release/git conventional-changelog-conventionalcommits'
+    RELEASE_EXTRA_PLUGINS: >-
+      @semantic-release/changelog
+      @semantic-release/git
+      @semantic-release/exec
+      conventional-changelog-conventionalcommits
     # If on, the older release will be overwritten by the new release.
     OVERRIDE_RELEASE: ''
     # If on, the triggered release will apply the preset release config _PRESEST_RELEASERC_CONFIG.
@@ -88,11 +92,15 @@
               },
             },
           ],
+          ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md", }],
           [
-            "@semantic-release/changelog",
+            "@semantic-release/exec",
             {
-              changelogFile: "CHANGELOG.md",
-            },
+              publishCmd: [
+                "git tag -a -f v$${nextRelease.version} --cleanup=whitespace -m '$${nextRelease.notes}'",
+                "git push --force origin v$${nextRelease.version}"
+              ].join(" && "),
+            }
           ],
           [
             "@semantic-release/git",
