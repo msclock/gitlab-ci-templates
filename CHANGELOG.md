@@ -1,3 +1,17 @@
+## [2.5.12](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.11...v2.5.12) (2023-10-06)
+
+
+### Performance
+
+* **ci:** create annotated tags for release ([3f7eb0b](https://gitlab.com/msclock/gitlab-ci-templates/commit/3f7eb0bf48e248ebb0c34c7b9fdf2c2ac0840e5c))
+* create annotated tags with release templates ([445bddd](https://gitlab.com/msclock/gitlab-ci-templates/commit/445bdddcb004865ad5e9453ed1ee3336305fec55))
+
+
+### Chores
+
+* disable update self templates based on renovate ([54deeab](https://gitlab.com/msclock/gitlab-ci-templates/commit/54deeabda76462bdc7599d0e63404fbde7478187))
+* enable pre-commit update based on renovate ([5b92837](https://gitlab.com/msclock/gitlab-ci-templates/commit/5b92837ffbb206d6e3d40822d40ca4eecf54866c))
+
 ## [2.5.11](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.10...v2.5.11) (2023-10-05)
 
 
