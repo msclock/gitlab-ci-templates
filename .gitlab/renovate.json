@@ -39,6 +39,13 @@
         "minor"
       ],
       "enabled": false
+    },
+    {
+      "description": "Disable update by self templates",
+      "matchPackagePatterns": [
+        "msclock/gitlab-ci-templates"
+      ],
+      "enabled": false
     }
   ],
   "regexManagers": [
