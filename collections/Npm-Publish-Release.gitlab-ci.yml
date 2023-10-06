@@ -1,5 +1,5 @@
 # Collection with jobs for NPM published projects
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.12/jobs/Npm-Publish.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.12/jobs/Release-Check.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.13/jobs/Npm-Publish.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.13/jobs/Release-Check.gitlab-ci.yml

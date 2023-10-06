@@ -1,3 +1,11 @@
+## [2.5.13](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.12...v2.5.13) (2023-10-06)
+
+
+### Dependencies
+
+* **deps:** update pre-commit hook codespell-project/codespell to v2.2.6 ([674c4ef](https://gitlab.com/msclock/gitlab-ci-templates/commit/674c4ef9445467f36bec8cbc8bbb7b96745d9f1c))
+* **deps:** update pre-commit hook igorshubovych/markdownlint-cli to v0.37.0 ([674e63c](https://gitlab.com/msclock/gitlab-ci-templates/commit/674e63c4fdc2f8f2217fc330ebc586befc2d08d5))
+
 ## [2.5.12](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.11...v2.5.12) (2023-10-06)
 
 
