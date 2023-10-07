@@ -21,7 +21,7 @@
     - !reference [.security_git_config, script]
     - |
       echo "Install mkdocs plugins: mkdocs ${MKDOCS_EXTRA_PLUGINS}" >> /dev/stderr
-      pip install mkdocs ${MKDOCS_EXTRA_PLUGINS}
+      pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
 
       if [[ -n "$VRESION_DOCS" ]]; then
         pip install mike
