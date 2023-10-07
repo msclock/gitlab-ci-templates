@@ -1,3 +1,10 @@
+## [2.5.15](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.14...v2.5.15) (2023-10-07)
+
+
+### Dependencies
+
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v4.5.0 ([d45c1e7](https://gitlab.com/msclock/gitlab-ci-templates/commit/d45c1e7884f9eab3b76fb375d1eda27058a71c8c))
+
 ## [2.5.14](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.13...v2.5.14) (2023-10-07)
 
 
