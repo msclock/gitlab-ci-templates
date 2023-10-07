@@ -1,3 +1,15 @@
+## [2.5.14](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.13...v2.5.14) (2023-10-07)
+
+
+### Performance
+
+* explict mkdocs version on .pages_mkdocs ([f8aa23a](https://gitlab.com/msclock/gitlab-ci-templates/commit/f8aa23ad350bcce140d4b34196af3382f2e7b1d2))
+
+
+### Docs
+
+* improve readability ([4661cdb](https://gitlab.com/msclock/gitlab-ci-templates/commit/4661cdb16af89bf6475c90596cba2426ddbc6c4f))
+
 ## [2.5.13](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.12...v2.5.13) (2023-10-06)
 
 

@@ -1,0 +1,24 @@
+# Job for scanning for vulnerabilities with Google's OSV Scanner tool.
+
+osv_scanner:
+  image:
+    name: ghcr.io/google/osv-scanner:v1.4.1@sha256:b9888e82b70766e3f173afa79c420827445437d3abcc467b14a686329ead7ca0
+    entrypoint: ['']
+  stage: test
+  # Uses lockfile, so does not need (or want) dependencies
+  needs: []
+  allow_failure: true
+  script:
+    # Run scan with output to console, and if it fails re-run with JSON output.
+    - /osv-scanner --format table . || /osv-scanner --format json . > osv-scanner-results.json
+  after_script:
+    # Add artificial metrics report to collect release evidence
+    - echo 'osv_scanner run' > metrics.txt
+  artifacts:
+    when: on_failure
+    expose_as: OSV Scanner Report
+    paths:
+      - osv-scanner-results.json
+    # Add artificial metrics report to collect release evidence
+    reports:
+      metrics: metrics.txt
