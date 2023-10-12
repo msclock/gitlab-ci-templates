@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.11-slim@sha256:8fcf215ec209b0cba4048197d3a78544faa69561b03a35528899fd9b93fe2990
+FROM python:3.11-slim@sha256:1c6cf93e9d1c9ee3f54a230482628ba757a0c1ed8e9992c722afc5deba8768eb
 
 RUN <<-EOF
     apt update && apt install -y --no-install-recommends apt-transport-https \
