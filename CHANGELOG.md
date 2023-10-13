@@ -1,3 +1,17 @@
+## [2.5.18](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.17...v2.5.18) (2023-10-13)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-10-13T12-14-51Z ([efd1b5b](https://gitlab.com/msclock/gitlab-ci-templates/commit/efd1b5bd7041a306fd99af770f554d814fd43eed))
+* **image:** pin new image tag 2023-10-13T12-16-10Z ([2c18555](https://gitlab.com/msclock/gitlab-ci-templates/commit/2c185554a37ab8823ef2fb84f703aa625ac70976))
+
+
+### Dependencies
+
+* **deps:** update node.js to 9cfd6fc ([b8261e1](https://gitlab.com/msclock/gitlab-ci-templates/commit/b8261e177674d636e03981c32642757f198ec438))
+* **deps:** update python:3.11-slim docker digest to fda05d0 ([bb185dc](https://gitlab.com/msclock/gitlab-ci-templates/commit/bb185dca212ae1dff153c4daa758763ca555ba37))
+
 ## [2.5.17](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.16...v2.5.17) (2023-10-13)
 
 
