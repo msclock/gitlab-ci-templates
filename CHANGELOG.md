@@ -1,3 +1,18 @@
+## [2.5.17](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.16...v2.5.17) (2023-10-13)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-10-12T02-12-24Z ([7ca7784](https://gitlab.com/msclock/gitlab-ci-templates/commit/7ca778449028b6b14218b7f23861a6ba5db0a91b))
+* **image:** pin new image tag 2023-10-12T02-13-33Z ([699c782](https://gitlab.com/msclock/gitlab-ci-templates/commit/699c7822afe8187698d5edee71e86b4d9719a933))
+
+
+### Dependencies
+
+* **deps:** update node.js to 39212e6 ([8e95874](https://gitlab.com/msclock/gitlab-ci-templates/commit/8e9587433a629bfa62b93c2d7dc07eff6c4b51cc))
+* **deps:** update pre-commit hook macisamuele/language-formatters-pre-commit-hooks to v2.11.0 ([240c3d5](https://gitlab.com/msclock/gitlab-ci-templates/commit/240c3d560b5bb556db6bdc222ffb15f238dd09e7))
+* **deps:** update python:3.11-slim docker digest to c23277a ([3ae7400](https://gitlab.com/msclock/gitlab-ci-templates/commit/3ae74007bb2e9a03d71432abbcd56b78cafb24f1))
+
 ## [2.5.16](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.15...v2.5.16) (2023-10-12)
 
 
