@@ -9,6 +9,7 @@
   "labels": [
     "dependencies"
   ],
+  "prCreation":"not-pending",
   "packageRules": [
     {
       "matchDepTypes": [
