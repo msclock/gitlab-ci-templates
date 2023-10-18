@@ -1,3 +1,20 @@
+## [2.5.20](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.19...v2.5.20) (2023-10-18)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-10-17T08-13-59Z ([11f466d](https://gitlab.com/msclock/gitlab-ci-templates/commit/11f466d0c269674a4a469713be8104ef91b1f071))
+
+
+### Dependencies
+
+* **deps:** update node.js to 25f465d ([55ed590](https://gitlab.com/msclock/gitlab-ci-templates/commit/55ed590c63ec538a21df217b28f735ba33f60563))
+
+
+### Chores
+
+* configure renovate with no-pending pr ([7a0abf0](https://gitlab.com/msclock/gitlab-ci-templates/commit/7a0abf044527209e9b615767591a27985dcf9352))
+
 ## [2.5.19](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.18...v2.5.19) (2023-10-17)
 
 
