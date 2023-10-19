@@ -1,3 +1,15 @@
+## [2.5.22](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.21...v2.5.22) (2023-10-19)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-10-19T04-11-14Z ([3993695](https://gitlab.com/msclock/gitlab-ci-templates/commit/3993695d4372e5a2a1b7731f3da6109629eda705))
+
+
+### Dependencies
+
+* **deps:** update python:3.11-slim docker digest to 94d0eca ([929f050](https://gitlab.com/msclock/gitlab-ci-templates/commit/929f050de51e1f8176dab216d7481cb57a900a78))
+
 ## [2.5.21](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.20...v2.5.21) (2023-10-19)
 
 
