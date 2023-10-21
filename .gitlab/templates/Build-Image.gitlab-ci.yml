@@ -1,8 +1,8 @@
 include:
-  - local: /templates/Devcontainer.gitlab-ci.yml
-  - local: /templates/Common.gitlab-ci.yml
-  - local: /templates/Proxy.gitlab-ci.yml
-  - local: /templates/Stages.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.23/templates/Devcontainer.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.23/templates/Common.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.23/templates/Proxy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.23/templates/Stages.gitlab-ci.yml
 
 workflow:
   rules:
