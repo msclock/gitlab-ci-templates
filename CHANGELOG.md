@@ -1,3 +1,16 @@
+## [2.5.24](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.23...v2.5.24) (2023-10-29)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-10-25T22-05-58Z ([a692173](https://gitlab.com/msclock/gitlab-ci-templates/commit/a6921732305ccb0d970c801a5fb70163036f834c))
+
+
+### Dependencies
+
+* **deps:** update docker docker tag to v24.0.7 ([4451b80](https://gitlab.com/msclock/gitlab-ci-templates/commit/4451b80423997c9a076268ae19eff3da229d13dc))
+* **deps:** update node.js to 37c7b00 ([d20310e](https://gitlab.com/msclock/gitlab-ci-templates/commit/d20310e738f1955e6708903fd85d7a17ff41dca5))
+
 ## [2.5.23](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.22...v2.5.23) (2023-10-21)
 
 
