@@ -1,3 +1,11 @@
+## [2.5.25](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.24...v2.5.25) (2023-10-30)
+
+
+### Dependencies
+
+* **deps:** update docker:24.0.7-alpine3.18 docker digest to 1dfc375 ([c4db81d](https://gitlab.com/msclock/gitlab-ci-templates/commit/c4db81dbea59ed8c9586ce085b67fb1f40131870))
+* **deps:** update docker:24.0.7-dind-alpine3.18 docker digest to 1dfc375 ([44bf1f6](https://gitlab.com/msclock/gitlab-ci-templates/commit/44bf1f68df874111e5f5c1f8866c9149d825cb3c))
+
 ## [2.5.24](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.23...v2.5.24) (2023-10-29)
 
 
