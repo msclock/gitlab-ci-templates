@@ -1,5 +1,5 @@
 # Collection with includes for all projects
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/collections/All-Projects-General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/collections/Code-Quality.gitlab-ci.yml
+  - local: /collections/All-Projects-General.gitlab-ci.yml
+  - local: /collections/Code-Quality.gitlab-ci.yml

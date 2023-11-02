@@ -1,11 +1,12 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Release.gitlab-ci.yml
+  - local: /templates/Release.gitlab-ci.yml
 
 # @Description release with semantic_release
 semantic_release:
   stage: release
   extends:
     - .release
+  dependencies: [] # Do not download any artifacts from upstream jobs
 
 # @Description post to trigger pipeline
 post_release:

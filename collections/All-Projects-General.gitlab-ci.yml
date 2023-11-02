@@ -1,16 +1,16 @@
 # Collection with includes for all general projects
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/workflows/General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Rules.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Common.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Node.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Stages.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Global-Templates.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/templates/Make-Changes.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Lint-Renovate.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Pre-Commit.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Code-Count.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Unicode-Bidi-Test.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Sokrates.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.26/jobs/Release-General.gitlab-ci.yml
+  - local: /workflows/General.gitlab-ci.yml
+  - local: /templates/Rules.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Node.gitlab-ci.yml
+  - local: /templates/Stages.gitlab-ci.yml
+  - local: /templates/Global-Templates.gitlab-ci.yml
+  - local: /templates/Make-Changes.gitlab-ci.yml
+  - local: /jobs/Lint-Renovate.gitlab-ci.yml
+  - local: /jobs/Pre-Commit.gitlab-ci.yml
+  - local: /jobs/Code-Count.gitlab-ci.yml
+  - local: /jobs/Unicode-Bidi-Test.gitlab-ci.yml
+  - local: /jobs/Sokrates.gitlab-ci.yml
+  - local: /jobs/Release-General.gitlab-ci.yml
