@@ -1,0 +1,17 @@
+# Job to lint all renovate config files.
+# Runs if either of the two config file locations
+# used in these projects exist
+
+lint_renovate:
+  image: renovate/renovate:37
+  stage: lint
+  needs: []
+  variables:
+    RENOVATE_ENDPOINT: $CI_API_V4_URL
+    RENOVATE_PLATFORM: gitlab
+  rules:
+    - exists:
+        - .gitlab/renovate.json
+        - renovate.json
+  script:
+    - renovate-config-validator

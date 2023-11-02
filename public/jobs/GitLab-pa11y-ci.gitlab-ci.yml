@@ -1,0 +1,20 @@
+# Job to run web accessibility analysis using pa11y-ci.
+# Assumes .pa11yci file is in project root with URLs to be scanned
+# and artifacts are saved to the ./pa11y/ directory.
+
+pa11y_ci:
+  image: registry.gitlab.com/gitlab-ci-utils/gitlab-pa11y-ci:7.3.1@sha256:c6ec179256df532376eb4efce99a41729cb968ebab430fc46fe7fd2ce714ce6c
+  stage: test
+  # Allow one retry, some infrastructure changes cause external requests to fail
+  retry: 1
+  script:
+    - pa11y-ci
+  allow_failure: true
+  artifacts:
+    # Make sure artifacts are always saved, otherwise they will not be on failure.
+    when: always
+    expose_as: Pa11y CI Report
+    paths:
+      - pa11y/
+    reports:
+      accessibility: pa11y/pa11y-ci-results.json

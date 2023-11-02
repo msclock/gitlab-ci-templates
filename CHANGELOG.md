@@ -1,3 +1,22 @@
+## [2.5.26](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.25...v2.5.26) (2023-11-02)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-11-01T18-12-50Z ([3b5708b](https://gitlab.com/msclock/gitlab-ci-templates/commit/3b5708b86df0b8e86bf68e331d1fde052eff20d2))
+* **image:** pin new image tag 2023-11-01T18-13-58Z ([527a7d3](https://gitlab.com/msclock/gitlab-ci-templates/commit/527a7d33ce0f10c08fde95c8efd39a4c586a49c5))
+
+
+### Dependencies
+
+* **deps:** update node.js to 11efdfc ([bc83efa](https://gitlab.com/msclock/gitlab-ci-templates/commit/bc83efa5e415907762a98bcf3829398ece56cd13))
+* **deps:** update python:3.11-slim docker digest to f89d4d2 ([811582a](https://gitlab.com/msclock/gitlab-ci-templates/commit/811582ab36c44935a69411dcf1a4e6442ec07a9b))
+
+
+### Chores
+
+* remove redundant public folder ([f475094](https://gitlab.com/msclock/gitlab-ci-templates/commit/f475094f23a6eddba4c1da741da64c4101e6a579))
+
 ## [2.5.25](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.24...v2.5.25) (2023-10-30)
 
 

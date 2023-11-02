@@ -1,0 +1,28 @@
+# Create a project risk report with the Socket CLI. See full details at
+# https://docs.socket.dev/docs/socket-cli.
+# This requires the variable SOCKET_SECURITY_API_KEY to be configured
+# with a Socket.dev API key.
+
+socket:
+  extends: .node
+  needs: []
+  stage: test
+  allow_failure: true
+  rules:
+    # Provide variable to disable job
+    - if: $SOCKET_DISABLED
+      when: never
+    # Only run on MR pipelines where dependencies have changed
+    - if: $CI_MERGE_REQUEST_IID
+      changes:
+        - package-lock.json
+  script:
+    - npm i -g @socketsecurity/cli@0.8.2
+    - |
+      # Run JSON report and extract ID to create link in log
+      socket report create . --view --json > socket-report.json
+      REPORT_ID=$(cat socket-report.json | grep '"id":' | sed -E 's/\s*"id": "(.+)",/\1/')
+      echo "View full report at: https://socket.dev/dashboard/org/gh/aarongoldenthal/report-run/$REPORT_ID"
+  artifacts:
+    paths:
+      - socket-report.json

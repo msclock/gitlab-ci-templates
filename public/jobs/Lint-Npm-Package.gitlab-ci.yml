@@ -1,0 +1,18 @@
+# Job to lint package.json to ensure required properties and valid or
+# approvedvalues (e.g. name is valid, license is in approved list).
+
+lint_npm_package:
+  extends:
+    - .node
+  stage: lint
+  variables:
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.1/NPM/.npmpackagejsonlintrc.json
+    PACKAGE_PATH: ./package.json
+  needs: []
+  rules:
+    - exists:
+        - '**/package.json'
+  script:
+    - npm install -g npm-package-json-lint@7.0.0
+    - if [ ! -f .npmpackagejsonlintrc.json ]; then (wget $CONFIG_FILE_LINK) fi
+    - npmPkgJsonLint $PACKAGE_PATH

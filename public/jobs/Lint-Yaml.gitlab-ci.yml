@@ -1,0 +1,42 @@
+# Job to lint all YAML in the project. Uses default yamllint
+# configuration file if no project-specific configuration is found.
+
+lint_yaml:
+  extends:
+    - .python
+  stage: lint
+  variables:
+    # https://yamllint.readthedocs.io/
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.0.1/Linters/.yamllint.yml
+    LINT_YAML_CONFIG: ''
+  needs: []
+  rules:
+    - if: $LINT_YAML_ENABLE
+  script:
+    - pip install yamllint==1.32.0
+    # If none of the three default config file names exist, get default
+    # file from the config-files project.
+    - >
+      if [ ! -f .yamllint ] && \
+        [ ! -f .yamllint.yml ] && \
+        [ ! -f .yamllint.yaml ]; then
+        wget $CONFIG_FILE_LINK
+      fi
+    - |
+      if [[ -n "$LINT_YAML_CONFIG" ]]; then
+        apk update && apk add --no-cache yq
+        echo -e "$LINT_YAML_CONFIG" > /tmp/yamllint.yml
+
+        if [[ -f .yamllint.yml ]]; then
+          _config_file=".yamllint.yml"
+        elif [[ -f yamllint.yaml ]]; then
+          _config_file=".yamllint.yaml"
+        elif [[ -f .yamllint ]]; then
+          _config_file=".yamllint"
+        fi
+        echo -e "$(yq ea '. as $item ireduce ({}; . *+ $item )' "$_config_file" /tmp/yamllint.yml)" > "$_config_file"
+      fi
+    - yamllint .
+
+variables:
+  LINT_YAML_ENABLE: '1'
