@@ -1,3 +1,10 @@
+## [2.5.29](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.28...v2.5.29) (2023-11-02)
+
+
+### Performance
+
+* remove redundant dependencies from semantic_release ([dc703bf](https://gitlab.com/msclock/gitlab-ci-templates/commit/dc703bfbe9cbcbf2049bc00becb2d8d068d360cf))
+
 ## [2.5.28](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.27...v2.5.28) (2023-11-02)
 
 
