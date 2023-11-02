@@ -185,7 +185,6 @@
     # Finally, remove the preset releaserc file
     - |
       [[ -n "$USING_PRESET_RELEASERC" && -f "$_PRESET_RELEASERC_FILE" ]] && rm -f "$_PRESET_RELEASERC_FILE"
-  dependencies: [] # Do not download any artifacts from upstream jobs
   artifacts:
     reports:
       dotenv: semantic.env # Expose the new release version to dotenv
