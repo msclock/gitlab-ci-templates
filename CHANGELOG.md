@@ -1,3 +1,15 @@
+## [2.5.27](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.26...v2.5.27) (2023-11-02)
+
+
+### Bug Fixes
+
+* semantic_release upload public changes from pages ([c18f08a](https://gitlab.com/msclock/gitlab-ci-templates/commit/c18f08a49947dc289183ddac3477c3942ac647f8))
+
+
+### Chores
+
+* remove redundant public folder ([8e81443](https://gitlab.com/msclock/gitlab-ci-templates/commit/8e81443803af49d11c25862a0295b804598b83ba))
+
 ## [2.5.26](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.25...v2.5.26) (2023-11-02)
 
 
