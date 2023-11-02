@@ -2,9 +2,9 @@
 # Uses kaniko for build and skopeo for image copy.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.27/collections/Container-Base.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.27/jobs/Container-Build.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.27/jobs/Container-Deploy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.28/collections/Container-Base.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.28/jobs/Container-Build.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.28/jobs/Container-Deploy.gitlab-ci.yml
 
 # Included from Container-Base.gitlab-ci.yml
 lint_container:

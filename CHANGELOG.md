@@ -1,3 +1,11 @@
+## [2.5.28](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.27...v2.5.28) (2023-11-02)
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v9.1.0 ([4fd8f3d](https://gitlab.com/msclock/gitlab-ci-templates/commit/4fd8f3d857e6549f698097749dd1ae78f84c19d5))
+* **deps:** update ghcr.io/google/osv-scanner docker tag to v1.4.3 ([8506de6](https://gitlab.com/msclock/gitlab-ci-templates/commit/8506de63eebe72de9491d825bd0aa6985efc245b))
+
 ## [2.5.27](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.26...v2.5.27) (2023-11-02)
 
 
