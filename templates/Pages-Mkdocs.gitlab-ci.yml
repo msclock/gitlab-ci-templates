@@ -34,7 +34,7 @@
         mike set-default --rebase --prefix public -p -b $PAGES_BRANCH latest
         git checkout $PAGES_BRANCH -- public/
       else
-        mkdocs build --site-dir public
+        mkdocs build --site-dir public/ --no-directory-urls
       fi
   artifacts:
     paths:

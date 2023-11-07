@@ -1,8 +1,8 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.29/jobs/Pages-Mkdocs.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.29/collections/All-Projects-General.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.29/collections/Code-Quality.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.29/.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
+  - local: /jobs/Pages-Mkdocs.gitlab-ci.yml
+  - local: /collections/All-Projects-General.gitlab-ci.yml
+  - local: /collections/Code-Quality.gitlab-ci.yml
+  - local: /.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
 
 variables:
   LINT_YAML_ENABLE: ''
@@ -21,14 +21,21 @@ code_count:
     - |
       sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
-# @Description deploy with mkdocs
-pages:
+._pages_common: &pages_common
   variables:
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin mkdocs-same-dir
   before_script:
     - |
       pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
       pip config set global.trusted-host mirrors.tuna.tsinghua.edu.cn
+      
+# @Description review deploy pages with mkdocs
+pages:review:
+  <<: *pages_common
+
+# @Description deploy with mkdocs
+pages:
+  <<: *pages_common
 
 # @Description semantic_release
 semantic_release:
