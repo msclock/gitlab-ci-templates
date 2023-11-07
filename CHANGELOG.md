@@ -1,3 +1,10 @@
+## [2.5.30](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.29...v2.5.30) (2023-11-07)
+
+
+### Performance
+
+* add review pages based on mkdocs in mr ([cbddb7f](https://gitlab.com/msclock/gitlab-ci-templates/commit/cbddb7f054e8b900b17c2913acfc9ab51c822055))
+
 ## [2.5.29](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.28...v2.5.29) (2023-11-02)
 
 
