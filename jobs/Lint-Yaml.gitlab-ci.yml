@@ -13,7 +13,7 @@ lint_yaml:
   rules:
     - if: $LINT_YAML_ENABLE
   script:
-    - pip install yamllint==1.32.0
+    - pip install yamllint==1.33.0
     # If none of the three default config file names exist, get default
     # file from the config-files project.
     - >
