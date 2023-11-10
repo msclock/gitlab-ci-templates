@@ -1,3 +1,10 @@
+## [2.5.31](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.30...v2.5.31) (2023-11-10)
+
+
+### Dependencies
+
+* **deps:** update dependency yamllint to v1.33.0 ([86029ff](https://gitlab.com/msclock/gitlab-ci-templates/commit/86029ffa320c701f21c69666230fbabdce966f45))
+
 ## [2.5.30](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.29...v2.5.30) (2023-11-07)
 
 
