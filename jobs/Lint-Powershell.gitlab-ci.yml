@@ -2,7 +2,7 @@
 # using https://github.com/PowerShell/PSScriptAnalyzer
 
 lint_powershell:
-  image: mcr.microsoft.com/powershell:7.3-alpine-3.17@sha256:2ddd452fd54303a20ab231a2997670d80488f5b0ac8e4977137d757d143a7d7c
+  image: mcr.microsoft.com/powershell:7.4-alpine-3.17@sha256:b8fbab46c911d9bb034cae20540a6ad65c4863df77b43bec7c2dd242520403a5
   stage: lint
   needs: []
   rules:
