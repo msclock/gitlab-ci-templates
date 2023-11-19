@@ -1,3 +1,11 @@
+## [2.5.32](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.31...v2.5.32) (2023-11-19)
+
+
+### Dependencies
+
+* **deps:** update mcr.microsoft.com/powershell docker tag to v7.4 ([3d58139](https://gitlab.com/msclock/gitlab-ci-templates/commit/3d581397514061218cdba00c6134337d0e53c216))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-pa11y-ci docker tag to v7.4.0 ([5a76e61](https://gitlab.com/msclock/gitlab-ci-templates/commit/5a76e61c4f549673756abcb9938a576cfd6f3bcf))
+
 ## [2.5.31](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.30...v2.5.31) (2023-11-10)
 
 
