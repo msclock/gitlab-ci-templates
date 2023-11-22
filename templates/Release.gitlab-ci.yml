@@ -12,7 +12,7 @@
 
 # @Description template for release publish
 .release:
-  image: msclock/semantic-release:2023-11-20T04-08-43Z
+  image: msclock/semantic-release:2023-11-22T04-12-20Z
   rules:
     - !reference [.rules, Skip Release Commits]
     - if: |
