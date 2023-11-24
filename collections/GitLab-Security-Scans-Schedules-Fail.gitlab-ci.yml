@@ -4,7 +4,7 @@
 # OWASP dependency check, which will trigger notification for job failure.
 
 include:
-  - local: /collections/GitLab-Security-Scans.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.35/collections/GitLab-Security-Scans.gitlab-ci.yml
 
 # Included from GitLab-Security-Scans.gitlab-ci.yml
 # Do not allow failure on schedule pipelines
