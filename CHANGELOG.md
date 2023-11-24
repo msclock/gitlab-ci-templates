@@ -1,3 +1,10 @@
+## [2.5.34](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.33...v2.5.34) (2023-11-22)
+
+
+### Dependencies
+
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-pmd-cpd docker tag to v2 ([69523b6](https://gitlab.com/msclock/gitlab-ci-templates/commit/69523b613ee21974573fa6c04d3bf0eb97510f21))
+
 ## [2.5.33](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.32...v2.5.33) (2023-11-20)
 
 
