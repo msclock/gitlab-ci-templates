@@ -1,3 +1,15 @@
+## [2.5.36](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.35...v2.5.36) (2023-11-24)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-11-24T06-11-45Z ([4e1dc07](https://gitlab.com/msclock/gitlab-ci-templates/commit/4e1dc07e0bce66302a066799a63388c524a60d21))
+
+
+### Dependencies
+
+* **deps:** update node.js to b46831a ([ed7620d](https://gitlab.com/msclock/gitlab-ci-templates/commit/ed7620d0047ba1f57be8af44ba90db55cd2a3694))
+
 ## [2.5.35](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.34...v2.5.35) (2023-11-24)
 
 
