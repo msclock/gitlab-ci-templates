@@ -49,7 +49,7 @@
       "enabled": false
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
       "description": "Update npm installed packages with pinned versions",
       "fileMatch": [
