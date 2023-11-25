@@ -1,3 +1,10 @@
+## [2.5.37](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.36...v2.5.37) (2023-11-25)
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v9.2.0 ([3127219](https://gitlab.com/msclock/gitlab-ci-templates/commit/312721925fdca3a4393d1aa992c5dd33d1cf3e3a))
+
 ## [2.5.36](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.35...v2.5.36) (2023-11-24)
 
 
