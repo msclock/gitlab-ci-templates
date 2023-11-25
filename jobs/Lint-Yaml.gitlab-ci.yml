@@ -7,7 +7,7 @@ lint_yaml:
   stage: lint
   variables:
     # https://yamllint.readthedocs.io/
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.1.0/Linters/.yamllint.yml
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.2.0/Linters/.yamllint.yml
     LINT_YAML_CONFIG: ''
   needs: []
   rules:
