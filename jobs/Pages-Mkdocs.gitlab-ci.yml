@@ -1,10 +1,10 @@
 # Job to run mkdocs deployment
-# 
+#
 # pages:review refer to https://blog.siemens.com/2023/11/visual-review-of-mkdocs-sites-in-gitlab-mrs
-# 
+#
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.37/templates/Pages-Mkdocs.gitlab-ci.yml
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
 
 # @Description deploy pages with mkdocs, the named pages is a must for trigger pages deploy job
 pages:
