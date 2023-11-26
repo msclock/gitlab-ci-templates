@@ -1,3 +1,16 @@
+## [2.5.38](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.37...v2.5.38) (2023-11-26)
+
+
+### Performance
+
+* rename branch when making changes on pr ([dc29703](https://gitlab.com/msclock/gitlab-ci-templates/commit/dc29703b5500f8b97dc58d7698c3b922cd81f72e))
+
+
+### Chores
+
+* remove github action ([af56089](https://gitlab.com/msclock/gitlab-ci-templates/commit/af56089b43d37327e90d63a1d50d1c755925584a))
+* rename regexManagers to customManagers for renovate ([561cfbb](https://gitlab.com/msclock/gitlab-ci-templates/commit/561cfbba1d0a257aaf0bb333036da1726a351c8b))
+
 ## [2.5.37](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.36...v2.5.37) (2023-11-25)
 
 
