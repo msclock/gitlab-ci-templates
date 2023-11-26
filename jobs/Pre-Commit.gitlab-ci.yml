@@ -11,6 +11,8 @@ pre_commit:
     - .make_changes
   stage: lint
   rules:
+    - if: $CI_COMMIT_TAG
+      when: never
     - if: $PRE_COMMIT_SKIP_BRANCH_PIPELINE && $CI_COMMIT_BRANCH
       when: never
     - if: |
