@@ -14,13 +14,11 @@ stages:
   - release
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Release.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Release-General.gitlab-ci.yml
 
-# @Description release with semantic-release
-release:
-  stage: release
-  extends:
-    - .release
+variables:
+  # Post to run tag pipeline to trigger released pipeline
+  RELEASE_POST_PIPELINE_TYPE: tag
 ```
 
 More details can refer to related implementation.
@@ -32,7 +30,7 @@ More details can refer to related implementation.
 
 ### General Release Workflow
 
-Semantic-release recommends the following workflows:
+The templates based on semantic-release. And Semantic-release recommends the following workflows:
 
 - [Distribution channels](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/distribution-channels)
 - [Maintenance release](https://semantic-release.gitbook.io/semantic-release/recipes/release-workflow/maintenance-releases)

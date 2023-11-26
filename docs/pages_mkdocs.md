@@ -7,25 +7,35 @@ Deploy the mkdocs documentation to gitlab pages.
 
 ## Usage
 
-Simply include the template in your `.gitlab-ci.yaml` configuration as below.
+Include the template in the `.gitlab-ci.yaml` configuration as below.
 
 ```yaml
-stages:
-  - test
-
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Pages-Mkdocs.gitlab-ci.yml
+  # Use master branch or version-specific template
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Stages.gitlab-ci.yml
+
+
+variables:
+  # Specifies whether to enable the review of mkdocs pages
+  PAGES_MKDOCS_REVIEW_ENABLE: '1'
+
+._pages_common: &pages_common
+  variables:
+    # Use mike to deploy mkdocs versioning docs.
+    VERSION_DOCS: '1'
+    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
+
+# @Description review deploy pages with mkdocs
+pages:review:
+  <<: *pages_common
 
 # @Description deploy with mkdocs
 pages:
-  stage: deploy
-  extends:
-    - .pages-mkdocs
-  variables:
-    MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  <<: *pages_common
 ```
+
+Then, edit and configure your project mkdocs.yml to accommodate documentation.
 
 More details can refer to related implementation.
 

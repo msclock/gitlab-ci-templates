@@ -93,7 +93,7 @@ markdown_extensions:
 
 nav:
   - Overview: README.md
-  - Available Templates:
+  - Templates:
       - rules: docs/rules.md
       - proxy: docs/proxy.md
       - make_changes: docs/make_changes.md
