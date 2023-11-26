@@ -5,10 +5,18 @@ include:
   - local: /templates/Common.gitlab-ci.yml
   - local: /templates/Path-Filter.gitlab-ci.yml
 
+.detect_build_trigger_rules:
+  rules:
+    - !reference [.rules, Skip Release Commits]
+    - !reference [.rules, Branch]
+    - !reference [.rules, Merge Request]
+    - if: '$CI_COMMIT_MESSAGE !~ /^(perf\(image\): pin new image tag.*)/'
+
 # @Description detect changes on codebase
 detect_changes_on_images:
   extends:
     - .path_filter
+    - .detect_build_trigger_rules
   stage: test
   retry: 1
   variables:
@@ -23,6 +31,7 @@ detect_changes_on_images:
 
 # @Description generate changes build image pipeline yml
 generate_changes_build_image:
+  extends: .detect_build_trigger_rules
   image: !reference [.path_filter, image]
   stage: pre-container-build
   variables:
@@ -39,9 +48,8 @@ generate_changes_build_image:
 
 # @Description trigger changes build image pipeline
 trigger_changes_build_image:
+  extends: .detect_build_trigger_rules
   stage: container-build
-  rules:
-    - if: '$CI_COMMIT_MESSAGE !~ /^(perf\(image\): pin new image tag.*)/'
   trigger:
     strategy: depend
     include:
