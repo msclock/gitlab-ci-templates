@@ -9,10 +9,10 @@
   variables:
     # The pip cache
     PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
-    # The branch to deploy when enable the VRESION_DOCS.
+    # The branch to deploy when enable the VERSION_DOCS.
     PAGES_BRANCH: gl-pages
     # Specifies whether to use mike to deploy mkdocs docs.
-    VRESION_DOCS: ''
+    VERSION_DOCS: ''
     # Specifies the extra mkdocs plugins.
     MKDOCS_EXTRA_PLUGINS: ''
   image: python:3.11-bullseye
@@ -23,8 +23,8 @@
       echo "Install mkdocs plugins: mkdocs ${MKDOCS_EXTRA_PLUGINS}" >> /dev/stderr
       pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
 
-      if [[ -n "$VRESION_DOCS" ]]; then
-        pip install mike
+      if [[ -n "$VERSION_DOCS" && -n "$CI_COMMIT_TAG" ]]; then
+        pip install mike==1.1.2
 
         git fetch origin $PAGES_BRANCH
         git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || echo "Pages branch not deployed yet."
