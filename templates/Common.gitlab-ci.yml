@@ -10,10 +10,10 @@
 .security_git_config:
   script: |
     # Prepare config for git
-    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
       git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
+    else
+      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
     fi
 
     git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
