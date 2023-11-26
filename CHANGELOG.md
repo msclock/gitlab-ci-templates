@@ -1,3 +1,22 @@
+## [2.5.39](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.38...v2.5.39) (2023-11-26)
+
+
+### Bug Fixes
+
+* typo on VERSION_DOCS and pin mike ([1c8d06e](https://gitlab.com/msclock/gitlab-ci-templates/commit/1c8d06e81854d661c6649db5f377cf056615a708))
+
+
+### Performance
+
+* configure git authentication for release tag stage ([74fc52d](https://gitlab.com/msclock/gitlab-ci-templates/commit/74fc52dee241346b73fd5d06f0c31f05ff89d0c7))
+* deploy mkdocs with mike ([bb7419d](https://gitlab.com/msclock/gitlab-ci-templates/commit/bb7419dada016ad68acda57c8043eb3876ac1239))
+* disable pre-commit job when enable the CI_COMMIT_TAG ([96901b6](https://gitlab.com/msclock/gitlab-ci-templates/commit/96901b652be2fd5a52c2656cc9904a1389850e74))
+
+
+### CI
+
+* do not detect and build images ([07e1a3c](https://gitlab.com/msclock/gitlab-ci-templates/commit/07e1a3c3c1660323346b7b464bde9199513a9021))
+
 ## [2.5.38](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.37...v2.5.38) (2023-11-26)
 
 
