@@ -10,6 +10,11 @@
 #
 # For more information about semantic-release, see https://github.com/semantic-release/semantic-release.
 
+variables:
+  # Optional. Post to run a pipeline to trigger released pipeline,
+  # and the value can be '', 'tag' or 'branch'
+  RELEASE_POST_PIPELINE_TYPE: ''
+
 # @Description template for release publish
 .release:
   image: msclock/semantic-release:2023-11-24T06-11-45Z
@@ -20,20 +25,20 @@
         $CI_COMMIT_REF_NAME =~ /^(alpha|beta|next|next-major)$/ ||
         $CI_COMMIT_REF_NAME =~ /^+([0-9])?(.{+([0-9]),x}).x$/
   variables:
-    # Extra plugins for semantic-release to install. Default to the below plugins are for making a release
+    # Optional. Extra plugins for semantic-release to install. Default to the below plugins are for making a release
     # with preset release config _PRESEST_RELEASERC_CONFIG.
     RELEASE_EXTRA_PLUGINS: >-
       @semantic-release/changelog
       @semantic-release/git
       @semantic-release/exec
       conventional-changelog-conventionalcommits
-    # If on, the older release will be overwritten by the new release.
+    # Optional. If on, the older release will be overwritten by the new release.
     OVERRIDE_RELEASE: ''
-    # If on, the triggered release will apply the preset release config _PRESEST_RELEASERC_CONFIG.
+    # Optional. If on, the triggered release will apply the preset release config _PRESEST_RELEASERC_CONFIG.
     USING_PRESET_RELEASERC: ''
-    # The preset release config _PRESEST_RELEASERC_CONFIG saved in _PRESET_RELEASERC_FILE
+    # Optional. The preset release config _PRESEST_RELEASERC_CONFIG saved in _PRESET_RELEASERC_FILE
     _PRESET_RELEASERC_FILE: .releaserc.js
-    # The default preset release config for semantic-release, more details
+    # Optional. The default preset release config for semantic-release, more details
     # see https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md
     _PRESET_RELEASERC_CONFIG: |
       module.exports = {
@@ -114,13 +119,13 @@
           "@semantic-release/gitlab",
         ],
       };
-    # Optional NPM registry to speed up dependencies installation.
+    # Optional. NPM registry to speed up dependencies installation.
     NPM_SOURCE: ''
-    # Optional options for semantic-release cli.
+    # Optional. Options for semantic-release cli.
     SEMANTIC_RELEASE_OPTIONS: ''
-    # The api of gitlab for semantic-release
+    # Optional. The api of gitlab for semantic-release
     GITLAB_PREFIX: /api/v4
-    # The instance of gitlab
+    # Optional. The instance of gitlab
     GITLAB_URL: $CI_SERVER_URL
   script:
     - !reference [.security_check_sensible, script]
@@ -200,9 +205,6 @@
         $CI_COMMIT_REF_NAME =~ /^(alpha|beta|next|next-major)$/ ||
         $CI_COMMIT_REF_NAME =~ /^+([0-9])?(.{+([0-9]),x}).x$/ ) &&
         $RELEASE_POST_PIPELINE_TYPE
-  variables:
-    # '', 'tag' or 'branch'
-    RELEASE_POST_PIPELINE_TYPE: ''
   before_script:
     - |
       if [[ -z "$new_release_version" ]]; then

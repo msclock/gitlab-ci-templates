@@ -7,6 +7,8 @@ include:
 variables:
   LINT_YAML_ENABLE: ''
   LINT_MD_ENABLE: ''
+  # Post to run tag pipeline to trigger released pipeline
+  RELEASE_POST_PIPELINE_TYPE: tag
 
 # @Description lint codebase with pre-commit
 pre_commit:
@@ -23,6 +25,7 @@ code_count:
 
 ._pages_common: &pages_common
   variables:
+    VERSION_DOCS: '1'
     MKDOCS_EXTRA_PLUGINS: mkdocs-material mkdocs-git-revision-date-localized-plugin mkdocs-same-dir
   before_script:
     - |
