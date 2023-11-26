@@ -4,7 +4,11 @@
 #
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.39/templates/Pages-Mkdocs.gitlab-ci.yml
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
+
+variables:
+  # Specifies whether to enable the review of mkdocs pages
+  PAGES_MKDOCS_REVIEW_ENABLE: '1'
 
 # @Description deploy pages with mkdocs, the named pages is a must for trigger pages deploy job
 pages:
@@ -32,4 +36,4 @@ pages:review:
     name: review/pages/$CI_MERGE_REQUEST_IID
     url: $REVIEW_URL
   rules:
-    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_MERGE_REQUEST_IID && $PAGES_MKDOCS_REVIEW_ENABLE
