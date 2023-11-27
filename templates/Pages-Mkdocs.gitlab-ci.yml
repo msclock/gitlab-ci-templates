@@ -17,6 +17,7 @@
     # Specifies the extra mkdocs plugins.
     MKDOCS_EXTRA_PLUGINS: ''
   image: python:3.11-bullseye
+  dependencies: []
   script:
     - !reference [.security_check_sensible, script]
     - !reference [.security_git_config, script]
