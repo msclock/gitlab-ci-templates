@@ -1,3 +1,10 @@
+## [2.5.43](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.42...v2.5.43) (2023-11-27)
+
+
+### Performance
+
+* deploy pages removing useless artifacts from upstreams ([43cd11e](https://gitlab.com/msclock/gitlab-ci-templates/commit/43cd11ea36d4693effd43ce832b003b95d9449ea))
+
 ## [2.5.42](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.41...v2.5.42) (2023-11-27)
 
 
