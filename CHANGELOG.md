@@ -1,3 +1,16 @@
+## [2.5.40](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.39...v2.5.40) (2023-11-27)
+
+
+### Performance
+
+* add a variable to control the review of mkdocs pages ([c62fa79](https://gitlab.com/msclock/gitlab-ci-templates/commit/c62fa794e592e109fa5385573f5200d57a30a909))
+
+
+### Docs
+
+* improve documentation ([eff7cb6](https://gitlab.com/msclock/gitlab-ci-templates/commit/eff7cb6e1f1190e0213008bc2bf9b309f4748e68))
+* remove some pages ([dfebad1](https://gitlab.com/msclock/gitlab-ci-templates/commit/dfebad1d198637b8a1d3778ba8c60353ad8232cd))
+
 ## [2.5.39](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.38...v2.5.39) (2023-11-26)
 
 
