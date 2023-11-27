@@ -2,8 +2,8 @@
 # using the build template yml file templates/Build-Changes-Images.gitlab-ci.yml.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.43/templates/Common.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.43/templates/Path-Filter.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Path-Filter.gitlab-ci.yml
 
 .detect_build_trigger_rules:
   rules:
