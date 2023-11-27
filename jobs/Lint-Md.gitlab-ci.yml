@@ -1,6 +1,9 @@
 # Job to lint all markdown in the project. Uses default markdownlint
 # configuration file if no project-specific configuration is found.
 
+variables:
+  LINT_MD_ENABLE: 'true'
+
 lint_md:
   extends:
     - .node
@@ -9,7 +12,7 @@ lint_md:
     CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.2.0/Linters/.markdownlint.json
   needs: []
   rules:
-    - if: $LINT_MD_ENABLE
+    - if: $LINT_MD_ENABLE == 'true'
       exists:
         - '**/*.md'
   script:
@@ -23,6 +26,3 @@ lint_md:
         wget $CONFIG_FILE_LINK
       fi
     - markdownlint-cli2 "**/*.md" "#node_modules"
-
-variables:
-  LINT_MD_ENABLE: '1'

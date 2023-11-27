@@ -1,6 +1,9 @@
 # Job to lint all YAML in the project. Uses default yamllint
 # configuration file if no project-specific configuration is found.
 
+variables:
+  LINT_YAML_ENABLE: 'true'
+
 lint_yaml:
   extends:
     - .python
@@ -8,10 +11,14 @@ lint_yaml:
   variables:
     # https://yamllint.readthedocs.io/
     CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.2.0/Linters/.yamllint.yml
+    # yaml config to override the default
     LINT_YAML_CONFIG: ''
   needs: []
   rules:
-    - if: $LINT_YAML_ENABLE
+    - if: $LINT_YAML_ENABLE == 'true'
+      exists:
+        - '**/*.yml'
+        - '**/*.yaml'
   script:
     - pip install yamllint==1.33.0
     # If none of the three default config file names exist, get default
@@ -37,6 +44,3 @@ lint_yaml:
         echo -e "$(yq ea '. as $item ireduce ({}; . *+ $item )' "$_config_file" /tmp/yamllint.yml)" > "$_config_file"
       fi
     - yamllint .
-
-variables:
-  LINT_YAML_ENABLE: '1'
