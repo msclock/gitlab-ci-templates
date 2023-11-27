@@ -1,3 +1,10 @@
+## [2.5.41](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.40...v2.5.41) (2023-11-27)
+
+
+### Bug Fixes
+
+* pre_commit does not work ([26b6215](https://gitlab.com/msclock/gitlab-ci-templates/commit/26b6215c57fc00b9652e90bf195e2a5efaa3d009))
+
 ## [2.5.40](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.39...v2.5.40) (2023-11-27)
 
 
