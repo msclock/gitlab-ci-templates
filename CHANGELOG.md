@@ -1,3 +1,10 @@
+## [2.5.42](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.41...v2.5.42) (2023-11-27)
+
+
+### Performance
+
+* lint md and yml ([1d3bb6a](https://gitlab.com/msclock/gitlab-ci-templates/commit/1d3bb6a6531da7342eaf363ceb489e0ac7c631f0))
+
 ## [2.5.41](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.40...v2.5.41) (2023-11-27)
 
 
