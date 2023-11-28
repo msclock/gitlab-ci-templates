@@ -1,3 +1,8 @@
+# Jobs to manage fully automated semantic releases
+#
+# Refer to templates/Release.gitlab-ci.yml for more details
+#
+
 include:
   - local: /templates/Release.gitlab-ci.yml
 
