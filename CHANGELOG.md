@@ -1,3 +1,10 @@
+## [2.5.44](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.43...v2.5.44) (2023-11-28)
+
+
+### Performance
+
+* add deploy dev revision docs ([f8e1011](https://gitlab.com/msclock/gitlab-ci-templates/commit/f8e101108d96e84e1f2df9f4f8712b546da63c24))
+
 ## [2.5.43](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.42...v2.5.43) (2023-11-27)
 
 
