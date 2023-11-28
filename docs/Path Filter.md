@@ -1,4 +1,4 @@
-# path-filter
+# Path Filter
 
 Detect the changes of files on codebase.
 
@@ -42,4 +42,4 @@ downstream_job:
 
 More details can refer to related implementation.
 
-- [templates/Path-Filter.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Path-Filter.gitlab-ci.yml)
+- [templates/Path-Filter.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Path-Filter.gitlab-ci.yml)

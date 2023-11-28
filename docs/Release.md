@@ -1,4 +1,4 @@
-# semantic-release
+# Release
 
 Fully automated version management and package publishing on ci.
 
@@ -23,8 +23,8 @@ variables:
 
 More details can refer to related implementation.
 
-- [templates/Release.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Release.gitlab-ci.yml)
-- [jobs/Release-General.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Release-General.gitlab-ci.yml)
+- [templates/Release.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Release.gitlab-ci.yml)
+- [jobs/Release-General.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/jobs/Release-General.gitlab-ci.yml)
 
 ## Release workflow
 

@@ -1,4 +1,4 @@
-# make_changes
+# Make Changes
 
 This GitLab CI template, named .make_changes, is designed to automate changes made to a codebase. This template automates the process of making changes to a codebase and provides flexibility through configurable parameters to adapt to different CI/CD workflows.
 

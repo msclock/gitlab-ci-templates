@@ -1,4 +1,4 @@
-# pre-commit
+# Pre-Commit
 
 This section verifies the `pre-commit` and applies automatic fixes, committing autofix changes back to the source branch.
 
@@ -17,7 +17,7 @@ This template enables an extending job that runs in the `.pre` stage. However, a
 
 More details can refer to related implementation.
 
-- [jobs/Pre-Commit.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Pre-Commit.gitlab-ci.yml)
+- [jobs/Pre-Commit.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/jobs/Pre-Commit.gitlab-ci.yml)
 
 ## Practice
 

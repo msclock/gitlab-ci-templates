@@ -1,4 +1,4 @@
-# devcontainer
+# Devcontainer
 
 The Devcontainer CLI is a command-line tool that simplifies the management of development containers for projects. It enables quick setup and configuration of containerized development environments, ensuring consistent and reproducible environments across different machines and teams. The CLI allows definition of tools, dependencies, and configurations in a single file, facilitating easy provisioning of the same development environment with minimal effort. Using devcontainer/cli makes it easy to integrate devcontainer into a CI environment.
 
@@ -31,4 +31,4 @@ devcontainer_build:
 
 More details can refer to related implementation.
 
-- [templates/Devcontainer.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Devcontainer.gitlab-ci.yml)
+- [templates/Devcontainer.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Devcontainer.gitlab-ci.yml)

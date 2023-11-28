@@ -1,4 +1,4 @@
-# proxy_backend
+# Proxy
 
 Use a proxy in a gitlab job.
 
@@ -30,4 +30,4 @@ some_job_need_proxy:
 
 More details can refer to related implementation.
 
-- [templates/Proxy.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Proxy.gitlab-ci.yml)
+- [templates/Proxy.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Proxy.gitlab-ci.yml)

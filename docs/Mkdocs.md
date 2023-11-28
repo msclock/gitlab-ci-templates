@@ -1,4 +1,4 @@
-# pages-mkdocs
+# Mkdocs
 
 Deploy the mkdocs documentation to gitlab pages.
 
@@ -39,5 +39,5 @@ Then, edit and configure your project mkdocs.yml to accommodate documentation.
 
 More details can refer to related implementation.
 
-- [templates/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/templates/Pages-Mkdocs.gitlab-ci.yml)
-- [jobs/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/raw/master/jobs/Pages-Mkdocs.gitlab-ci.yml)
+- [templates/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Pages-Mkdocs.gitlab-ci.yml)
+- [jobs/Pages-Mkdocs.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/jobs/Pages-Mkdocs.gitlab-ci.yml)

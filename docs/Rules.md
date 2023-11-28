@@ -1,4 +1,4 @@
-# rules
+# Rules
 
 Using rules template facilitates the rules and workflow writing.
 
@@ -28,3 +28,7 @@ include:
 
 workflow: !reference [.workflow, workflow]
 ```
+
+More details can refer to related implementation.
+
+- [templates/Rules.gitlab-ci.yml](https://gitlab.com/msclock/gitlab-ci-templates/-/blob/master/templates/Rules.gitlab-ci.yml)

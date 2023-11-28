@@ -94,11 +94,12 @@ markdown_extensions:
 nav:
   - Overview: README.md
   - Templates:
-      - rules: docs/rules.md
-      - proxy: docs/proxy.md
-      - make_changes: docs/make_changes.md
-      - pre_commit: docs/pre_commit.md
-      - devcontainer: docs/devcontainer.md
-      - release: docs/release.md
-      - path_filter: docs/path_filter.md
-      - pages_mkdocs: docs/pages_mkdocs.md
+      - Rules: docs/Rules.md
+      - Proxy: docs/Proxy.md
+      - Make Changes: docs/Make Changes.md
+      - Pre-Commit: docs/Pre-Commit.md
+      - Devcontainer: docs/Devcontainer.md
+      - Release: docs/Release.md
+      - Path Filter: docs/Path Filter.md
+      - Mkdocs: docs/Mkdocs.md
+      - Renovate: docs/Renovate.md
