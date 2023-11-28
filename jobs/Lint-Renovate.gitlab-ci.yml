@@ -14,4 +14,4 @@ lint_renovate:
         - .gitlab/renovate.json
         - renovate.json
   script:
-    - renovate-config-validator
+    - renovate-config-validator $RENOVATE_CONFIG_VALIDATOR_EXTRA_FLAGS
