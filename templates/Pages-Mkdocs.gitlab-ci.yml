@@ -42,8 +42,11 @@
             "$CI_COMMIT_BRANCH" == "$VERSION_DEV_DOCS_BRANCH" ]]; }; then
           pip install mike==2.0.0
 
-          git fetch origin $PAGES_BRANCH || echo "Pages branch not deployed yet." >> /dev/stderr
-          git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH || echo "Pages branch not deployed yet." >> /dev/stderr
+          git branch -D --remote origin/$PAGES_BRANCH && git branch -D $PAGES_BRANCH \
+            || echo "No pages branch found to clean." >> /dev/stderr
+          git fetch origin $PAGES_BRANCH --prune && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH \
+            || git checkout $PAGES_BRANCH \
+            || echo "Pages branch not deployed yet." >> /dev/stderr
           git checkout $CI_COMMIT_SHA
 
           mike_common_options=(--deploy-prefix public --push --branch $PAGES_BRANCH)
