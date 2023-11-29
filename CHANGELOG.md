@@ -1,3 +1,22 @@
+## [2.5.45](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.44...v2.5.45) (2023-11-29)
+
+
+### Bug Fixes
+
+* review pages error ([7b9f0c2](https://gitlab.com/msclock/gitlab-ci-templates/commit/7b9f0c2e67479a2baaaf4b6d104e13b1725e7247))
+
+
+### Performance
+
+* add a var EXTRA_FLAGS to lint renovate configuration ([5b57efd](https://gitlab.com/msclock/gitlab-ci-templates/commit/5b57efdab90a9bbbb0efbf6a12acfe1e89e4ebed))
+* refine renovate relateds jobs and templates ([19f53db](https://gitlab.com/msclock/gitlab-ci-templates/commit/19f53db72394d20f32065ffa0e2dfb22d6bae0fe))
+
+
+### Docs
+
+* improve readability for Release ([1a9a723](https://gitlab.com/msclock/gitlab-ci-templates/commit/1a9a723f9b8db5d9882da9000088b2a6c02f6749))
+* improve readability on documentation ([1140594](https://gitlab.com/msclock/gitlab-ci-templates/commit/1140594a408f0e2c7d0443bf3dc80b1fada61868))
+
 ## [2.5.44](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.43...v2.5.44) (2023-11-28)
 
 
