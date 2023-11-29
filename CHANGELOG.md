@@ -1,3 +1,11 @@
+## [2.5.46](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.45...v2.5.46) (2023-11-29)
+
+
+### Performance
+
+* deploy versioning docs using semantic version mode ([47946b6](https://gitlab.com/msclock/gitlab-ci-templates/commit/47946b6ea926b205995a483c54495a06d7594304))
+* safely checkout pages branch ([8196a2a](https://gitlab.com/msclock/gitlab-ci-templates/commit/8196a2a4883c24045bcef5b9cd1135ed7bbdea50))
+
 ## [2.5.45](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.44...v2.5.45) (2023-11-29)
 
 

@@ -1,17 +1,17 @@
 # Collection to consolidate Node build, lint-js/md, and node test.
 
 include:
-  - local: /templates/Node-Test.gitlab-ci.yml
-  - local: /collections/Code-Quality-Npm.gitlab-ci.yml
-  - local: /jobs/Depcheck.gitlab-ci.yml
-  - local: /jobs/Lint-Npm-Lockfile.gitlab-ci.yml
-  - local: /jobs/Lint-Npm-Package.gitlab-ci.yml
-  - local: /jobs/Node-LTS-Test.gitlab-ci.yml
-  - local: /jobs/Node-Sbom.gitlab-ci.yml
-  - local: /jobs/Npm-Audit.gitlab-ci.yml
-  - local: /jobs/Npm-Check.gitlab-ci.yml
-  - local: /jobs/Npm-Install.gitlab-ci.yml
-  - local: /jobs/Socket.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/templates/Node-Test.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/collections/Code-Quality-Npm.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Depcheck.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Lint-Npm-Lockfile.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Lint-Npm-Package.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Node-LTS-Test.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Node-Sbom.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Npm-Audit.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Npm-Check.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Npm-Install.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Socket.gitlab-ci.yml
 
 # Included from Npm-Lint-Js.gitlab-ci.yml
 lint_js:
