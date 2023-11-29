@@ -1,0 +1,10 @@
+# Job to test TypeScript type declarations.
+
+types_test:
+  extends:
+    - .node
+  stage: test
+  needs:
+    - npm_install
+  script:
+    - npm run test:types

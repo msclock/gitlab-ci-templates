@@ -1,0 +1,16 @@
+# Job for testing node applications with Jest.  Assumes:
+#   - Node-Test.gitlab-ci.yml template is included
+#   - Code coverage analysis is performed, and results are saved as artifacts
+#   - jest-junit is configured as a reporter with the default report name (junit.xml)
+
+node_lts_test:
+  extends: .node_test
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    when: always
+    expose_as: Jest Coverage Report
+    paths:
+      - coverage/
+    reports:
+      junit: junit.xml
+    expire_in: 30 days

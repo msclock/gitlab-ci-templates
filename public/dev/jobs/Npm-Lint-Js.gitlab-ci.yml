@@ -1,0 +1,14 @@
+# Job to lint all Javascript files in the project.
+# Assumes node modules have previously been installed.
+
+lint_js:
+  extends:
+    - .node
+  stage: lint
+  rules:
+    - exists:
+        - '**/*.js'
+        - '**/*.cjs'
+        - '**/*.mjs'
+  script:
+    - npm run lint:js

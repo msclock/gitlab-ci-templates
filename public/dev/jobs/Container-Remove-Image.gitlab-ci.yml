@@ -1,0 +1,26 @@
+# Job to remove a tagged image
+
+remove_image:
+  image: alpine:latest
+  stage: .post
+  variables:
+    # These are the variables and default values for repository/tag in the container scanning job.
+    # They are used here so they can be overridden once globally (if desired).
+    CI_IMAGE_FULL_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+    CI_IMAGE_IDENTITY_TAG: $CI_COMMIT_SHA
+    REG_VERSION: v0.16.1
+    GIT_STRATEGY: none
+    REG_SHA256: ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228
+  dependencies: []
+  script:
+    # If desired, can get the latest version instead of the pinned version above with
+    # export REG_VERSION=$(wget -q -O - https://raw.githubusercontent.com/genuinetools/reg/master/VERSION.txt)
+    - wget -O /usr/bin/reg https://github.com/genuinetools/reg/releases/download/${REG_VERSION}/reg-linux-amd64
+    - echo "$REG_SHA256 /usr/bin/reg" | sha256sum -c -
+    - chmod +x /usr/bin/reg
+    - >
+      reg rm -d
+      --auth-url "$CI_REGISTRY"
+      -u "$CI_REGISTRY_USER"
+      -p "$CI_REGISTRY_PASSWORD"
+      "$CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG"

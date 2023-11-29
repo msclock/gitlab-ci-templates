@@ -1,0 +1,39 @@
+# Job to run mkdocs deployment
+#
+# pages:review refer to https://blog.siemens.com/2023/11/visual-review-of-mkdocs-sites-in-gitlab-mrs
+#
+
+include:
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
+
+variables:
+  # Specifies whether to enable the review of mkdocs pages
+  PAGES_MKDOCS_REVIEW_ENABLE: '1'
+
+# @Description deploy pages with mkdocs, the named pages is a must for trigger pages deploy job
+pages:
+  stage: deploy
+  extends:
+    - .pages_mkdocs
+  rules:
+    - if: |
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH ||
+        $CI_COMMIT_TAG
+      exists:
+        - mkdocs.yml
+
+# @Description review deploy pages with mkdocs
+pages:review:
+  stage: deploy
+  extends:
+    - .pages_mkdocs
+  after_script:
+    - echo "REVIEW_URL=${CI_PAGES_URL%%://*}://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_PATH#*/}/-/jobs/${CI_JOB_ID}/artifacts/public/index.html" > review.env
+  artifacts:
+    reports:
+      dotenv: review.env
+  environment:
+    name: review/pages/$CI_MERGE_REQUEST_IID
+    url: $REVIEW_URL
+  rules:
+    - if: $CI_MERGE_REQUEST_IID && $PAGES_MKDOCS_REVIEW_ENABLE

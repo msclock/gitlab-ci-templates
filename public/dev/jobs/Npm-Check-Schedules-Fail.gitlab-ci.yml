@@ -1,0 +1,12 @@
+# Job using npm-check to check for out of date or unused modules.
+# Includes alternate rules for schedules that do not allow failure,
+# which will trigger notification for job failure.
+
+include:
+  - local: /jobs/Npm-Check.gitlab-ci.yml
+
+# Included from Npm-Check.gitlab-ci.yml
+npm_check:
+  extends:
+    - .node
+    - .schedule_fail_without_renovate

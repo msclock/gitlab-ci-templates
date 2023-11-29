@@ -1,0 +1,14 @@
+# Job to lint all HTML (and other as configured) files in the project.
+# Assumes node modules have previously been installed.
+
+lint_html:
+  extends:
+    - .node
+  stage: lint
+  rules:
+    - exists:
+        - '**/*.html'
+        - '**/*.handlebars'
+        - '**/*.hbs'
+  script:
+    - npm run lint:html

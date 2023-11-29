@@ -1,0 +1,5 @@
+# Collection of all web UI tests
+
+include:
+  - local: /jobs/GitLab-pa11y-ci.gitlab-ci.yml
+  - local: /jobs/Pagean.gitlab-ci.yml
