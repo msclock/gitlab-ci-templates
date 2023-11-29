@@ -17,6 +17,13 @@
     # Optional. Default to $CI_DEFAULT_BRANCH. Specifies the branch to deploy
     # the dev revision docs when enable the VERSION_DOCS.
     VERSION_DEV_DOCS_BRANCH: $CI_DEFAULT_BRANCH
+    # Selects the version mode to publish the pages which will be parsed from
+    # $CI_COMMIT_TAG according to semantic versioning:
+    # - 'major': only create a versioning deployment documentation on major release.
+    # - 'minor': only create a versioning deployment documentation on minor release.
+    # - 'patch': only create a versioning deployment documentation on patch release.
+    # - 'none': only create a versioning deployment documentation called 'latest'.
+    VERSION_MODE: minor
     # Specifies the extra mkdocs plugins.
     MKDOCS_EXTRA_PLUGINS: ''
   image: python:3.11-bullseye
@@ -45,7 +52,27 @@
           fi
 
           if [[ -n "$CI_COMMIT_TAG" ]]; then
-            mike deploy "${mike_common_options[@]}" --update-aliases ${CI_COMMIT_TAG} latest
+            # Use regular expressions to extract major, minor and patch versions
+            # from CI_COMMIT_TAG.
+            case "$VERSION_MODE" in
+              "major")
+                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+")
+                ;;
+              "minor")
+                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+")
+                ;;
+              "patch")
+                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+\.\d+")
+                ;;
+              "none")
+                update_aliases="latest"
+                ;;
+              *)
+                echo "VERSION_MODE only works on semver or 'none'" >> /dev/stderr
+                exit 1
+            esac
+            echo "Update aliases to $update_aliases using mike" >> /dev/stderr
+            mike deploy "${mike_common_options[@]}" --update-aliases ${update_aliases} latest
             mike set-default "${mike_common_options[@]}" latest
           fi
 

@@ -4,7 +4,7 @@
 #
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.45/templates/Pages-Mkdocs.gitlab-ci.yml
+  - local: /templates/Pages-Mkdocs.gitlab-ci.yml
 
 variables:
   # Specifies whether to enable the review of mkdocs pages
