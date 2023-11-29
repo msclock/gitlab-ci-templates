@@ -1,0 +1,30 @@
+# Job to run Pagean analysis.
+
+include:
+  # Pagean requires a config file, so always want to lint.
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.46/jobs/Lint-Pageanrc.gitlab-ci.yml
+
+pagean:
+  image: registry.gitlab.com/gitlab-ci-utils/pagean:9.0.0@sha256:78e05f412c3253aad792dbd9ca06c095c71c9ca71b5c4becdf977a143e7c6838
+  stage: test
+  variables:
+    PAGEANRC_FILE: .pageanrc.json
+  # Allow one retry, some infrastructure changes cause external requests to fail
+  retry: 1
+  script:
+    - pagean -c $PAGEANRC_FILE
+  after_script:
+    # Add artificial metrics report to collect release evidence
+    - echo 'pagean run' > metrics.txt
+  artifacts:
+    # Make sure artifacts are always saved, otherwise they will not be on failure.
+    when: always
+    expose_as: Pagean Report
+    paths:
+      - pagean-results.html
+      - pagean-results.json
+      - pagean-external-scripts/
+    expire_in: 30 days
+    # Add artificial metrics report to collect release evidence
+    reports:
+      metrics: metrics.txt
