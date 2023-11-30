@@ -1,3 +1,25 @@
+## [2.5.47](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.46...v2.5.47) (2023-11-30)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-11-30T06-10-19Z ([a39a71b](https://gitlab.com/msclock/gitlab-ci-templates/commit/a39a71b6917ed4059c9c82ca1873b94f25999763))
+
+
+### Dependencies
+
+* **deps:** update python:3.11-slim docker digest to 23f5220 ([9225521](https://gitlab.com/msclock/gitlab-ci-templates/commit/92255216dac1b53db11ee2b85a3ae2ee7fccbf9a))
+
+
+### Chores
+
+* configure annotated tag creation ([475a7f3](https://gitlab.com/msclock/gitlab-ci-templates/commit/475a7f33ecae0e3faac2b107d8d29347720275f8))
+
+
+### CI
+
+* don't detect image when commits images pinned ([65d674a](https://gitlab.com/msclock/gitlab-ci-templates/commit/65d674a3381fdbd80018c4146fc50cd9e23eb5a2))
+
 ## [2.5.46](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.45...v2.5.46) (2023-11-29)
 
 
