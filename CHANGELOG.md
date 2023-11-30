@@ -1,3 +1,10 @@
+## [2.5.48](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.47...v2.5.48) (2023-11-30)
+
+
+### Performance
+
+* optimize release preset config ([dc5ad37](https://gitlab.com/msclock/gitlab-ci-templates/commit/dc5ad3793056f2dceb8dbb402839756021ebf914))
+
 ## [2.5.47](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.46...v2.5.47) (2023-11-30)
 
 
