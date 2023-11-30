@@ -1,3 +1,15 @@
+## [2.5.49](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.48...v2.5.49) (2023-11-30)
+
+
+### Performance
+
+* enable pre-commit check on tag ([87036dc](https://gitlab.com/msclock/gitlab-ci-templates/commit/87036dc4849bfef44c6c6a77db6fcdebf2119d0b))
+
+
+### CI
+
+* speed up job unicode_bidi_test ([24bc082](https://gitlab.com/msclock/gitlab-ci-templates/commit/24bc0828f361ee144dea9b10d4480bbb1aa72ec3))
+
 ## [2.5.48](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.47...v2.5.48) (2023-11-30)
 
 
