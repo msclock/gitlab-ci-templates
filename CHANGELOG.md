@@ -1,3 +1,17 @@
+## [2.5.50](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.49...v2.5.50) (2023-12-02)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-12-01T20-38-46Z ([ab9bf07](https://gitlab.com/msclock/gitlab-ci-templates/commit/ab9bf07390c13d6c808edc06a25c26dfb8c12885))
+
+
+### Dependencies
+
+* **deps:** update dependency @socketsecurity/cli to v0.9.0 ([9e74918](https://gitlab.com/msclock/gitlab-ci-templates/commit/9e749184e2ad4e1da9ff41fddc1434c8084bd6ab))
+* **deps:** update dependency renovate-bot/renovate-runner to v16.58.0 ([94f96c4](https://gitlab.com/msclock/gitlab-ci-templates/commit/94f96c4c98bcb72f65e665bd8a222ebc34ab3665))
+* **deps:** update python:3.11-slim docker digest to cc75851 ([9c76263](https://gitlab.com/msclock/gitlab-ci-templates/commit/9c76263e050de99a28d3926e7b235aff91830d1f))
+
 ## [2.5.49](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.48...v2.5.49) (2023-11-30)
 
 
