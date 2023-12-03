@@ -93,6 +93,7 @@ markdown_extensions:
 
 nav:
   - Overview: README.md
+  - Cyclic Model: docs/Cyclic Model.md
   - Templates:
       - Rules: docs/Rules.md
       - Proxy: docs/Proxy.md
