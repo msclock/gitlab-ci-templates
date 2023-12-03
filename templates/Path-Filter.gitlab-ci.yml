@@ -1,6 +1,115 @@
-# This presents a template to detect changes on codebase
+# This presents templates to detect changes on codebase
 #
 # To configure the template refers to the variables section.
+
+.path_filter::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Path Filter Git: !reference [.common_git::template, script]
+  To Working Directory: |-
+    echo "Change the working directory to $WORKING_DIRECTORY"
+    if [[ -n "$WORKING_DIRECTORY" ]]; then
+      cd "$WORKING_DIRECTORY"
+    fi
+  Verify Filters: |-
+    echo "Verify filters: $FILTERS is set"
+    if [[ -z "$FILTERS" ]]; then
+      echo "Invalid FILTERS configuration."
+      exit 1
+    fi
+  Detect Changes: |-
+    echo "Detect changes. If in pr, detect changes against pr target branch"
+    if [[ -n "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]]; then
+      git fetch origin --force $CI_MERGE_REQUEST_TARGET_BRANCH_NAME:$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      all_changes_output=$(git diff --no-renames --name-status $CI_MERGE_REQUEST_TARGET_BRANCH_NAME)
+    else
+      # Ensure on the branch we want to detect changes against
+      git branch -D $REF || true
+      git fetch origin --depth=$INITIAL_FETCH_DEPTH --force $REF
+      git checkout --force "$REF"
+
+      if [[ $BASE == $REF ]]; then
+        if [[ $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000" ]] && git rev-list $REF | grep $CI_COMMIT_BEFORE_SHA > /dev/null; then
+          _against_base=$CI_COMMIT_BEFORE_SHA
+        else
+          _against_base=$(git rev-parse HEAD~1)
+        fi
+      else
+        git branch -D $BASE || true
+        git fetch origin --depth=$INITIAL_FETCH_DEPTH --force "$BASE":$CI_JOB_ID
+        _against_base=$(git merge-base $CI_JOB_ID $REF)
+      fi
+
+      all_changes_output=$(git diff --no-renames --name-status $_against_base..$REF)
+      git branch -D $CI_JOB_ID $BASE || true
+    fi
+    echo -e "all_changes_output:\n$all_changes_output"
+  Expose raw_all_changes_output: |-
+    echo "Expose raw_all_changes_output to dotenv"
+    echo "raw_all_changes_output='${all_changes_output//$'\n'/\\n}'" > filter.env
+  Define Expose: |-
+    echo "Define expose function to set dotenv"
+    function expose() {
+      expose_key=$1
+      content=${2%'\n'} # trim the newline
+
+      case "$LIST_FILES" in
+        csv)
+          content=$(echo -e "$content" | awk '{print "\""$2"\""}'| paste -sd ",")
+          ;;
+        json)
+          content=$(echo -e "$content" | awk '{print $2}' | jq -R . | jq -s .)
+          ;;
+        shell)
+          content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}")
+          ;;
+        escape)
+          content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}" | sed 's/[^a-zA-Z0-9,._+:@%/-]/\\&/g')
+          ;;
+      esac
+
+      echo "$expose_key=${content//$'\n'/\\n}" >> filter.env # escape new line into dotenv
+    }
+  Expose all_changes_output: |-
+    echo "Expose all_changes_output to dotenv"
+    expose "all_changes_output" "$all_changes_output"
+  Expose Based On Filters: |-
+    echo "Expose Based On Filters: $FILTERS to dotenv"
+    keys=$(echo "$FILTERS" | jq -r "keys[]")
+    declare -A patterns_map
+    for category in $keys; do
+      patterns_map["$category"]=$(echo -e "$FILTERS" | jq -r ".$category[]")
+    done
+
+    for category in "${!patterns_map[@]}"; do
+      patterns="${patterns_map[$category]}"
+      echo -e "patterns from $category:\n${patterns[@]}"
+      changes=""
+      while IFS= read -r line; do
+        filename=$(echo "$line" | awk '{print $2}')
+        for pattern in $patterns; do
+          if echo "$filename" | grep -Pq "$pattern"; then
+            changes+="$line\n"
+            break
+          fi
+        done
+      done <<< "$all_changes_output"
+
+      echo -e "changes from $category:\n$changes"
+      expose "$category" "$changes"
+    done
+
+# @Description steps constraints template
+.path_filter::template:
+  script:
+    - !reference [.path_filter::scripts, Security Check Sensible]
+    - !reference [.path_filter::scripts, Path Filter Git]
+    - !reference [.path_filter::scripts, To Working Directory]
+    - !reference [.path_filter::scripts, Verify Filters]
+    - !reference [.path_filter::scripts, Detect Changes]
+    - !reference [.path_filter::scripts, Expose raw_all_changes_output]
+    - !reference [.path_filter::scripts, Define Expose]
+    - !reference [.path_filter::scripts, Expose all_changes_output]
+    - !reference [.path_filter::scripts, Expose Based On Filters]
 
 # @Description template for path changes based on git subcommand diff
 .path_filter:
@@ -44,96 +153,7 @@
     LIST_FILES: none
     # Initial fetch depth for detecting changes
     INITIAL_FETCH_DEPTH: '30'
-  script:
-    - !reference [.security_git_config, script]
-    - |
-      # Set the working directory if provided
-      if [[ -n "$WORKING_DIRECTORY" ]]; then
-        cd "$WORKING_DIRECTORY"
-      fi
-
-      if [[ -z "$FILTERS" ]]; then
-        echo "Invalid FILTERS configuration."
-        exit 1
-      fi
-
-      # Detect changes
-      # If in pr, detect changes against pr target branch
-      if [[ -n "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]]; then
-        git fetch origin --force $CI_MERGE_REQUEST_TARGET_BRANCH_NAME:$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        all_changes_output=$(git diff --no-renames --name-status $CI_MERGE_REQUEST_TARGET_BRANCH_NAME)
-      else
-        # Ensure on the branch we want to detect changes against
-        git branch -D $REF || true
-        git fetch origin --depth=$INITIAL_FETCH_DEPTH --force $REF
-        git checkout --force "$REF"
-
-        if [[ $BASE == $REF ]]; then
-          if [[ $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000" ]] && git rev-list $REF | grep $CI_COMMIT_BEFORE_SHA > /dev/null; then
-            _against_base=$CI_COMMIT_BEFORE_SHA
-          else
-            _against_base=$(git rev-parse HEAD~1)
-          fi
-        else
-          git branch -D $BASE || true
-          git fetch origin --depth=$INITIAL_FETCH_DEPTH --force "$BASE":$CI_JOB_ID
-          _against_base=$(git merge-base $CI_JOB_ID $REF)
-        fi
-
-        all_changes_output=$(git diff --no-renames --name-status $_against_base..$REF)
-        git branch -D $CI_JOB_ID $BASE || true
-      fi
-
-      # Expose to dotenv artifact
-      function expose() {
-        expose_key=$1
-        content=${2%'\n'} # trim the newline
-
-        case "$LIST_FILES" in
-          csv)
-            content=$(echo -e "$content" | awk '{print "\""$2"\""}'| paste -sd ",")
-            ;;
-          json)
-            content=$(echo -e "$content" | awk '{print $2}' | jq -R . | jq -s .)
-            ;;
-          shell)
-            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}")
-            ;;
-          escape)
-            content=$(echo -e "$content" | awk '{print $2}' | xargs -I{} echo -e "{}" | sed 's/[^a-zA-Z0-9,._+:@%/-]/\\&/g')
-            ;;
-        esac
-
-        echo "$expose_key=${content//$'\n'/\\n}" >> filter.env # escape new line into dotenv
-      }
-
-      echo -e "all_changes_output:\n$all_changes_output"
-      echo "raw_all_changes_output='${all_changes_output//$'\n'/\\n}'" > filter.env
-      expose "all_changes_output" "$all_changes_output"
-
-      keys=$(echo "$FILTERS" | jq -r "keys[]")
-      declare -A patterns_map
-      for category in $keys; do
-        patterns_map["$category"]=$(echo -e "$FILTERS" | jq -r ".$category[]")
-      done
-
-      for category in "${!patterns_map[@]}"; do
-        patterns="${patterns_map[$category]}"
-        echo -e "patterns from $category:\n${patterns[@]}"
-        changes=""
-        while IFS= read -r line; do
-          filename=$(echo "$line" | awk '{print $2}')
-          for pattern in $patterns; do
-            if echo "$filename" | grep -Pq "$pattern"; then
-              changes+="$line\n"
-              break
-            fi
-          done
-        done <<< "$all_changes_output"
-
-        echo -e "changes from $category:\n$changes"
-        expose "$category" "$changes"
-      done
+  script: !reference [.path_filter::template, script]
   artifacts:
     reports:
       dotenv: filter.env

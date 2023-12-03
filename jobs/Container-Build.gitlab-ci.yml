@@ -14,7 +14,7 @@ container_build:
     # Kaniko cache arguments
     KANIKO_CACHE_ARGS: --cache=true --cache-copy-layers=true --cache-ttl=${KANIKO_CACHE_TTL}
   script:
-    - !reference [.container::image_build, script]
+    - !reference [.container::image_common_settings, script]
     - |
       echo "Kaniko arguments to run: --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/$DOCKERFILE $KANIKO_CACHE_ARGS --destination $CI_IMAGE_FULL_NAME:$CI_IMAGE_IDENTITY_TAG $IMAGE_LABELS"
 

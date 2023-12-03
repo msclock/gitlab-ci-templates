@@ -1,3 +1,21 @@
+# This presents templates to configure container commonly.
+#
+# To configure the template refers to the variables section.
+
+# @Description scripts for container
+.container::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Container Info: docker info
+  Authenticate Docker: |-
+    echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+# @Description template of container
+.container::template:
+  script:
+    - !reference [.container::scripts, Security Check Sensible]
+    - !reference [.container::scripts, Container Info]
+    - !reference [.container::scripts, Authenticate Docker]
+
 # @Description template of dind mode
 .container::dind:
   image: docker:24.0.7-alpine3.18@sha256:1dfc375736e448806602211e09a9b1390eb110548dcb839eef374da357ca5f5d
@@ -5,9 +23,44 @@
     - docker:24.0.7-dind-alpine3.18@sha256:1dfc375736e448806602211e09a9b1390eb110548dcb839eef374da357ca5f5d
   variables:
     DOCKER_DRIVER: overlay2
+  script: !reference [.container::template, script]
+
+# @Description scripts for container::image_common_settings
+.container::image_common_settings::scripts:
+  Info Building Image Details: |-
+    echo "Building and shipping image to $CI_IMAGE_FULL_NAME"
+  Pin org.opencontainers.image.created: |-
+    echo "pin label org.opencontainers.image.created"
+    BUILD_DATE="'$(date '+%FT%T%z' | sed -E -n 's/(\+[0-9]{2})([0-9]{2})$/\1:\2/p')'" #rfc 3339 date
+    IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.created=$BUILD_DATE --label build-date=$BUILD_DATE"
+  Pin org.opencontainers.image.title: |-
+    echo "pin label org.opencontainers.image.title"
+    BUILD_TITLE=$(echo $CI_PROJECT_TITLE | tr " ")
+    IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.title=$BUILD_TITLE --label org.opencontainers.image.description=$BUILD_TITLE"
+  Pin org.opencontainers.image.ref.name: |-
+    echo "pin label org.opencontainers.image.ref.name"
+    IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.ref.name=$CI_IMAGE_FULL_NAME:$CI_COMMIT_REF_NAME"
+  Pin com.gitlab.ci.mrurl: |-
+    echo "pin label com.gitlab.ci.mrurl"
+    if [[ -n "$CI_MERGE_REQUEST_ID" ]]; then
+      IMAGE_LABELS="$IMAGE_LABELS --label com.gitlab.ci.mrurl=$CI_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_ID"
+    fi
+  Error ON CI_IMAGE_IDENTITY_TAG: |-
+    echo "Ensure CI_IMAGE_IDENTITY_TAG is set"
+    if [[ -z "$CI_IMAGE_IDENTITY_TAG" ]]; then
+      echo "CI_IMAGE_IDENTITY_TAG is not set, error" >> /dev/stderr
+      exit 1
+    fi
+
+#@Description script steps template for container::image_common_settings
+.container::image_common_settings::template:
   script:
-    - docker info
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - !reference [.container::image_common_settings::scripts, Info Building Image Details]
+    - !reference [.container::image_common_settings::scripts, Pin org.opencontainers.image.created]
+    - !reference [.container::image_common_settings::scripts, Pin org.opencontainers.image.title]
+    - !reference [.container::image_common_settings::scripts, Pin org.opencontainers.image.ref.name]
+    - !reference [.container::image_common_settings::scripts, Pin com.gitlab.ci.mrurl]
+    - !reference [.container::image_common_settings::scripts, Error ON CI_IMAGE_IDENTITY_TAG]
 
 # @Description template of common image build settings
 .container::image_common_settings:
@@ -34,28 +87,4 @@
       --label com.gitlab.ci.pipelineurl=$CI_PIPELINE_URL
       --label com.gitlab.ci.commiturl=$CI_PROJECT_URL/commit/$CI_COMMIT_SHA
       --label com.gitlab.ci.cijoburl=$CI_JOB_URL
-  script:
-    - |
-      echo "Building and shipping image to $CI_IMAGE_FULL_NAME"
-
-      # Build date for opencontainers
-      BUILD_DATE="'$(date '+%FT%T%z' | sed -E -n 's/(\+[0-9]{2})([0-9]{2})$/\1:\2/p')'" #rfc 3339 date
-      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.created=$BUILD_DATE --label build-date=$BUILD_DATE"
-
-      # Description for opencontainers
-      BUILD_TITLE=$(echo $CI_PROJECT_TITLE | tr " ")
-      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.title=$BUILD_TITLE --label org.opencontainers.image.description=$BUILD_TITLE"
-
-      # Add ref.name for opencontainers
-      IMAGE_LABELS="$IMAGE_LABELS --label org.opencontainers.image.ref.name=$CI_IMAGE_FULL_NAME:$CI_COMMIT_REF_NAME"
-
-      # Add mrurl
-      if [[ -n "$CI_MERGE_REQUEST_ID" ]]; then
-        IMAGE_LABELS="$IMAGE_LABELS --label com.gitlab.ci.mrurl=$CI_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_ID"
-      fi
-
-      # Add Identity tag
-      if [[ -z "$CI_IMAGE_IDENTITY_TAG" ]]; then
-        echo "CI_IMAGE_IDENTITY_TAG is not set, error" >> /dev/stderr
-        exit 1
-      fi
+  script: !reference [.container::image_common_settings::template, script]

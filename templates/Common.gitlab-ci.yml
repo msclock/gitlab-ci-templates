@@ -1,40 +1,48 @@
 # @Description open debug trace
 .security_check_sensible:
   script: |
+    echo "warn to open debug trace if CI_DEBUG_TRACE=1 or CI_DEBUG_TRACE=true"
     if [ "$CI_DEBUG_TRACE" = "1" ] || [ "$CI_DEBUG_TRACE" = "true" ]; then
       echo "Enable CI_DEBUG_TRACE, and some sensible info will be printed. Please be careful!!!"
       set -x
     fi
 
-# @Description configure git
-.security_git_config:
-  script: |
-    # Prepare config for git
-    if [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}.git"
-    else
-      git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-    fi
-
+# @Description git config scripts
+.common_git::scripts:
+  Set Remote Origin: |-
+    echo "Configure git origin"
+    git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN:-$CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH:-${CI_PROJECT_PATH}}.git"
+  Set User Name: |-
     git config --global user.name ${CI_USRE_NAME:-gitlab-ci[bot]}
+  Set User Email: |-
     git config --global user.email ${CI_USER_EMAIL:-gitlab-ci[bot]@users.noreply.${CI_SERVER_HOST}}
+  Set LFS: |-
+    echo "Configure git lfs"
     git config --global lfs.locksverify true
+
+# @Description git config script template
+.common_git::template:
+  script:
+    - !reference [.common_git::scripts, Set Remote Origin]
+    - !reference [.common_git::scripts, Set User Name]
+    - !reference [.common_git::scripts, Set User Email]
+    - !reference [.common_git::scripts, Set LFS]
 
 # @Description check if latest commit id
 .check_latest_commit:
   script:
     - |
-      git fetch origin
+      git fetch origin $CI_COMMIT_REF_NAME
       CURRENT_COMMIT=$(git rev-parse HEAD)
       LATEST_COMMIT=$(git rev-parse origin/$CI_COMMIT_REF_NAME)
 
       if [ "$CURRENT_COMMIT" = "$LATEST_COMMIT" ]; then
-        IS_LATEST_COMMIT=true
+        is_latest_commit=true
       else
-        IS_LATEST_COMMIT=false
+        is_latest_commit=false
       fi
 
-      echo "Is current commit the latest? $IS_LATEST_COMMIT"
+      echo "Is current commit the latest? $is_latest_commit"
 
 # @Description create pipeline, if pipeline ref SCHEDULE_REF is set
 .schedule_pipeline:

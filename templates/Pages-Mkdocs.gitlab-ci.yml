@@ -3,86 +3,126 @@
 #
 # To configure the template refers to the variables section.
 
+.pages_mkdocs::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Pages Mkdocs Git: !reference [.common_git::template, script]
+  Setup Mkdocs: |-
+    echo "Install mkdocs plugins from MKDOCS_EXTRA_PLUGINS: ${MKDOCS_EXTRA_PLUGINS}"
+    pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
+  Make Mkdocs: |-
+    echo "Make mkdocs with build command. When VERSION_DOCS: $VERSION_DOCS is set, it aims to make docs for reviews in pr. Otherwise, it aims to make docs for production."
+    mkdocs build --site-dir public/ --no-directory-urls
+  Exit When Not VERSION_DOCS: |-
+    echo "Exit when not VERSION_DOCS: $VERSION_DOCS is set."
+    if [[ -z "$VERSION_DOCS" ]]; then
+      echo "Not version docs. Exiting."
+      exit 0
+    fi
+  Check For Skip Versioning Docs: |-
+    echo "Only make versioning docs when CI_COMMIT_TAG: $CI_COMMIT_TAG is set or CI_COMMIT_BRANCH: $CI_COMMIT_BRANCH is equal to VERSION_DEV_DOCS_BRANCH: $VERSION_DEV_DOCS_BRANCH. Otherwise, skip it."
+    if ! { [[ -n "$CI_COMMIT_TAG" ]] || \
+    [[ -n "$CI_COMMIT_BRANCH" && "$CI_COMMIT_BRANCH" == "$VERSION_DEV_DOCS_BRANCH" ]]; }; then
+      echo "Skip versioning docs. Exiting."
+      exit 0
+    fi
+  Clean Up Public: |-
+    echo "Clean for versioning docs if the public folder exists"
+    if [[ -d "public" ]]; then
+      rm -rf public
+    fi
+  Setup Mike: |-
+    echo "Install mike to deploy versioning docs"
+    pip install mike==2.0.0
+  Prepare Pages Branch: |-
+    echo "Sync with remote pages branch PAGES_BRANCH: $PAGES_BRANCH and checkout versioning docs from commit hash CI_COMMIT_SHA: $CI_COMMIT_SHA"
+    git branch -D --remote origin/$PAGES_BRANCH && git branch -D $PAGES_BRANCH \
+      || echo "No pages branch found to clean." >> /dev/stderr
+    git fetch origin $PAGES_BRANCH --prune && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH \
+      || git checkout $PAGES_BRANCH \
+      || echo "Pages branch not deployed yet." >> /dev/stderr
+    git checkout $CI_COMMIT_SHA
+  Prepare Mike Options: |-
+    echo "Prepare mike versioning deployment options"
+    mike_common_options=(--deploy-prefix public --push --branch $PAGES_BRANCH)
+  Make Versioning Docs For Alias Dev: |-
+    echo "Update aliases to dev using mike when CI_COMMIT_BRANCH: $CI_COMMIT_BRANCH is set"
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+      mike deploy "${mike_common_options[@]}" --update-aliases dev
+    fi
+  Make Versioning Docs For Alias Tag: |-
+    echo "Update aliases to tag using regexes to extract major, minor and patch versions from CI_COMMIT_TAG: $CI_COMMIT_TAG."
+    if [[ -n "$CI_COMMIT_TAG" ]]; then
+      case "$VERSION_MODE" in
+        "major")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+")
+          ;;
+        "minor")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+")
+          ;;
+        "patch")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+\.\d+")
+          ;;
+        "none")
+          update_aliases="latest"
+          ;;
+        *)
+          echo "VERSION_MODE only works on semver or 'none'" >> /dev/stderr
+          exit 1
+      esac
+      echo "Update aliases to $update_aliases using mike" >> /dev/stderr
+      mike deploy "${mike_common_options[@]}" --update-aliases ${update_aliases} latest
+      mike set-default "${mike_common_options[@]}" latest
+    fi
+  Checkout Versioning Docs: |-
+    echo "Checkout versioning docs from PAGES_BRANCH: $PAGES_BRANCH"
+    git checkout $PAGES_BRANCH -- public/
+
+# @Description steps constraints template
+.pages_mkdocs::template:
+  extend: .pages_mkdocs::scripts
+  script:
+    - !reference [.pages_mkdocs::scripts, Security Check Sensible]
+    - !reference [.pages_mkdocs::scripts, Pages Mkdocs Git]
+    - !reference [.pages_mkdocs::scripts, Setup Mkdocs]
+    - !reference [.pages_mkdocs::scripts, Make Mkdocs]
+    - !reference [.pages_mkdocs::scripts, Exit When Not VERSION_DOCS]
+    - !reference [.pages_mkdocs::scripts, Check For Skip Versioning Docs]
+    - !reference [.pages_mkdocs::scripts, Clean Up Public]
+    - !reference [.pages_mkdocs::scripts, Setup Mike]
+    - !reference [.pages_mkdocs::scripts, Prepare Pages Branch]
+    - !reference [.pages_mkdocs::scripts, Prepare Mike Options]
+    - !reference [.pages_mkdocs::scripts, Make Versioning Docs For Alias Dev]
+    - !reference [.pages_mkdocs::scripts, Make Versioning Docs For Alias Tag]
+    - !reference [.pages_mkdocs::scripts, Checkout Versioning Docs]
+
 # @Description template for deploy mkdocs
 .pages_mkdocs:
   stage: deploy
   variables:
     # The pip cache
     PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
-    # The branch to deploy when enable the VERSION_DOCS.
+    # The branch to deploy when VERSION_DOCS is set.
     PAGES_BRANCH: gl-pages
     # Specifies whether to use mike to deploy mkdocs docs.
-    # And Only deploy when enable the VERSION_DOCS.
     VERSION_DOCS: ''
-    # Optional. Default to $CI_DEFAULT_BRANCH. Specifies the branch to deploy
-    # the dev revision docs when enable the VERSION_DOCS.
+    # Specifies the branch to deploy the dev revision docs
+    # when VERSION_DOCS is set.
     VERSION_DEV_DOCS_BRANCH: $CI_DEFAULT_BRANCH
     # Selects the version mode to publish the pages which will be parsed from
     # $CI_COMMIT_TAG according to semantic versioning:
-    # - 'major': only create a versioning deployment documentation on major release.
-    # - 'minor': only create a versioning deployment documentation on minor release.
-    # - 'patch': only create a versioning deployment documentation on patch release.
-    # - 'none': only create a versioning deployment documentation called 'latest'.
+    # - 'major': only publish a versioning deployment on major release.
+    # - 'minor': only publish a versioning deployment on minor release.
+    # - 'patch': only publish a versioning deployment on patch release.
+    # - 'none':  only publish a versioning deployment called 'latest'.
     VERSION_MODE: minor
     # Specifies the extra mkdocs plugins.
-    MKDOCS_EXTRA_PLUGINS: ''
+    MKDOCS_EXTRA_PLUGINS: >-
+      mkdocs-material
+      mkdocs-git-revision-date-localized-plugin
+      mkdocs-same-dir
   image: python:3.11-bullseye
   dependencies: []
-  script:
-    - !reference [.security_check_sensible, script]
-    - !reference [.security_git_config, script]
-    - |
-      echo "Install mkdocs plugins: mkdocs ${MKDOCS_EXTRA_PLUGINS}" >> /dev/stderr
-      pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
-
-      # Only deploy when enable the VERSION_DOCS
-      if [[ -n "$VERSION_DOCS" ]] && \
-        { [[ -n "$CI_COMMIT_TAG" ]] || \
-          [[ -n "$CI_COMMIT_BRANCH" && \
-            "$CI_COMMIT_BRANCH" == "$VERSION_DEV_DOCS_BRANCH" ]]; }; then
-          pip install mike==2.0.0
-
-          git branch -D --remote origin/$PAGES_BRANCH && git branch -D $PAGES_BRANCH \
-            || echo "No pages branch found to clean." >> /dev/stderr
-          git fetch origin $PAGES_BRANCH --prune && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH \
-            || git checkout $PAGES_BRANCH \
-            || echo "Pages branch not deployed yet." >> /dev/stderr
-          git checkout $CI_COMMIT_SHA
-
-          mike_common_options=(--deploy-prefix public --push --branch $PAGES_BRANCH)
-          if [[ -n "$CI_COMMIT_BRANCH" ]]; then
-            mike deploy "${mike_common_options[@]}" --update-aliases dev
-          fi
-
-          if [[ -n "$CI_COMMIT_TAG" ]]; then
-            # Use regular expressions to extract major, minor and patch versions
-            # from CI_COMMIT_TAG.
-            case "$VERSION_MODE" in
-              "major")
-                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+")
-                ;;
-              "minor")
-                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+")
-                ;;
-              "patch")
-                update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+\.\d+")
-                ;;
-              "none")
-                update_aliases="latest"
-                ;;
-              *)
-                echo "VERSION_MODE only works on semver or 'none'" >> /dev/stderr
-                exit 1
-            esac
-            echo "Update aliases to $update_aliases using mike" >> /dev/stderr
-            mike deploy "${mike_common_options[@]}" --update-aliases ${update_aliases} latest
-            mike set-default "${mike_common_options[@]}" latest
-          fi
-
-          git checkout $PAGES_BRANCH -- public/
-          exit 0
-      fi
-      mkdocs build --site-dir public/ --no-directory-urls
+  script: !reference [.pages_mkdocs::template, script]
   artifacts:
     paths:
       - public/

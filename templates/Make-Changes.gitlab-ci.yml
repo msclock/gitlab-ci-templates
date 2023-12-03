@@ -1,7 +1,71 @@
-# This presents a template to make changes to codebase using the native
-# gitlab restapi.
+# This presents templates to make changes to codebase.
 #
 # To configure the template refers to the variables section.
+
+# @Description scripts for make_changes
+.make_changes::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Make Changes Git: !reference [.common_git::template, script]
+  Detect Changes: |-
+    _detect_pattern='[^?]'
+    if [[ $DETECT_CHANGES_ADD =~ ^(1|true)$ ]]; then
+      _detect_pattern='.'
+    fi
+
+    changes=$(git status -s | grep -E "^"$_detect_pattern"+$")
+    if [[ -z "$changes" ]]; then
+      echo "Working tree clean. Nothing to make changes.";
+      exit 0
+    fi
+  Commit Changes: |-
+    if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
+      temp_branch=changes_on_pr_${CI_COMMIT_SHA:0:12}
+      git checkout -B "$temp_branch" --
+    fi
+
+    git add -u .
+    _title=$(eval "echo ${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}")
+    _body=$(eval "echo ${MAKE_CHANGES_MSG_BODY}")
+    git commit -m "$_title" -m "$_body" -m "job url: $CI_JOB_URL"
+    if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
+      git push origin "$temp_branch"
+      curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+        --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests" \
+        --form "source_branch=$temp_branch" \
+        --form "target_branch=$CI_COMMIT_REF_NAME" \
+        --form "title=PR from $temp_branch"
+    elif [[ -n "$CI_COMMIT_BRANCH" ]]; then
+      git push origin HEAD:"$CI_COMMIT_BRANCH"
+    elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
+      git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+    fi
+  Check Exit: |-
+    echo "Check and exit the current pipeline..."
+    case $MAKE_CHANGES_FINISH in
+      error)
+        echo "Finish with error the current pipeline..."
+        exit 1
+        ;;
+      skip)
+        echo "Finish with skip the current pipeline..."
+        curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
+          --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipelines/${CI_PIPELINE_ID}/cancel"
+        ;;
+      *)
+        echo "Finish with success the current pipeline..."
+        exit 0
+        ;;
+    esac
+
+# @Description steps constraints template for make_changes
+.make_changes::template:
+  extend: .make_changes::scripts
+  script:
+    - !reference [.make_changes::scripts, Security Check Sensible]
+    - !reference [.make_changes::scripts, Make Changes Git]
+    - !reference [.make_changes::scripts, Detect Changes]
+    - !reference [.make_changes::scripts, Commit Changes]
+    - !reference [.make_changes::scripts, Check Exit]
 
 # @Description make changes on codebase
 .make_changes:
@@ -10,55 +74,16 @@
     MAKE_CHANGES_MSG: ''
     # Optional. Allow customization of the commit body.
     MAKE_CHANGES_MSG_BODY: ''
-    # Optional. When set, creates a temporary branch and pushes the changes to it, along with creating a merge request for code review.
+    # Creates a temporary branch and pushes the changes to it,
+    # along with creating a merge request for code review.
+    # - `true`: creates a temporary branch and pushes the changes to it,
+    # - `false`: skips the temporary branch and pushes the changes to it.
     MAKE_CHANGES_ON_PR: ''
-    # Optional. Controls the exit behavior of the CI job. `skip`: the current pipeline will be skipped. `error`: exits code 1. Leave blank to exits 0.
+    # Controls the exit behavior of the CI job.
+    # - `skip`: the current pipeline will be skipped.
+    # - `error`: exits with code 1.
+    # - `''`(Default): exits 0.
     MAKE_CHANGES_FINISH: ''
     # Optional. Controls if the added files are detected as changes.
     DETECT_CHANGES_ADD: 1
-  script:
-    - !reference [.security_check_sensible, script]
-    - !reference [.security_git_config, script]
-    - |
-      _detect_pattern='[^?]'
-      if [[ $DETECT_CHANGES_ADD =~ ^(1|true)$ ]]; then
-        _detect_pattern='.'
-      fi
-
-      if [[ -n "$(git status -s | grep -E "^"$_detect_pattern"+$")" ]]; then
-
-        if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
-          temp_branch=changes_on_pr_${CI_COMMIT_SHA:0:12}
-          git checkout -B "$temp_branch" --
-        fi
-
-        git add -u .
-        _title=$(eval "echo ${MAKE_CHANGES_MSG:-ci: automated commit changes from CI job}")
-        _body=$(eval "echo ${MAKE_CHANGES_MSG_BODY}")
-        git commit -m "$_title" -m "$_body" -m "job url: $CI_JOB_URL"
-        if [[ -n "$MAKE_CHANGES_ON_PR" ]]; then
-          git push origin "$temp_branch"
-          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-            --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests" \
-            --form "source_branch=$temp_branch" \
-            --form "target_branch=$CI_COMMIT_REF_NAME" \
-            --form "title=PR from $temp_branch"
-        elif [[ -n "$CI_COMMIT_BRANCH" ]]; then
-          git push origin HEAD:"$CI_COMMIT_BRANCH"
-        elif [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
-          git push origin HEAD:"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
-        fi
-      else
-        echo "Working tree clean. Nothing to make changes.";
-        exit 0
-      fi
-
-      case $MAKE_CHANGES_FINISH in
-        error) exit 1 ;;
-        skip)
-          echo "Finish with skip the current pipeline..."
-          curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN:-$CI_JOB_TOKEN}" \
-            --request POST "$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipelines/${CI_PIPELINE_ID}/cancel"
-          ;;
-        *) exit 0 ;;
-      esac
+  script: !reference [.make_changes::template, script]
