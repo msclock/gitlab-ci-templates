@@ -1,3 +1,10 @@
+## [2.5.51](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.50...v2.5.51) (2023-12-03)
+
+
+### Performance
+
+* script model ([c3fbde4](https://gitlab.com/msclock/gitlab-ci-templates/commit/c3fbde420a5e8ce5b622950b5769e94570e5f83d))
+
 ## [2.5.50](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.49...v2.5.50) (2023-12-02)
 
 
