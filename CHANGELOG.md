@@ -1,3 +1,15 @@
+## [2.5.52](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.51...v2.5.52) (2023-12-03)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v16.58.3 ([403dcee](https://gitlab.com/msclock/gitlab-ci-templates/commit/403dcee4a1cb23f0580f4532effead9ea70a3fa4))
+
+
+### Docs
+
+* add cyclic model documents ([c406434](https://gitlab.com/msclock/gitlab-ci-templates/commit/c40643428f55a786e770c649150ea27bca98842f))
+
 ## [2.5.51](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.50...v2.5.51) (2023-12-03)
 
 
