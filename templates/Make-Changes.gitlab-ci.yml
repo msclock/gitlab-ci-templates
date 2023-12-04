@@ -5,7 +5,7 @@
 # @Description scripts for make_changes
 .make_changes::scripts:
   Security Check Sensible: !reference [.security_check_sensible, script]
-  Make Changes Git: !reference [.common_git::template, script]
+  Setup Git: !reference [.common_git::template, script]
   Detect Changes: |-
     _detect_pattern='[^?]'
     if [[ $DETECT_CHANGES_ADD =~ ^(1|true)$ ]]; then
@@ -62,7 +62,7 @@
   extend: .make_changes::scripts
   script:
     - !reference [.make_changes::scripts, Security Check Sensible]
-    - !reference [.make_changes::scripts, Make Changes Git]
+    - !reference [.make_changes::scripts, Setup Git]
     - !reference [.make_changes::scripts, Detect Changes]
     - !reference [.make_changes::scripts, Commit Changes]
     - !reference [.make_changes::scripts, Check Exit]

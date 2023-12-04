@@ -17,7 +17,7 @@ variables:
 
 .release::scripts:
   Security Check Sensible: !reference [.security_check_sensible, script]
-  Release Git: !reference [.common_git::template, script]
+  Setup Git: !reference [.common_git::template, script]
   Set Npm Source: |-
     echo "Configuring NPM_SOURCE: $NPM_SOURCE when it is set"
     if [[ -n "$NPM_SOURCE" ]]; then
@@ -88,7 +88,7 @@ variables:
 .release::template:
   script:
     - !reference [.release::scripts, Security Check Sensible]
-    - !reference [.release::scripts, Release Git]
+    - !reference [.release::scripts, Setup Git]
     - !reference [.release::scripts, Set Npm Source]
     - !reference [.release::scripts, Setup Semantic Release]
     - !reference [.release::scripts, Generate Preset Releaserc If Needed]

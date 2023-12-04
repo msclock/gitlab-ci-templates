@@ -4,7 +4,7 @@
 
 .path_filter::scripts:
   Security Check Sensible: !reference [.security_check_sensible, script]
-  Path Filter Git: !reference [.common_git::template, script]
+  Setup Git: !reference [.common_git::template, script]
   To Working Directory: |-
     echo "Change the working directory to $WORKING_DIRECTORY"
     if [[ -n "$WORKING_DIRECTORY" ]]; then
@@ -102,7 +102,7 @@
 .path_filter::template:
   script:
     - !reference [.path_filter::scripts, Security Check Sensible]
-    - !reference [.path_filter::scripts, Path Filter Git]
+    - !reference [.path_filter::scripts, Setup Git]
     - !reference [.path_filter::scripts, To Working Directory]
     - !reference [.path_filter::scripts, Verify Filters]
     - !reference [.path_filter::scripts, Detect Changes]

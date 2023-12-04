@@ -5,11 +5,11 @@
 
 .pages_mkdocs::scripts:
   Security Check Sensible: !reference [.security_check_sensible, script]
-  Pages Mkdocs Git: !reference [.common_git::template, script]
-  Setup Mkdocs: |-
+  Setup Git: !reference [.common_git::template, script]
+  Setup Docs Tools: |-
     echo "Install mkdocs plugins from MKDOCS_EXTRA_PLUGINS: ${MKDOCS_EXTRA_PLUGINS}"
     pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
-  Make Mkdocs: |-
+  Make Not Versioning Docs: |-
     echo "Make mkdocs with build command. When VERSION_DOCS: $VERSION_DOCS is set, it aims to make docs for reviews in pr. Otherwise, it aims to make docs for production."
     mkdocs build --site-dir public/ --no-directory-urls
   Exit When Not VERSION_DOCS: |-
@@ -30,7 +30,7 @@
     if [[ -d "public" ]]; then
       rm -rf public
     fi
-  Setup Mike: |-
+  Setup Versioning Docs Tools: |-
     echo "Install mike to deploy versioning docs"
     pip install mike==2.0.0
   Prepare Pages Branch: |-
@@ -41,7 +41,7 @@
       || git checkout $PAGES_BRANCH \
       || echo "Pages branch not deployed yet." >> /dev/stderr
     git checkout $CI_COMMIT_SHA
-  Prepare Mike Options: |-
+  Prepare Versioning Docs Tools Options: |-
     echo "Prepare mike versioning deployment options"
     mike_common_options=(--deploy-prefix public --push --branch $PAGES_BRANCH)
   Make Versioning Docs For Alias Dev: |-
@@ -82,15 +82,15 @@
   extend: .pages_mkdocs::scripts
   script:
     - !reference [.pages_mkdocs::scripts, Security Check Sensible]
-    - !reference [.pages_mkdocs::scripts, Pages Mkdocs Git]
-    - !reference [.pages_mkdocs::scripts, Setup Mkdocs]
-    - !reference [.pages_mkdocs::scripts, Make Mkdocs]
+    - !reference [.pages_mkdocs::scripts, Setup Git]
+    - !reference [.pages_mkdocs::scripts, Setup Docs Tools]
+    - !reference [.pages_mkdocs::scripts, Make Not Versioning Docs]
     - !reference [.pages_mkdocs::scripts, Exit When Not VERSION_DOCS]
     - !reference [.pages_mkdocs::scripts, Check For Skip Versioning Docs]
     - !reference [.pages_mkdocs::scripts, Clean Up Public]
-    - !reference [.pages_mkdocs::scripts, Setup Mike]
+    - !reference [.pages_mkdocs::scripts, Setup Versioning Docs Tools]
     - !reference [.pages_mkdocs::scripts, Prepare Pages Branch]
-    - !reference [.pages_mkdocs::scripts, Prepare Mike Options]
+    - !reference [.pages_mkdocs::scripts, Prepare Versioning Docs Tools Options]
     - !reference [.pages_mkdocs::scripts, Make Versioning Docs For Alias Dev]
     - !reference [.pages_mkdocs::scripts, Make Versioning Docs For Alias Tag]
     - !reference [.pages_mkdocs::scripts, Checkout Versioning Docs]
