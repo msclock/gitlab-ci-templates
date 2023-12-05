@@ -1,3 +1,15 @@
+## [2.5.53](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.52...v2.5.53) (2023-12-05)
+
+
+### Performance
+
+* rename scripts steps ([0d39735](https://gitlab.com/msclock/gitlab-ci-templates/commit/0d397351f2a3242eecf6325cc1dc3694e3bc0ff0))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v16.59.0 ([49cbd15](https://gitlab.com/msclock/gitlab-ci-templates/commit/49cbd15ff14037c16c6e1a2404e7687021a68e80))
+
 ## [2.5.52](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.51...v2.5.52) (2023-12-03)
 
 
