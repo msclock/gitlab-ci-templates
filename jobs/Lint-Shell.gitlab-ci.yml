@@ -1,7 +1,7 @@
 # Job to lint all Linux shell scripts in the project.
 
 lint_sh:
-  image: ubuntu:lunar
+  image: ubuntu:lunar-20231128
   stage: lint
   needs: []
   allow_failure: true
