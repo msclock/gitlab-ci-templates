@@ -19,7 +19,7 @@ copyright: Copyright &copy; 2023 Msclock
 
 theme:
   name: material
-
+  custom_dir: docs/overrides
   features:
     - navigation.top
     - navigation.path
@@ -64,6 +64,7 @@ theme:
 extra:
   version:
     provider: mike
+    default: latest
 
 plugins:
   - search
