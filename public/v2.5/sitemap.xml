@@ -11,12 +11,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://msclock.gitlab.io/gitlab-ci-templates/v2.5/docs/Changelog/</loc>
+         <lastmod>2023-12-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/v2.5/docs/Cyclic%20Model/</loc>
          <lastmod>2023-12-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/v2.5/docs/Devcontainer/</loc>
+         <lastmod>2023-12-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://msclock.gitlab.io/gitlab-ci-templates/v2.5/docs/License/</loc>
          <lastmod>2023-12-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
