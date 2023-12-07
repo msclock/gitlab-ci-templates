@@ -1,3 +1,21 @@
+## [2.5.55](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.54...v2.5.55) (2023-12-07)
+
+
+### Performance
+
+* rename pages_mkdocs script name ([9d6ecf9](https://gitlab.com/msclock/gitlab-ci-templates/commit/9d6ecf9159f4129236e76014285ccf22f98eaf67))
+
+
+### Chores
+
+* limit dates for LICENSE ([674ff02](https://gitlab.com/msclock/gitlab-ci-templates/commit/674ff02125b9d67b4c003ac17c43b2c941602d1f))
+
+
+### Docs
+
+* add version warning ([ad75140](https://gitlab.com/msclock/gitlab-ci-templates/commit/ad751403f183605dfbf8b04ce18cc1147663791d))
+* refine documentation ([ed8c630](https://gitlab.com/msclock/gitlab-ci-templates/commit/ed8c6304cf05257bb3e812ee86cd0863059ac17c))
+
 ## [2.5.54](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.53...v2.5.54) (2023-12-07)
 
 

@@ -3,7 +3,7 @@
 # which will trigger notification for job failure.
 
 include:
-  - local: /jobs/Npm-Check.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.55/jobs/Npm-Check.gitlab-ci.yml
 
 # Included from Npm-Check.gitlab-ci.yml
 npm_check:
