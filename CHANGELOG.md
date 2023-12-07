@@ -1,3 +1,18 @@
+## [2.5.54](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.53...v2.5.54) (2023-12-07)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-12-06T00-10-00Z ([5e6a389](https://gitlab.com/msclock/gitlab-ci-templates/commit/5e6a3898a60ebe20dfdfaf594ce74a73dd9deddb))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v16.62.0 ([2b87a33](https://gitlab.com/msclock/gitlab-ci-templates/commit/2b87a33aa482ad80bb402ef7f8b7430c584a6eca))
+* **deps:** update ghcr.io/google/osv-scanner docker tag to v1.5.0 ([1fe34b1](https://gitlab.com/msclock/gitlab-ci-templates/commit/1fe34b1cc8691adacd9c691a6d510efe37f388df))
+* **deps:** update python:3.11-slim docker digest to cfd7ed5 ([a4fd89b](https://gitlab.com/msclock/gitlab-ci-templates/commit/a4fd89b41442cbbe4e08cf80cd3ffd82a5535b60))
+* **deps:** update ubuntu docker tag to lunar-20231128 ([a179da7](https://gitlab.com/msclock/gitlab-ci-templates/commit/a179da79ecd54529de858967712e12b69c419f99))
+
 ## [2.5.53](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.52...v2.5.53) (2023-12-05)
 
 
