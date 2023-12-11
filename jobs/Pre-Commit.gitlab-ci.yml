@@ -1,9 +1,67 @@
-# This presents a pre_commit job for powsering lint codebase.
+# This presents job templates for powsering lint codebase.
 # see https://github.com/pre-commit/pre-commit.
 #
 # By default, the template assumes that pipelines are being used for merge requests.
 # If pipelines are not used for merge requests (branch pipelines only), unset
 # `PRE_COMMIT_DEDUPLICATE_MR_AND_BRANCH` and set `PRE_COMMIT_AUTO_FIX_BRANCH_ONLY`.
+
+.pre_commit::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Check Pre-Commit Conditions: |
+    echo "Checking if PRE_COMMIT_AUTO_FIX_BRANCH_ONLY: $PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY: $PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+    if [[ "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" == "true" && "$PRE_COMMIT_AUTO_FIX_MR_ONLY" == "true" ]]; then
+      echo "Invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
+      exit 1
+    fi
+  Ensure Cache Safely: |
+    echo "Ensure cache at PRE_COMMIT_HOME: $PRE_COMMIT_HOME is safe in _REAL_PRE_COMMIT_HOME: $_REAL_PRE_COMMIT_HOME"
+    if [[ -d "$PRE_COMMIT_HOME" ]]; then
+      echo "Found cache at $PRE_COMMIT_HOME for pre-commit and move it to $_REAL_PRE_COMMIT_HOME"
+      if [[ ! -d "$_REAL_PRE_COMMIT_HOME" ]]; then
+        mkdir -p $_REAL_PRE_COMMIT_HOME
+      fi
+      mv $PRE_COMMIT_HOME/* $_REAL_PRE_COMMIT_HOME
+    fi
+  Run Pre-Commit: |
+    echo "Run pre-commit with PRE_COMMIT_HOME: $PRE_COMMIT_HOME"
+    status=0
+    PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run --all-files || status=$?
+  Backup Cache Safely: |
+    echo "Backup cache at PRE_COMMIT_HOME: $PRE_COMMIT_HOME to _REAL_PRE_COMMIT_HOME: $_REAL_PRE_COMMIT_HOME"
+    mkdir -p $PRE_COMMIT_HOME
+    mv $_REAL_PRE_COMMIT_HOME/* $PRE_COMMIT_HOME
+  Check Pre-Commit Result: |
+    echo "Checking if pre-commit run was successful"
+    if [[ $status -eq 0 ]]; then
+      exit 0  # We're all good, pipeline can proceed
+    fi
+
+    _init_fail_unexpectedly=3
+
+    if [[ $status -eq $_init_fail_unexpectedly ]]; then
+      echo "pre-commit init occurred failed unexpectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
+      exit 1
+    fi
+  Check Auto-Fix: |
+    echo "Checking if PRE_COMMIT_AUTO_FIX: $PRE_COMMIT_AUTO_FIX is set to do an auto-fix"
+    if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
+      exit $status # Fail the job with status holding exit code
+    fi
+  Commit Changes: !reference [.make_changes, script]
+
+
+# @Description steps constraints template
+.pre_commit::template:
+  extend: .pre_commit::scripts
+  script:
+    - !reference [.pre_commit::scripts, Security Check Sensible]
+    - !reference [.pre_commit::scripts, Check Pre-Commit Conditions]
+    - !reference [.pre_commit::scripts, Ensure Cache Safely]
+    - !reference [.pre_commit::scripts, Run Pre-Commit]
+    - !reference [.pre_commit::scripts, Backup Cache Safely]
+    - !reference [.pre_commit::scripts, Check Pre-Commit Result]
+    - !reference [.pre_commit::scripts, Check Auto-Fix]
+    - !reference [.pre_commit::scripts, Commit Changes]
 
 # @Description pre-commit template
 pre_commit:
@@ -84,40 +142,4 @@ pre_commit:
     key: pre-commit-cache
     paths:
       - $PRE_COMMIT_HOME
-  script:
-    - !reference [.security_check_sensible, script]
-    - |
-      if [[ "$PRE_COMMIT_AUTO_FIX_BRANCH_ONLY" == "true" && "$PRE_COMMIT_AUTO_FIX_MR_ONLY" == "true" ]]; then
-        echo "Invalid configuration. PRE_COMMIT_AUTO_FIX_BRANCH_ONLY and PRE_COMMIT_AUTO_FIX_MR_ONLY are mutually exclusive"
-        exit 1
-      fi
-
-      status=0
-
-      if [[ -d "$PRE_COMMIT_HOME" ]]; then
-        echo "Found cache at $PRE_COMMIT_HOME for pre-commit and move it to $_REAL_PRE_COMMIT_HOME"
-        if [[ ! -d "$_REAL_PRE_COMMIT_HOME" ]]; then
-          mkdir -p $_REAL_PRE_COMMIT_HOME
-        fi
-        mv $PRE_COMMIT_HOME/* $_REAL_PRE_COMMIT_HOME
-      fi
-
-      PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run --all-files || status=$?
-      mkdir -p $PRE_COMMIT_HOME
-      mv $_REAL_PRE_COMMIT_HOME/* $PRE_COMMIT_HOME
-
-      if [[ $status -eq 0 ]]; then
-        exit 0  # We're all good, pipeline can proceed
-      fi
-
-      _init_fail_unexpectedly=3
-
-      if [[ $status -eq $_init_fail_unexpectedly ]]; then
-        echo "pre-commit init occurred failed unexpectedly!! Please retry it again!!! See https://pre-commit.com/#command-line-interface" >> /dev/stderr
-        exit 1
-      fi
-
-      if [[ -z "$PRE_COMMIT_AUTO_FIX" ]]; then
-        exit $status # Fail the job with status holding exit code
-      fi
-    - !reference [.make_changes, script]
+  script: !reference [.pre_commit::template, script]
