@@ -1,3 +1,15 @@
+## [2.5.56](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.55...v2.5.56) (2023-12-11)
+
+
+### Performance
+
+* pre-commit applies for Cyclic Model ([ef1505f](https://gitlab.com/msclock/gitlab-ci-templates/commit/ef1505f94c2e539493f55821d2d1000349e51a87))
+
+
+### Docs
+
+* correct grammally spelling ([27c0399](https://gitlab.com/msclock/gitlab-ci-templates/commit/27c0399a98f1dfe36095547093648becf9581d42))
+
 ## [2.5.55](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.54...v2.5.55) (2023-12-07)
 
 
