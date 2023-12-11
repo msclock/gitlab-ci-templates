@@ -1,4 +1,4 @@
-# This presents a semantic release templates for automatic release management
+# This presents semantic release templates for automatic release management
 # based on semantic-release, see https://www.npmjs.com/package/semantic-release.
 #
 # To configure the template refers to the variables section.
