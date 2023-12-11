@@ -1,6 +1,7 @@
 include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/collections/All-Projects.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/jobs/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Proxy.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
 
 variables:
@@ -9,12 +10,19 @@ variables:
   # Post to run tag pipeline to trigger released pipeline
   RELEASE_POST_PIPELINE_TYPE: tag
 
+.proxy_backend::template:
+  script:
+    - !reference [.proxy_backend::scripts, Security Check Sensible]
+    - !reference [.proxy_backend::scripts, Configure Proxy]
+    - git config --global url.https://mirror.ghproxy.com/https://github.com.insteadOf https://github.com
+
 # @Description lint codebase with pre-commit
 pre_commit:
   stage: lint
-  before_script:
-    - |
-      git config --global url.https://mirror.ghproxy.com/https://github.com.insteadOf https://github.com
+  extends:
+    - .proxy_backend
+  variables:
+    CLASH_PROXY_SUB: $PROXY_SUB
 
 # @Description count codes
 code_count:
