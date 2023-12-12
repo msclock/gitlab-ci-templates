@@ -3,7 +3,7 @@
 # and artifacts are saved to the ./pa11y/ directory.
 
 pa11y_ci:
-  image: registry.gitlab.com/gitlab-ci-utils/gitlab-pa11y-ci:7.4.0@sha256:5ca625efdd342c528f6ba1c7e97649b625177c28f16cd76b00d61f488297cda6
+  image: registry.gitlab.com/gitlab-ci-utils/gitlab-pa11y-ci:7.4.0
   stage: test
   # Allow one retry, some infrastructure changes cause external requests to fail
   retry: 1
