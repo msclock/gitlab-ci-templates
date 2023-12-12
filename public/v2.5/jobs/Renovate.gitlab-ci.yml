@@ -8,7 +8,7 @@
 #   GITHUB_COM_TOKEN: Required. Running on any platform except github.com requires a minimal
 #   permission token to fetch the changelogs.
 #   See https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs
-
+#
 #   RENOVATE_TOKEN: Required. Running on GitLab requires a PAT token to authorize renovate.
 #   See https://docs.renovatebot.com/modules/platform/gitlab/#authentication
 #
