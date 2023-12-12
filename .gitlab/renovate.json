@@ -24,6 +24,7 @@
       "matchDatasources": [
         "docker"
       ],
+      "excludeDepNames": ["docker", "node", "renovate/renovate"],
       "matchCurrentVersion": "/^v?[0-9.]+/",
       "pinDigests": true
     },
@@ -96,11 +97,20 @@
         "\\.gitlab-ci\\.yml$"
       ],
       "matchStrings": [
-        "(?:image:\\s+name:\\s*|image:\\s*|services:\\s+-\\s+)(?<depName>[\\S]+):(?<currentValue>[\\S]+)"
+        "(?:image:\\s+name:\\s*|image:\\s*|services:\\s+-\\s+)(?<depName>[\\S]+?):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
       ],
       "versioningTemplate": "regex:^(?<compatibility>[\\S]*\\d+\\.\\d+(?:\\.\\d+)?(?:[\\S]*)?-alpine-?)(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$",
       "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Track GitLab Semgrep Plus images from variable",
+      "fileMatch": ["\\.gitlab-ci.yml$"],
+      "matchStrings": [
+        "\\s+SAST_ANALYZER_IMAGE: (?<depName>.+):(?<currentValue>.+?)(@(?<currentDigest>sha256:[a-f0-9]+))?\\s"
+      ],
+      "datasourceTemplate": "docker"
     }
+
   ],
   "timezone": "Asia/Shanghai"
 }
