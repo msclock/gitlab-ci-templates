@@ -1,3 +1,15 @@
+## [2.5.57](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.56...v2.5.57) (2023-12-12)
+
+
+### Performance
+
+* cancel all pinned digests on images ([a34130f](https://gitlab.com/msclock/gitlab-ci-templates/commit/a34130f867b7c797c2fe1d78f4d40fa269afaef4))
+
+
+### Chores
+
+* configure renovate to pin digests on images ([c902d4c](https://gitlab.com/msclock/gitlab-ci-templates/commit/c902d4ce568d020ee43df651192efb6dbb403a5f))
+
 ## [2.5.56](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.55...v2.5.56) (2023-12-11)
 
 
