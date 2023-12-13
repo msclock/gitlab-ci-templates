@@ -3,10 +3,10 @@
 # because the workflow is triggered by the variable _IMAGES.
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Stages.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Common.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Make-Changes.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Path-Filter.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/templates/Stages.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/templates/Common.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/templates/Make-Changes.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/templates/Path-Filter.gitlab-ci.yml
 
 variables:
   _IMAGES: $$images

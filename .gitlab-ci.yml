@@ -1,8 +1,8 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/collections/All-Projects.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/jobs/Pages-Mkdocs.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/templates/Proxy.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.57/.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/collections/All-Projects.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/jobs/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/templates/Proxy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.58/.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
 
 variables:
   LINT_YAML_ENABLE: ''

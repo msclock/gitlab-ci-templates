@@ -1,3 +1,16 @@
+## [2.5.58](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.57...v2.5.58) (2023-12-13)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v16.62.6 ([933faca](https://gitlab.com/msclock/gitlab-ci-templates/commit/933faca3b6cd7143eaf3a1aa4218d132986f1dcd))
+* **deps:** update pre-commit hook igorshubovych/markdownlint-cli to v0.38.0 ([eae9f5b](https://gitlab.com/msclock/gitlab-ci-templates/commit/eae9f5b68dbf7bbbff7802d8c6e092602a4cd5b8))
+
+
+### CI
+
+* speed up pre-commit with proxy ([79d195e](https://gitlab.com/msclock/gitlab-ci-templates/commit/79d195eff51c0e6c222391df5d9464365fe00266))
+
 ## [2.5.57](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.56...v2.5.57) (2023-12-12)
 
 
