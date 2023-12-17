@@ -1,3 +1,13 @@
+## [2.5.59](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.58...v2.5.59) (2023-12-17)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17 ([5ee89f4](https://gitlab.com/msclock/gitlab-ci-templates/commit/5ee89f49218531bc8d53d06d4d060b78e8b6b3b6))
+* **deps:** update docker:24.0.7-alpine3.18 docker digest to c90e58d ([09cef85](https://gitlab.com/msclock/gitlab-ci-templates/commit/09cef85b2a9681239d2846a98dc79aaa73b3a7d6))
+* **deps:** update docker:24.0.7-dind-alpine3.18 docker digest to c90e58d ([7c6c4f1](https://gitlab.com/msclock/gitlab-ci-templates/commit/7c6c4f10ff8eb9ce4e7c180d9a8c4e6cdea56ee1))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v3 ([d02c564](https://gitlab.com/msclock/gitlab-ci-templates/commit/d02c5646e9fdfa64c7a066766c5ced350748b379))
+
 ## [2.5.58](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.57...v2.5.58) (2023-12-13)
 
 
