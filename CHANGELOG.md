@@ -1,3 +1,11 @@
+## [2.5.60](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.59...v2.5.60) (2023-12-18)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.9.2 ([7ed6c74](https://gitlab.com/msclock/gitlab-ci-templates/commit/7ed6c74b2c1bd600448c77262e56d6357bbd07b2))
+* **deps:** update docker docker tag ([3302f32](https://gitlab.com/msclock/gitlab-ci-templates/commit/3302f32db151cb62512059a8fe52cab6f729a60b))
+
 ## [2.5.59](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.58...v2.5.59) (2023-12-17)
 
 
