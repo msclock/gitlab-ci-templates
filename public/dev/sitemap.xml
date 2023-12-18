@@ -2,72 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/CHANGELOG/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Changelog/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Cyclic%20Model/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Devcontainer/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/License/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Make%20Changes/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Mkdocs/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Path%20Filter/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Pre-Commit/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Proxy/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Release/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Renovate/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://msclock.gitlab.io/gitlab-ci-templates/dev/docs/Rules/</loc>
-         <lastmod>2023-12-17</lastmod>
+         <lastmod>2023-12-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
