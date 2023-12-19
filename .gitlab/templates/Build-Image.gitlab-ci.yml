@@ -1,8 +1,8 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.61/templates/Devcontainer.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.61/templates/Common.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.61/templates/Proxy.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.5.61/templates/Stages.gitlab-ci.yml
+  - local: /templates/Devcontainer.gitlab-ci.yml
+  - local: /templates/Common.gitlab-ci.yml
+  - local: /templates/Proxy.gitlab-ci.yml
+  - local: /templates/Stages.gitlab-ci.yml
 
 workflow:
   rules:
@@ -22,3 +22,4 @@ docker_build:
     WORKING_DIRECTORY: images/$IMAGE
     PUSH: '1'
     PIN_LATEST: '1'
+    CLASH_PROXY_SUB: $PROXY_SUB
