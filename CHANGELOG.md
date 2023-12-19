@@ -1,3 +1,16 @@
+## [2.5.61](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.60...v2.5.61) (2023-12-19)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-12-19T08-16-16Z ([ad02b7c](https://gitlab.com/msclock/gitlab-ci-templates/commit/ad02b7c0822ef57716aa4185edfee69b453b92d5))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.9.3 ([43d2c1d](https://gitlab.com/msclock/gitlab-ci-templates/commit/43d2c1d19b5d41ba1a31145282af2d20fdca114a))
+* **deps:** update node.js to 3f3849d ([e6a5c32](https://gitlab.com/msclock/gitlab-ci-templates/commit/e6a5c3203717b588b9fb116617f4969c32f44228))
+
 ## [2.5.60](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.59...v2.5.60) (2023-12-18)
 
 
