@@ -1,3 +1,23 @@
+## [2.5.62](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.61...v2.5.62) (2023-12-20)
+
+
+### Performance
+
+* **image:** pin new image tag 2023-12-19T16-17-12Z ([03700b2](https://gitlab.com/msclock/gitlab-ci-templates/commit/03700b269134f803c40f36166ce93fa2fef4e621))
+* **image:** pin new image tag 2023-12-19T20-13-15Z ([7d728d7](https://gitlab.com/msclock/gitlab-ci-templates/commit/7d728d7bdd9239d5eb3f1a551a946817444dc8bb))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.11.0 ([fb9bc23](https://gitlab.com/msclock/gitlab-ci-templates/commit/fb9bc23f2beea3b3b6f8e9bd4013992597a81612))
+* **deps:** update node.js to d0acb10 ([2770218](https://gitlab.com/msclock/gitlab-ci-templates/commit/27702187a850664f91b3ec2eef9956dffc63fe84))
+* **deps:** update python:3.11-slim docker digest to 8f64a67 ([3f4f756](https://gitlab.com/msclock/gitlab-ci-templates/commit/3f4f756ea78170f32f7e102167ba87ca7e7ab29e))
+
+
+### CI
+
+* configure proxy sub for docker_build job ([6df7081](https://gitlab.com/msclock/gitlab-ci-templates/commit/6df708176e51fe31faf433b4455a8cd028afedd5))
+
 ## [2.5.61](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.60...v2.5.61) (2023-12-19)
 
 
