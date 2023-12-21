@@ -1,3 +1,12 @@
+## [2.5.63](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.62...v2.5.63) (2023-12-21)
+
+
+### Dependencies
+
+* **deps:** update dependency djlint to v1.34.1 ([31c136b](https://gitlab.com/msclock/gitlab-ci-templates/commit/31c136b49de1c975215d4bc1b172349ca2d66948))
+* **deps:** update dependency renovate-bot/renovate-runner to v17.12.1 ([a5f82a6](https://gitlab.com/msclock/gitlab-ci-templates/commit/a5f82a68007340f694c50d975b50e3758bf0a6d9))
+* **deps:** update pre-commit hook macisamuele/language-formatters-pre-commit-hooks to v2.12.0 ([a982881](https://gitlab.com/msclock/gitlab-ci-templates/commit/a982881f3a133401dddc3188b807a81bcaa88095))
+
 ## [2.5.62](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.61...v2.5.62) (2023-12-20)
 
 
