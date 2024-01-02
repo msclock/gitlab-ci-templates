@@ -1,3 +1,11 @@
+## [2.5.64](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.63...v2.5.64) (2024-01-02)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.21.1 ([d77f613](https://gitlab.com/msclock/gitlab-ci-templates/commit/d77f61360bd19b4637277573fec9e1976349aaca))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v3.3.0 ([1d45dd8](https://gitlab.com/msclock/gitlab-ci-templates/commit/1d45dd8b4ca8999eda45f8fb8227642172fd1dfe))
+
 ## [2.5.63](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.62...v2.5.63) (2023-12-21)
 
 
