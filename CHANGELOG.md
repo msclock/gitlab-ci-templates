@@ -1,3 +1,12 @@
+## [2.5.65](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.64...v2.5.65) (2024-01-03)
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v10 ([fb67955](https://gitlab.com/msclock/gitlab-ci-templates/commit/fb6795585d3037ddbe3d41a34e0343c2b3f287e7))
+* **deps:** update dependency renovate-bot/renovate-runner to v17.23.0 ([b8b2511](https://gitlab.com/msclock/gitlab-ci-templates/commit/b8b25112153b8609e28eeb0502be8a5433018d73))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v4 ([3bb547d](https://gitlab.com/msclock/gitlab-ci-templates/commit/3bb547d50fa8a159ba42cbeb712955bee1d2080c))
+
 ## [2.5.64](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.63...v2.5.64) (2024-01-02)
 
 
