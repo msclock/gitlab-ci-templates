@@ -9,7 +9,7 @@ lint_md:
     - .node
   stage: lint
   variables:
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/9.2.0/Linters/.markdownlint.json
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/10.0.0/Linters/.markdownlint.json
   needs: []
   rules:
     - if: $LINT_MD_ENABLE == 'true'
