@@ -1,0 +1,16 @@
+# Job to lint all CSS in the project.
+# Assumes node modules have previously been installed.
+
+lint_css:
+  extends:
+    - .node
+  stage: lint
+  rules:
+    - exists:
+        - '**/*.css'
+        - '**/*.html'
+        - '**/*.handlebars'
+        - '**/*.hbs'
+        - '**/*.njk'
+  script:
+    - npm run lint:css

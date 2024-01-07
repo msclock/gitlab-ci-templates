@@ -1,0 +1,38 @@
+# Job for detecting duplicate JavaScript and TypeScript code with PMD CPD.
+
+.duplication_base:
+  image:
+    name: registry.gitlab.com/gitlab-ci-utils/gitlab-pmd-cpd:2.0.0
+    entrypoint: ['']
+  stage: test
+  needs: []
+  variables:
+    PMDCPD_MIN_TOKENS: 35
+    PMDCPD_CLI_ARGS: --exclude ./tests/
+    PMDCPD_RESULTS_BASE: pmd-cpd-results
+    PMDCPD_RESULTS: ${PMDCPD_RESULTS_BASE}.xml
+  script:
+    - /gitlab-pmd-cpd/pmd-cpd.sh
+  artifacts:
+    paths:
+      - ${PMDCPD_RESULTS_BASE}.*
+    reports:
+      codequality: ${PMDCPD_RESULTS_BASE}.json
+
+duplication_js:
+  extends: .duplication_base
+  variables:
+    PMDCPD_LANGUAGE: ecmascript
+    PMDCPD_RESULTS_BASE: pmd-cpd-results-js
+  rules:
+    - exists:
+        - '**/*.js'
+
+duplication_ts:
+  extends: .duplication_base
+  variables:
+    PMDCPD_LANGUAGE: typescript
+    PMDCPD_RESULTS_BASE: pmd-cpd-results-ts
+  rules:
+    - exists:
+        - '**/*.ts'

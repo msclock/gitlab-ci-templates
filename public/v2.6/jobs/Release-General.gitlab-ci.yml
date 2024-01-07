@@ -1,0 +1,22 @@
+# Jobs to manage fully automated semantic releases
+#
+# Refer to templates/Release.gitlab-ci.yml for more details
+#
+
+include:
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.0/templates/Release.gitlab-ci.yml
+
+# @Description release with semantic_release
+semantic_release:
+  stage: release
+  extends:
+    - .release
+  dependencies: [] # Do not download any artifacts from upstream jobs
+
+# @Description post to trigger pipeline
+post_release:
+  stage: .post
+  needs:
+    - semantic_release
+  extends:
+    - .post_pipelilne

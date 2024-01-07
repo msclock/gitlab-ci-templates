@@ -1,0 +1,13 @@
+# Job to lint all markdown in the project.
+# Assumes node modules have previously been installed.
+
+lint_md:
+  extends:
+    - .node
+  stage: lint
+  rules:
+    - exists:
+        - '**/*.md'
+  before_script: []
+  script:
+    - npm run lint:md

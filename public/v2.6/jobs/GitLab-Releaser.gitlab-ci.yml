@@ -1,0 +1,38 @@
+# Job to create a release for a commit tag using GitLab Releaser.
+# See full details at https://www.npmjs.com/package/gitlab-releaser.
+
+prepare_release:
+  extends:
+    - .node
+  stage: pre-release
+  dependencies: []
+  variables:
+    # Default to create a release that pulls the name and description from
+    # the project CHANGELOG, which matches the GitLab-Releaser implementation.
+    # The '$$$$CHANGELOG' syntax is needed to work around variable expansion and
+    # end up with '$$CHANGELOG'.
+    RELEASE: '{"defaults":{"name":"$$$$CHANGELOG","description":"$$$$CHANGELOG"}}'
+  script:
+    - npm install -g gitlab-releaser@5.0.1
+    # If neither release file exists, create a file with the release from variable.
+    - |
+      if [ ! -f .gitlab/release.json ] && [ ! -f .gitlab/gitlab-releaser.json ]; then
+        mkdir -p .gitlab && echo $RELEASE > .gitlab/gitlab-releaser.json
+      fi
+    - gitlab-releaser
+  rules:
+    - if: $CI_COMMIT_TAG
+  artifacts:
+    paths:
+      - .gitlab/release.sh
+
+create_release:
+  image: registry.gitlab.com/gitlab-org/release-cli:v0.16.0
+  stage: release
+  needs:
+    - prepare_release
+  script:
+    # Call sh explicitly to avoid making an artifact executable
+    - sh .gitlab/release.sh
+  rules:
+    - if: $CI_COMMIT_TAG

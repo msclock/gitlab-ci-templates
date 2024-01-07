@@ -1,0 +1,26 @@
+# Job to build and push a docker image with repository/tag to match the container scanning job.
+
+# @Description scripts for .docker_build
+.docker_build::scripts:
+  Docker Auth: !reference [.container::dind, script]
+  Image Common Settings: !reference [.container::image_common_settings, script]
+  Build: |-
+    docker build --pull -f ${DOCKERFILE} ${IMAGE_LABELS} -t ${CI_IMAGE_FULL_NAME}:${CI_IMAGE_IDENTITY_TAG} .
+  Push: |-
+    docker push ${CI_IMAGE_FULL_NAME}:${CI_IMAGE_IDENTITY_TAG}
+
+# @Description script step constraints template for .docker_build
+.docker_build::template:
+  script:
+    - !reference [.docker_build::scripts, Docker Auth]
+    - !reference [.docker_build::scripts, Image Common Settings]
+    - !reference [.docker_build::scripts, Build]
+    - !reference [.docker_build::scripts, Push]
+
+# @Description Job to build and push a docker image with docker commands
+docker_build:
+  extends:
+    - .container::dind
+    - .container::image_common_settings
+  stage: container-build
+  script: !reference [.docker_build::template, script]

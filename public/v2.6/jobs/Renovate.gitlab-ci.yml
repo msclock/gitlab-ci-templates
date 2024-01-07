@@ -1,0 +1,81 @@
+# Job to run renovate bot for dependency management.
+#
+# See https://docs.renovatebot.com/ for more information.
+#
+# To configure the template refers to the variables section.
+#
+# Required variables:
+#   GITHUB_COM_TOKEN: Required. Running on any platform except github.com requires a minimal
+#   permission token to fetch the changelogs.
+#   See https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs
+#
+#   RENOVATE_TOKEN: Required. Running on GitLab requires a PAT token to authorize renovate.
+#   See https://docs.renovatebot.com/modules/platform/gitlab/#authentication
+#
+# The job is implemented based on renovate-bot/renovate-runner.
+# See https://gitlab.com/renovate-bot/renovate-runner
+
+include:
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.29.0/templates/renovate.gitlab-ci.yml
+
+variables:
+  # Whether to add renovate to manage dependencies. Default to disable renovate.
+  RENOVATE_ENALBE: 'true'
+  # A space separated list of project paths to manage dependencies for.
+  RENOVATE_MANAGEMENT_PROJECTS: $CI_PROJECT_PATH
+  # A comma separated list of namespaces to automatically discover projects
+  # in. Supports minimatch glob-style or regular expression patterns. Leave
+  # empty to disable autodiscovery, or set to `**` to manage dependencies for
+  # all projects the process has access to. This setting overrides the
+  # projects configured through `RENOVATE_MANAGEMENT_PROJECTS`, a warning
+  # will be generated for configured projects that are not included in this
+  # list.
+  RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_NAMESPACE/**
+  # Renovate image to run.
+  CI_RENOVATE_IMAGE: renovate/renovate:37.71
+  # When to create the PR for a branch.
+  # See https://docs.renovatebot.com/configuration-options/#prcreation
+  RENOVATE_PR_CREATION: not-pending
+  RENOVATE_ONBOARDING_CONFIG: >-
+    {
+      "$$schema": "https://docs.renovatebot.com/renovate-schema.json",
+      "extends": [
+        "config:recommended",
+        "docker:enableMajor"
+      ],
+      "labels": [
+        "dependencies"
+      ],
+      "packageRules": [
+        {
+          "matchDepTypes": [
+            "optionalDependencies"
+          ],
+          "addLabels": [
+            "optional"
+          ]
+        }
+      ],
+      "prCreation":"not-pending",
+      "prHourlyLimit": 0
+    }
+
+# @Description renovate management job is disabled to extend
+renovate:
+  rules:
+    - when: never
+
+# @Description renovate bot management job
+renovate_bot:
+  extends: renovate
+  needs: []
+  rules:
+    - if: $RENOVATE_ENALBE == 'true'
+  variables:
+    RENOVATE_EXTRA_FLAGS: $RENOVATE_MANAGEMENT_PROJECTS
+  before_script:
+    - |
+      if [ -n "${RENOVATE_AUTODISCOVER_FILTER}" ]; then
+        export RENOVATE_AUTODISCOVER="true"
+        export RENOVATE_AUTODISCOVER_FILTER="${RENOVATE_AUTODISCOVER_FILTER}"
+      fi
