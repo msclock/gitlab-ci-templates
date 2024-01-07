@@ -1,0 +1,131 @@
+# This presents templates for making sphinx pages deployment.
+#
+# To configure the template refers to the variables section.
+
+.pages_sphinx::scripts:
+  Security Check Sensible: !reference [.security_check_sensible, script]
+  Setup Git: !reference [.common_git::template, script]
+  Setup Docs Tool: |-
+    echo "Install sphinx plugins from EXTRA_PLUGINS: ${EXTRA_PLUGINS}"
+    pip install sphinx==7.2.6 ${EXTRA_PLUGINS}
+  Make Not Versioning Docs: |-
+    echo "Make non-versioning docs. When VERSION_DOCS: $VERSION_DOCS is set, it aims to make docs for reviews in pr. Otherwise, it aims to make docs for production."
+    cd docs
+    sphinx-build --keep-going -n -T -b=html ./docs public/
+  Exit When Not VERSION_DOCS: |-
+    echo "Exit when not VERSION_DOCS: $VERSION_DOCS is set."
+    if [[ -z "$VERSION_DOCS" ]]; then
+      echo "Not version docs. Exiting."
+      exit 0
+    fi
+  Check For Skip Versioning Docs: |-
+    echo "Only make versioning docs when CI_COMMIT_TAG: $CI_COMMIT_TAG is set or CI_COMMIT_BRANCH: $CI_COMMIT_BRANCH is equal to VERSION_DEV_DOCS_BRANCH: $VERSION_DEV_DOCS_BRANCH. Otherwise, skip it."
+    if ! { [[ -n "$CI_COMMIT_TAG" ]] || \
+    [[ -n "$CI_COMMIT_BRANCH" && "$CI_COMMIT_BRANCH" == "$VERSION_DEV_DOCS_BRANCH" ]]; }; then
+      echo "Skip versioning docs. Exiting."
+      exit 0
+    fi
+  Clean Up Public: |-
+    echo "Clean for versioning docs if the public folder exists"
+    if [[ -d "public" ]]; then
+      rm -rf public
+    fi
+  Setup Versioning Docs Tool: |-
+    echo "Install sphinx-deployment to deploy versioning docs"
+    pip install sphinx-deployment==0.0.3
+  Prepare Pages Branch: |-
+    echo "Sync with remote pages branch PAGES_BRANCH: $PAGES_BRANCH and checkout versioning docs from commit hash CI_COMMIT_SHA: $CI_COMMIT_SHA"
+    git branch -D --remote origin/$PAGES_BRANCH && git branch -D $PAGES_BRANCH \
+      || echo "No pages branch found to clean." >> /dev/stderr
+    git fetch origin $PAGES_BRANCH --prune && git checkout -b $PAGES_BRANCH origin/$PAGES_BRANCH \
+      || git checkout $PAGES_BRANCH \
+      || echo "Pages branch not deployed yet." >> /dev/stderr
+    git checkout $CI_COMMIT_SHA
+  Prepare Versioning Docs Tool Options: |-
+    echo "Prepare versioning deployment options"
+    versioning_common_options=(--output-path public --push --branch $PAGES_BRANCH)
+  Make Versioning Docs For Alias Dev: |-
+    echo "Make versioning docs to dev when CI_COMMIT_BRANCH: $CI_COMMIT_BRANCH is set"
+    if [[ -n "$CI_COMMIT_BRANCH" ]]; then
+      sphinx-deployment create "${versioning_common_options[@]}" dev
+    fi
+  Make Versioning Docs For Alias Tag: |-
+    echo "Make versioning docs to tag using regexes to extract major, minor and patch versions from CI_COMMIT_TAG: $CI_COMMIT_TAG."
+    if [[ -n "$CI_COMMIT_TAG" ]]; then
+      case "$VERSION_MODE" in
+        "major")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+")
+          ;;
+        "minor")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+")
+          ;;
+        "patch")
+          update_aliases=$(echo $CI_COMMIT_TAG | grep -oP "\K^v?\d+\.\d+\.\d+")
+          ;;
+        "none")
+          update_aliases="latest"
+          ;;
+        *)
+          echo "VERSION_MODE only works on semver or 'none'" >> /dev/stderr
+          exit 1
+      esac
+      echo "Make versioning docs to $update_aliases" >> /dev/stderr
+      sphinx-deployment create "${versioning_common_options[@]}" ${update_aliases}
+      sphinx-deployment default "${versioning_common_options[@]}" ${update_aliases}
+    fi
+  Checkout Versioning Docs: |-
+    echo "Checkout versioning docs from PAGES_BRANCH: $PAGES_BRANCH"
+    git checkout $PAGES_BRANCH -- public/
+
+.pages_sphinx::template:
+  script:
+    - !reference [.pages_sphinx::scripts, Security Check Sensible]
+    - !reference [.pages_sphinx::scripts, Setup Git]
+    - !reference [.pages_sphinx::scripts, Setup Docs Tool]
+    - !reference [.pages_sphinx::scripts, Make Not Versioning Docs]
+    - !reference [.pages_sphinx::scripts, Exit When Not VERSION_DOCS]
+    - !reference [.pages_sphinx::scripts, Check For Skip Versioning Docs]
+    - !reference [.pages_sphinx::scripts, Clean Up Public]
+    - !reference [.pages_sphinx::scripts, Setup Versioning Docs Tool]
+    - !reference [.pages_sphinx::scripts, Prepare Pages Branch]
+    - !reference [.pages_sphinx::scripts, Prepare Versioning Docs Tool Options]
+    - !reference [.pages_sphinx::scripts, Make Versioning Docs For Alias Dev]
+    - !reference [.pages_sphinx::scripts, Make Versioning Docs For Alias Tag]
+    - !reference [.pages_sphinx::scripts, Checkout Versioning Docs]
+
+# @Description template for deploy sphinx
+.pages_sphinx:
+  stage: deploy
+  variables:
+    # The pip cache
+    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+    # The branch to deploy when enable the VERSION_DOCS.
+    PAGES_BRANCH: gl-pages
+    # Specifies whether to deploy versioning docs.
+    # And Only deploy when enable the VERSION_DOCS.
+    VERSION_DOCS: ''
+    # Optional. Default to $CI_DEFAULT_BRANCH. Specifies the branch to deploy
+    # the dev revision docs when enable the VERSION_DOCS.
+    VERSION_DEV_DOCS_BRANCH: $CI_DEFAULT_BRANCH
+    # Selects the version mode to publish the pages which will be parsed from
+    # $CI_COMMIT_TAG according to semantic versioning:
+    # - 'major': only create a versioning deployment documentation on major release.
+    # - 'minor': only create a versioning deployment documentation on minor release.
+    # - 'patch': only create a versioning deployment documentation on patch release.
+    # - 'none': only create a versioning deployment documentation called 'latest'.
+    VERSION_MODE: minor
+    # Specifies the extra plugins.
+    EXTRA_PLUGINS: >-
+      furo
+      sphinx-copybutton
+      myst_parser
+  image: python:3.11-bullseye
+  dependencies: []
+  script: !reference [.pages_sphinx::template, script]
+  artifacts:
+    paths:
+      - public/
+  cache:
+    key: pages-pip-cache
+    paths:
+      - $PIP_CACHE_DIR
