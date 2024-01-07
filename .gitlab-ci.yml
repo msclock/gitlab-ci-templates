@@ -1,8 +1,8 @@
 include:
-  - local: /collections/All-Projects.gitlab-ci.yml
-  - local: /jobs/Pages-Mkdocs.gitlab-ci.yml
-  - local: /templates/Proxy.gitlab-ci.yml
-  - local: /.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.0/collections/All-Projects.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.0/jobs/Pages-Mkdocs.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.0/templates/Proxy.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.0/.gitlab/includes/Detect-Changes-Build-Images.gitlab-ci.yml
 
 variables:
   LINT_YAML_ENABLE: ''

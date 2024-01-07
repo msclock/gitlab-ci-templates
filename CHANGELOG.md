@@ -1,3 +1,10 @@
+## [2.6.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.66...v2.6.0) (2024-01-07)
+
+
+### Features
+
+* sphinx templates ([65f4c3e](https://gitlab.com/msclock/gitlab-ci-templates/commit/65f4c3e13e17333aa93856a1a574089955b558d1))
+
 ## [2.5.66](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.65...v2.5.66) (2024-01-05)
 
 
