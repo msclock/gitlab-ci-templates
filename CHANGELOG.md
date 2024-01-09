@@ -1,3 +1,12 @@
+## [2.6.1](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.0...v2.6.1) (2024-01-09)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.31.0 ([de30cfb](https://gitlab.com/msclock/gitlab-ci-templates/commit/de30cfbc6b116fcc53eb370abfc08d619ceb5095))
+* **deps:** update docker:24.0.7-alpine3.19 docker digest to eb59696 ([25b844c](https://gitlab.com/msclock/gitlab-ci-templates/commit/25b844c866b73d08d0e6e8a5ab79c8f220975356))
+* **deps:** update docker:24.0.7-dind-alpine3.19 docker digest to eb59696 ([b814dd5](https://gitlab.com/msclock/gitlab-ci-templates/commit/b814dd59c847809b46a9d56a591609e54ac6c413))
+
 ## [2.6.0](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.5.66...v2.6.0) (2024-01-07)
 
 
