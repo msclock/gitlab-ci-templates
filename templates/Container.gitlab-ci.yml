@@ -18,7 +18,7 @@
 
 # @Description template of dind mode
 .container::dind:
-  image: docker:24.0.7-alpine3.19@sha256:eb59696588157b44998ec085a1373fa0966a5e2cac8c42305cce085d1ef7adf0
+  image: docker:24.0.7-alpine3.19@sha256:ca9a56ffc0339a72cbf2beb7650f4423258f405520dcc7ac9af4858cfdc09fce
   services:
     - docker:24.0.7-dind-alpine3.19@sha256:eb59696588157b44998ec085a1373fa0966a5e2cac8c42305cce085d1ef7adf0
   variables:
