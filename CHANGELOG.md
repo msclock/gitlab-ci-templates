@@ -1,3 +1,22 @@
+## [2.6.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.2...v2.6.3) (2024-01-17)
+
+
+### Performance
+
+* **image:** pin new image tag 2024-01-11T08-11-23Z ([2dba72b](https://gitlab.com/msclock/gitlab-ci-templates/commit/2dba72b78880566a77a0040636de5c14bba46bba))
+* **image:** pin new image tag 2024-01-12T04-15-30Z ([e1877f7](https://gitlab.com/msclock/gitlab-ci-templates/commit/e1877f73b7d2b36913b10768c726c36932de69d9))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.36.0 ([3402ee2](https://gitlab.com/msclock/gitlab-ci-templates/commit/3402ee28910a81af4741fd116afcf94c8a577043))
+* **deps:** update dependency sphinx-deployment to v0.0.7 ([b44afe4](https://gitlab.com/msclock/gitlab-ci-templates/commit/b44afe4d8e5b2c886ca1234a4bd71a7e15d71542))
+* **deps:** update docker:24.0.7-alpine3.19 docker digest to b42e6e3 ([a336d38](https://gitlab.com/msclock/gitlab-ci-templates/commit/a336d384254cdb6d8fbef3c31931e8bb537da777))
+* **deps:** update docker:24.0.7-dind-alpine3.19 docker digest to b42e6e3 ([929d908](https://gitlab.com/msclock/gitlab-ci-templates/commit/929d9087cda70420c55e3a6c2ab3c402e5862695))
+* **deps:** update mcr.microsoft.com/powershell:7.4-alpine-3.17 docker digest to f1f079f ([df55780](https://gitlab.com/msclock/gitlab-ci-templates/commit/df557804d0d9ec96510f4959dd9f8da946f48150))
+* **deps:** update node.js to a0a6178 ([2ff5f40](https://gitlab.com/msclock/gitlab-ci-templates/commit/2ff5f405e28a28f4917d21d9d998d5f9e56d8020))
+* **deps:** update python:3.11-slim docker digest to 6377747 ([8ff20ba](https://gitlab.com/msclock/gitlab-ci-templates/commit/8ff20ba69291601dca5a1af6449075097f09ac09))
+
 ## [2.6.2](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.1...v2.6.2) (2024-01-10)
 
 
