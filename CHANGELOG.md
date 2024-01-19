@@ -1,3 +1,18 @@
+## [2.6.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.3...v2.6.4) (2024-01-19)
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v10.1.0 ([cb90f56](https://gitlab.com/msclock/gitlab-ci-templates/commit/cb90f56b6aac54ffeac0bf54c4f4e973cc8aa715))
+* **deps:** update dependency renovate-bot/renovate-runner to v17.42.1 ([f334377](https://gitlab.com/msclock/gitlab-ci-templates/commit/f3343775cd222afec3ff52add7e150689bc3f74b))
+* **deps:** update dependency sphinx-deployment to v0.0.8 ([85899f9](https://gitlab.com/msclock/gitlab-ci-templates/commit/85899f9000e0ddc9108758330a76983b307c2ad5))
+* **deps:** update ghcr.io/google/osv-scanner docker tag to v1.6.1 ([62ee839](https://gitlab.com/msclock/gitlab-ci-templates/commit/62ee8398fde2901560da4d5747d711e026adb5bd))
+
+
+### CI
+
+* **perf:** opt the expiration of artifacts ([b2ce181](https://gitlab.com/msclock/gitlab-ci-templates/commit/b2ce18158cd8cf7d77764b545ef6211a0181b17c))
+
 ## [2.6.3](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.2...v2.6.3) (2024-01-17)
 
 
