@@ -2,7 +2,7 @@
 
 .duplication_base:
   image:
-    name: registry.gitlab.com/gitlab-ci-utils/gitlab-pmd-cpd:2.0.0
+    name: registry.gitlab.com/gitlab-ci-utils/gitlab-pmd-cpd:2.0.1@sha256:a82e29d10fb7a486a3d9b834184fd2032812ad0d5ccd084d59912ed3f5045801
     entrypoint: ['']
   stage: test
   needs: []
