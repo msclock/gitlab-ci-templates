@@ -18,9 +18,9 @@
 
 # @Description template of dind mode
 .container::dind:
-  image: docker:24.0.7-alpine3.19@sha256:b42e6e3883fc20a6a98eda330b6a2b0a5efb3ca4c121bf7be154447904d199e8
+  image: docker:25.0.0-alpine3.19@sha256:3c5c38804aab5d3938ea3aa5be399276bbb3b8e04a5190183aa01be55641518c
   services:
-    - docker:24.0.7-dind-alpine3.19@sha256:b42e6e3883fc20a6a98eda330b6a2b0a5efb3ca4c121bf7be154447904d199e8
+    - docker:25.0.0-dind-alpine3.19@sha256:3c5c38804aab5d3938ea3aa5be399276bbb3b8e04a5190183aa01be55641518c
   variables:
     DOCKER_DRIVER: overlay2
   script: !reference [.container::template, script]
