@@ -1,3 +1,24 @@
+## [2.6.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.4...v2.6.5) (2024-01-26)
+
+
+### Performance
+
+* **image:** pin new image tag 2024-01-19T08-23-59Z ([b811fcf](https://gitlab.com/msclock/gitlab-ci-templates/commit/b811fcfdf7a8ea712b3fe5a2d4129af484e8d06c))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.44.0 ([bf0a30d](https://gitlab.com/msclock/gitlab-ci-templates/commit/bf0a30d332f1dc042a1493b53aeb7cda6ffe56d6))
+* **deps:** update dependency sphinx-deployment to v0.0.9 ([50f5f32](https://gitlab.com/msclock/gitlab-ci-templates/commit/50f5f324f4a21998f50c5178fcf9387a39cd5b2a))
+* **deps:** update docker docker tag to v25 ([fe05173](https://gitlab.com/msclock/gitlab-ci-templates/commit/fe05173f49a98c01b4cbc2e16123be51140033d1))
+* **deps:** update python:3.11-slim docker digest to 110609b ([5fb9191](https://gitlab.com/msclock/gitlab-ci-templates/commit/5fb9191fc317c563975238d351af646ba5894cde))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-pmd-cpd docker tag to v2.0.1 ([6b6e9f2](https://gitlab.com/msclock/gitlab-ci-templates/commit/6b6e9f2557bf1f4e9d72d6cd2fd8e778db6d6911))
+
+
+### CI
+
+* cancel ssl verification on npm ([00624a4](https://gitlab.com/msclock/gitlab-ci-templates/commit/00624a4e5d6ce87232a77712a7488412bb55a20b))
+
 ## [2.6.4](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.3...v2.6.4) (2024-01-19)
 
 
