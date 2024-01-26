@@ -32,7 +32,7 @@
     fi
   Setup Versioning Docs Tool: |-
     echo "Install sphinx-deployment to deploy versioning docs"
-    pip install sphinx-deployment==0.0.9
+    pip install sphinx-deployment==0.0.15
   Prepare Pages Branch: |-
     echo "Sync with remote pages branch PAGES_BRANCH: $PAGES_BRANCH and checkout versioning docs from commit hash CI_COMMIT_SHA: $CI_COMMIT_SHA"
     git branch -D --remote origin/$PAGES_BRANCH && git branch -D $PAGES_BRANCH \
