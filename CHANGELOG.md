@@ -1,3 +1,21 @@
+## [2.6.6](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.5...v2.6.6) (2024-01-26)
+
+
+### Performance
+
+* **image:** pin new image tag 2024-01-26T04-42-26Z ([34f10ad](https://gitlab.com/msclock/gitlab-ci-templates/commit/34f10ad5faadc557c3859f9e59beda27cc6f4357))
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v10.1.1 ([15b1df9](https://gitlab.com/msclock/gitlab-ci-templates/commit/15b1df97f0b54ed1b21a43fc50d1d8d2802f3fca))
+* **deps:** update dependency renovate-bot/renovate-runner to v17.52.1 ([96b4b8f](https://gitlab.com/msclock/gitlab-ci-templates/commit/96b4b8f88806cfddd11ac04ab5ca9a07fcb50c00))
+* **deps:** update dependency sphinx-deployment to v0.0.15 ([4cb1a1f](https://gitlab.com/msclock/gitlab-ci-templates/commit/4cb1a1f96669840bada19f4db97af717e97c54cb))
+* **deps:** update docker:25.0.0-alpine3.19 docker digest to a0ce13b ([bac26b4](https://gitlab.com/msclock/gitlab-ci-templates/commit/bac26b48f67da6913687f99122d394e139930f1c))
+* **deps:** update docker:25.0.0-dind-alpine3.19 docker digest to a0ce13b ([3901dac](https://gitlab.com/msclock/gitlab-ci-templates/commit/3901dacf8f76e5be563b260a183369e8930816e4))
+* **deps:** update python:3.11-slim docker digest to d11b9bd ([6c0c050](https://gitlab.com/msclock/gitlab-ci-templates/commit/6c0c0505240c22d94d45dd67cf94adc5f5c5a0f6))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v5 ([41a2fc3](https://gitlab.com/msclock/gitlab-ci-templates/commit/41a2fc3a869ee264f442e110acb1948ca10f6fab))
+
 ## [2.6.5](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.4...v2.6.5) (2024-01-26)
 
 

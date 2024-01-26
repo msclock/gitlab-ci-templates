@@ -4,7 +4,7 @@
 #
 
 include:
-  - local: /templates/Pages-Sphinx.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.6/templates/Pages-Sphinx.gitlab-ci.yml
 
 variables:
   # Specifies whether to enable the review of sphinx pages
