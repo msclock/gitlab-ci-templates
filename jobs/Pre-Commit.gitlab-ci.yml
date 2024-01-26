@@ -137,7 +137,7 @@ pre_commit:
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
-  image: msclock/pre-commit:2024-01-19T08-23-59Z
+  image: msclock/pre-commit:2024-01-26T04-42-26Z
   cache:
     key: pre-commit-cache
     paths:
