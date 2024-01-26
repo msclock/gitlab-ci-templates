@@ -16,7 +16,7 @@
 # See https://gitlab.com/renovate-bot/renovate-runner
 
 include:
-  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.44.0/templates/renovate.gitlab-ci.yml
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.52.1/templates/renovate.gitlab-ci.yml
 
 variables:
   # Whether to add renovate to manage dependencies. Default to disable renovate.

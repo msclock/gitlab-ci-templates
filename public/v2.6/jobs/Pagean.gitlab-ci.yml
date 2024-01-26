@@ -2,7 +2,7 @@
 
 include:
   # Pagean requires a config file, so always want to lint.
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.5/jobs/Lint-Pageanrc.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.6/jobs/Lint-Pageanrc.gitlab-ci.yml
 
 pagean:
   image: registry.gitlab.com/gitlab-ci-utils/pagean:9.0.0
