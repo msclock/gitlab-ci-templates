@@ -1,3 +1,12 @@
+## [2.6.7](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.6...v2.6.7) (2024-01-28)
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.53.2 ([cb1dd2d](https://gitlab.com/msclock/gitlab-ci-templates/commit/cb1dd2dfcadad576a2994f1b452cf7c8aceaf5ce))
+* **deps:** update docker docker tag to v25.0.1 ([6c3c584](https://gitlab.com/msclock/gitlab-ci-templates/commit/6c3c58495d6f67e5dac60ebe3681708f7557f0c5))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/pagean docker tag to v10 ([e73ae8b](https://gitlab.com/msclock/gitlab-ci-templates/commit/e73ae8bd8765c6d7e917946693efe7dab79eb359))
+
 ## [2.6.6](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.5...v2.6.6) (2024-01-26)
 
 
