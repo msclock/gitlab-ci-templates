@@ -1,9 +1,9 @@
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.7/collections/All-Projects.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.7/collections/Node-Build-Test-Schedules-Fail.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.7/collections/Node-Version-Tests.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.7/collections/GitLab-Security-Scans-Schedules-Fail.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.7/collections/Npm-Publish-Release.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/collections/All-Projects.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/collections/Node-Build-Test-Schedules-Fail.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/collections/Node-Version-Tests.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/collections/GitLab-Security-Scans-Schedules-Fail.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/collections/Npm-Publish-Release.gitlab-ci.yml
 
 # Included from Node-Build-Test-Schedules-Fail.gitlab-ci.yml
 npm_check:

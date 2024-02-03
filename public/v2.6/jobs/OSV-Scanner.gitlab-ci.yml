@@ -2,7 +2,7 @@
 
 osv_scanner:
   image:
-    name: ghcr.io/google/osv-scanner:v1.6.1@sha256:65553a78f12244384c215cd416d837cd711c629d3b4676771dff33017dd3ff81
+    name: ghcr.io/google/osv-scanner:v1.6.2@sha256:69e81e92189293243338a8d7ad7c47c080d891fbbd6ad4d631967d422c96baef
     entrypoint: ['']
   stage: test
   # Uses lockfile, so does not need (or want) dependencies
