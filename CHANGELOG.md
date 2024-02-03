@@ -1,3 +1,22 @@
+## [2.6.8](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.7...v2.6.8) (2024-02-03)
+
+
+### Performance
+
+* **image:** pin new image tag 2024-02-01T04-15-35Z ([702aadf](https://gitlab.com/msclock/gitlab-ci-templates/commit/702aadf1d81077e30e83bb1d95c459172869afb4))
+
+
+### Dependencies
+
+* **deps:** update dependency renovate-bot/renovate-runner to v17.61.0 ([eabc330](https://gitlab.com/msclock/gitlab-ci-templates/commit/eabc330cfed748def4e8520ad2541e7b9817dc87))
+* **deps:** update dependency sphinx-deployment to v0.0.16 ([8a89cc4](https://gitlab.com/msclock/gitlab-ci-templates/commit/8a89cc4c2176833395a47261db791a8294685fb9))
+* **deps:** update docker:25.0.1-alpine3.19 docker digest to 03efb9f ([b53eb1d](https://gitlab.com/msclock/gitlab-ci-templates/commit/b53eb1d396f4d0e98706ab3dd61ad66c86d27cd4))
+* **deps:** update docker:25.0.1-dind-alpine3.19 docker digest to 03efb9f ([76e234f](https://gitlab.com/msclock/gitlab-ci-templates/commit/76e234f86f56e8e25060a3456c3fb7558fc07fad))
+* **deps:** update ghcr.io/google/osv-scanner docker tag to v1.6.2 ([10cde1c](https://gitlab.com/msclock/gitlab-ci-templates/commit/10cde1c3bd66ce1858af67065cb17661d47143a0))
+* **deps:** update node.js to afd2daa ([424591e](https://gitlab.com/msclock/gitlab-ci-templates/commit/424591e8ac44600d84c2a4418172b0343ca387ef))
+* **deps:** update pre-commit hook igorshubovych/markdownlint-cli to v0.39.0 ([02abf93](https://gitlab.com/msclock/gitlab-ci-templates/commit/02abf93fe4411edac3b83a9f9935d83fdf8e1208))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v5.1.0 ([2bf331e](https://gitlab.com/msclock/gitlab-ci-templates/commit/2bf331ec32eff0d923d01b9c172c110fc09ff7cf))
+
 ## [2.6.7](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.6...v2.6.7) (2024-01-28)
 
 
