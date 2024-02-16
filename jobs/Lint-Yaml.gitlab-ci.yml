@@ -20,7 +20,7 @@ lint_yaml:
         - '**/*.yml'
         - '**/*.yaml'
   script:
-    - pip install yamllint==1.33.0
+    - pip install yamllint==1.35.1
     # If none of the three default config file names exist, get default
     # file from the config-files project.
     - >
