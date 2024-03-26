@@ -1,3 +1,25 @@
+## [2.6.9](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.8...v2.6.9) (2024-03-26)
+
+
+### Performance
+
+* **image:** pin new image tag 2024-02-02T00-18-32Z ([b1ef732](https://gitlab.com/msclock/gitlab-ci-templates/commit/b1ef7328e775ad412f57f4f82aac49d9a87d6e97))
+* **image:** pin new image tag 2024-02-03T20-14-16Z ([5bbd1cc](https://gitlab.com/msclock/gitlab-ci-templates/commit/5bbd1cc2be831d532001544874fde7599e1c0a4b))
+
+
+### Dependencies
+
+* **deps:** update dependency gitlab-ci-utils/config-files to v10.3.0 ([437d4c4](https://gitlab.com/msclock/gitlab-ci-templates/commit/437d4c4cc9ff14caf44021d2648fde729696e063))
+* **deps:** update dependency renovate-bot/renovate-runner to v17.134.0 ([fd70200](https://gitlab.com/msclock/gitlab-ci-templates/commit/fd70200427fd9cd0acfa04e6daeb826b0f7fdd31))
+* **deps:** update dependency sphinx-deployment to v0.0.20 ([5b832e5](https://gitlab.com/msclock/gitlab-ci-templates/commit/5b832e514cff3cb0980feb3a3077566d37244818))
+* **deps:** update dependency yamllint to v1.35.1 ([759bb57](https://gitlab.com/msclock/gitlab-ci-templates/commit/759bb57d2e93725d86d65fd96d215849a8367865))
+* **deps:** update docker docker tag to v25.0.4 ([0e875ad](https://gitlab.com/msclock/gitlab-ci-templates/commit/0e875ad8876a7f62feb07e803d14d97c2aa8175e))
+* **deps:** update mcr.microsoft.com/powershell:7.4-alpine-3.17 docker digest to 8e0a5fa ([3b6d148](https://gitlab.com/msclock/gitlab-ci-templates/commit/3b6d148243d8db1298c26540045ef07531fa09db))
+* **deps:** update node.js to 37ee73c ([c227ab3](https://gitlab.com/msclock/gitlab-ci-templates/commit/c227ab3a55a4a0223deb56a83bbf3c6e46e9c1ed))
+* **deps:** update pre-commit hook lucas-c/pre-commit-hooks to v1.5.5 ([6ec5479](https://gitlab.com/msclock/gitlab-ci-templates/commit/6ec5479d0e479f7dd58cf0cdad68857c8b7c3cdc))
+* **deps:** update python:3.11-slim docker digest to 53d6284 ([d9b343f](https://gitlab.com/msclock/gitlab-ci-templates/commit/d9b343f24a5c109ad0bf014a324a9b9ed8229a35))
+* **deps:** update registry.gitlab.com/gitlab-ci-utils/gitlab-semgrep-plus docker tag to v5.2.3 ([7917ea7](https://gitlab.com/msclock/gitlab-ci-templates/commit/7917ea7b0fbd702d81e627684564cda8386eefb9))
+
 ## [2.6.8](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.7...v2.6.8) (2024-02-03)
 
 
