@@ -6,7 +6,7 @@ lint_npm_package:
     - .node
   stage: lint
   variables:
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/10.1.1/NPM/.npmpackagejsonlintrc.json
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/10.3.0/NPM/.npmpackagejsonlintrc.json
     PACKAGE_PATH: ./package.json
   needs: []
   rules:
