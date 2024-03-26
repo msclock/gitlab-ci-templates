@@ -1,5 +1,5 @@
 # Collection of all web UI tests
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/jobs/GitLab-pa11y-ci.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.8/jobs/Pagean.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.9/jobs/GitLab-pa11y-ci.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.9/jobs/Pagean.gitlab-ci.yml

@@ -10,7 +10,7 @@ lint_yaml:
   stage: lint
   variables:
     # https://yamllint.readthedocs.io/
-    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/10.1.1/Linters/.yamllint.yml
+    CONFIG_FILE_LINK: https://gitlab.com/gitlab-ci-utils/config-files/-/raw/10.3.0/Linters/.yamllint.yml
     # yaml config to override the default
     LINT_YAML_CONFIG: ''
   needs: []
@@ -20,7 +20,7 @@ lint_yaml:
         - '**/*.yml'
         - '**/*.yaml'
   script:
-    - pip install yamllint==1.33.0
+    - pip install yamllint==1.35.1
     # If none of the three default config file names exist, get default
     # file from the config-files project.
     - >
