@@ -25,7 +25,7 @@
   Run Pre-Commit: |
     echo "Run pre-commit with PRE_COMMIT_HOME: $PRE_COMMIT_HOME"
     status=0
-    PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run --all-files || status=$?
+    PRE_COMMIT_HOME=$_REAL_PRE_COMMIT_HOME pre-commit run $PRE_COMMIT_EXTRA_ARGS || status=$?
   Backup Cache Safely: |
     echo "Backup cache at PRE_COMMIT_HOME: $PRE_COMMIT_HOME to _REAL_PRE_COMMIT_HOME: $_REAL_PRE_COMMIT_HOME"
     mkdir -p $PRE_COMMIT_HOME
@@ -137,6 +137,7 @@ pre_commit:
     PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/.pre-commit
     DETECT_CHANGES_ADD: 0
     _REAL_PRE_COMMIT_HOME: /tmp/pre-commit
+    PRE_COMMIT_EXTRA_ARGS: --all-files
   image: msclock/pre-commit:2024-02-03T20-14-16Z
   cache:
     key: pre-commit-cache

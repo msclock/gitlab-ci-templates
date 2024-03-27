@@ -17,7 +17,8 @@ function traverseDirectory(dir) {
     const stats = fs.statSync(filePath);
 
     if (stats.isDirectory()) {
-      traverseDirectory(filePath); // 递归遍历子目录
+      // Recursively traverse subdirectories.
+      traverseDirectory(filePath);
     } else if (file.endsWith(".gitlab-ci.yml")) {
       GITLAB_CI_FILES.push(filePath);
     }
