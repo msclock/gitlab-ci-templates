@@ -9,7 +9,7 @@
   Setup Docs Tools: |-
     echo "Install mkdocs plugins from MKDOCS_EXTRA_PLUGINS: ${MKDOCS_EXTRA_PLUGINS}"
     pip install mkdocs==1.5.3 ${MKDOCS_EXTRA_PLUGINS}
-  Make Non-versioning Docs: |-
+  Make Non-versioned Docs: |-
     echo "Make mkdocs with build command. When VERSION_DOCS: $VERSION_DOCS is set, it aims to make docs for reviews in pr. Otherwise, it aims to make docs for production."
     mkdocs build --site-dir public/ --no-directory-urls
   Exit When Not VERSION_DOCS: |-
@@ -84,7 +84,7 @@
     - !reference [.pages_mkdocs::scripts, Security Check Sensible]
     - !reference [.pages_mkdocs::scripts, Setup Git]
     - !reference [.pages_mkdocs::scripts, Setup Docs Tools]
-    - !reference [.pages_mkdocs::scripts, Make Non-versioning Docs]
+    - !reference [.pages_mkdocs::scripts, Make Non-versioned Docs]
     - !reference [.pages_mkdocs::scripts, Exit When Not VERSION_DOCS]
     - !reference [.pages_mkdocs::scripts, Check For Skip Versioning Docs]
     - !reference [.pages_mkdocs::scripts, Clean Up Public]

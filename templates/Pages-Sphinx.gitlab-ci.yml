@@ -5,10 +5,10 @@
 .pages_sphinx::scripts:
   Security Check Sensible: !reference [.security_check_sensible, script]
   Setup Git: !reference [.common_git::template, script]
-  Setup Docs Tool: |-
+  Setup Docs Tools: |-
     echo "Install sphinx plugins from EXTRA_PLUGINS: ${EXTRA_PLUGINS}"
     pip install sphinx==7.2.6 ${EXTRA_PLUGINS}
-  Make Not Versioning Docs: |-
+  Make Non-versioned Docs: |-
     echo "Make non-versioning docs. When VERSION_DOCS: $VERSION_DOCS is set, it aims to make docs for reviews in pr. Otherwise, it aims to make docs for production."
     cd docs
     sphinx-build --keep-going -n -T -b=html ./docs public/
@@ -30,7 +30,7 @@
     if [[ -d "public" ]]; then
       rm -rf public
     fi
-  Setup Versioning Docs Tool: |-
+  Setup Versioning Docs Tools: |-
     echo "Install sphinx-deployment to deploy versioning docs"
     pip install sphinx-deployment==0.0.20
   Prepare Pages Branch: |-
@@ -41,7 +41,7 @@
       || git checkout $PAGES_BRANCH \
       || echo "Pages branch not deployed yet." >> /dev/stderr
     git checkout $CI_COMMIT_SHA
-  Prepare Versioning Docs Tool Options: |-
+  Prepare Versioning Docs Tools Options: |-
     echo "Prepare versioning deployment options"
     versioning_common_options=(--output-path public --push --branch $PAGES_BRANCH)
   Make Versioning Docs For Alias Dev: |-
@@ -81,14 +81,14 @@
   script:
     - !reference [.pages_sphinx::scripts, Security Check Sensible]
     - !reference [.pages_sphinx::scripts, Setup Git]
-    - !reference [.pages_sphinx::scripts, Setup Docs Tool]
-    - !reference [.pages_sphinx::scripts, Make Not Versioning Docs]
+    - !reference [.pages_sphinx::scripts, Setup Docs Tools]
+    - !reference [.pages_sphinx::scripts, Make Non-versioned Docs]
     - !reference [.pages_sphinx::scripts, Exit When Not VERSION_DOCS]
     - !reference [.pages_sphinx::scripts, Check For Skip Versioning Docs]
     - !reference [.pages_sphinx::scripts, Clean Up Public]
-    - !reference [.pages_sphinx::scripts, Setup Versioning Docs Tool]
+    - !reference [.pages_sphinx::scripts, Setup Versioning Docs Tools]
     - !reference [.pages_sphinx::scripts, Prepare Pages Branch]
-    - !reference [.pages_sphinx::scripts, Prepare Versioning Docs Tool Options]
+    - !reference [.pages_sphinx::scripts, Prepare Versioning Docs Tools Options]
     - !reference [.pages_sphinx::scripts, Make Versioning Docs For Alias Dev]
     - !reference [.pages_sphinx::scripts, Make Versioning Docs For Alias Tag]
     - !reference [.pages_sphinx::scripts, Checkout Versioning Docs]
