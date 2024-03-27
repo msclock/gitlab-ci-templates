@@ -1,10 +1,10 @@
 # Base with common pipeline elements for all container collections
 
 include:
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.9/templates/Container.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.10/templates/Container.gitlab-ci.yml
   - template: Container-Scanning.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.9/jobs/Container-Remove-Image.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.9/jobs/Docker-Dive.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.10/jobs/Container-Remove-Image.gitlab-ci.yml
+  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.10/jobs/Docker-Dive.gitlab-ci.yml
 
 variables:
   TEMP_IMAGE_REPOSITORY: $CI_REGISTRY_IMAGE/tmp
