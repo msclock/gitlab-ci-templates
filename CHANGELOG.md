@@ -1,3 +1,10 @@
+## [2.6.10](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.9...v2.6.10) (2024-03-27)
+
+
+### Performance
+
+* add PRE_COMMIT_EXTRA_ARGS for pre-commit run ([eb3f102](https://gitlab.com/msclock/gitlab-ci-templates/commit/eb3f10226f8d5e11326fdc9765be13d41b526eab))
+
 ## [2.6.9](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.8...v2.6.9) (2024-03-26)
 
 
