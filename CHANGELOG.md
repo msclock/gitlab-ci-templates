@@ -1,3 +1,10 @@
+## [2.6.11](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.10...v2.6.11) (2024-03-27)
+
+
+### Performance
+
+* sync mkdocs and sphinx scripts model schema ([ddb7e15](https://gitlab.com/msclock/gitlab-ci-templates/commit/ddb7e152619f946cc31d53b1f27a83f25f2ef652))
+
 ## [2.6.10](https://gitlab.com/msclock/gitlab-ci-templates/compare/v2.6.9...v2.6.10) (2024-03-27)
 
 
