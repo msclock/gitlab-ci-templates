@@ -96,11 +96,10 @@ module.exports = {
         ],
       },
     ],
-    ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md", }],
     [
       "@semantic-release/git",
       {
-        assets: [...GITLAB_CI_FILES, "CHANGELOG.md"],
+        assets: [...GITLAB_CI_FILES],
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
     ],

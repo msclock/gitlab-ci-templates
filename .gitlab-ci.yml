@@ -63,8 +63,5 @@ semantic_release:
   variables:
     NPM_SOURCE: https://registry.npmmirror.com
     RELEASE_EXTRA_PLUGINS: >-
-      @semantic-release/changelog
-      @semantic-release/git
       semantic-release-replace-plugin
       conventional-changelog-conventionalcommits
-      @semantic-release/exec

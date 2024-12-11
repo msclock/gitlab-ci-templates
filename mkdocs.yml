@@ -106,5 +106,4 @@ nav:
       - Path Filter: docs/Path Filter.md
       - Mkdocs: docs/Mkdocs.md
       - Sphinx: docs/Sphinx.md
-  - Changelog: docs/Changelog.md
   - License: docs/License.md
