@@ -1,9 +1,0 @@
-# Template for all skopeo jobs.
-
-.skopeo:
-  image: alpine:latest
-  variables:
-    GIT_STRATEGY: none
-  dependencies: []
-  script:
-    - apk add skopeo

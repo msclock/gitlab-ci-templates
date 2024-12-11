@@ -10,7 +10,4 @@ include:
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/templates/Make-Changes.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Lint-Renovate.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Pre-Commit.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Code-Count.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Unicode-Bidi-Test.gitlab-ci.yml
-  - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Sokrates.gitlab-ci.yml
   - remote: https://gitlab.com/msclock/gitlab-ci-templates/-/raw/v2.6.11/jobs/Release-General.gitlab-ci.yml
